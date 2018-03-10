@@ -37,6 +37,8 @@ public:
    { return _dirty; }
    const sf::VertexArray& GetVertices() const
    { return _vertices; }
+   const sf::Vector2i& GetMapSize() const
+   { return _mapSize; }
 };
 
 class Selector 
@@ -79,7 +81,8 @@ public:
    void Update();
 
    bool CanPlaced(int x, int y) const;
-
+   
+   const sf::Vector2i& GetMapSize() const;
 private:
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
    void DrawLayout(sf::RenderTarget& target, sf::RenderStates states, eLayouts type) const;

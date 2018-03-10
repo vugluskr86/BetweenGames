@@ -30,7 +30,7 @@ private:
    bool MakeRoom(TileMap& map, int x, int y, int xMaxLength, int yMaxLength, Direction direction);
    bool MakeFeature(TileMap& map, int x, int y, int xmod, int ymod, Direction direction);
    bool MakeFeature(TileMap& map);
-   bool MakeStairs(TileMap& map, eTile tile);
+ //  bool MakeStairs(TileMap& map, eTile tile);
 
    int _xSize, _yYSize;
    int _maxFeatures;

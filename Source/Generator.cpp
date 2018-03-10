@@ -9,12 +9,12 @@ MapGenerator::MapGenerator(std::mt19937* random) :
 
 int MapGenerator::GetRandomInt(int min, int max)
 {
-   return std::uniform_int_distribution<int>(min, max)(_random);
+   return std::uniform_int_distribution<int>(min, max)(*_random);
 }
 
 Direction MapGenerator::GetRandomDirection()
 {
-   return Direction(std::uniform_int_distribution<int>(0, 3)(_random));
+   return Direction(std::uniform_int_distribution<int>(0, 3)(*_random));
 }
 
 
@@ -176,7 +176,6 @@ bool DugneonGenerator::MakeFeature(TileMap& map, int x, int y, int xmod, int ymo
 
          return true;
       }
-
       return false;
    }
    else
@@ -240,6 +239,7 @@ bool DugneonGenerator::MakeFeature(TileMap& map)
    return false;
 }
 
+/*
 bool DugneonGenerator::MakeStairs(TileMap& map, eTile tile)
 {
    TileMapLayout& staticLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC);
@@ -265,6 +265,7 @@ bool DugneonGenerator::MakeStairs(TileMap& map, eTile tile)
 
    return false;
 }
+*/
 
 bool DugneonGenerator::MakeDungeon(TileMap& map)
 {
@@ -282,11 +283,12 @@ bool DugneonGenerator::MakeDungeon(TileMap& map)
       }
    }
 
-   if(!MakeStairs(map, eTile::TT_TILES_OBJECTS_STAIRS_UP))
+   /*if(!MakeStairs(map, eTile::TT_TILES_OBJECTS_STAIRS_UP))
       std::cout << "Unable to place up stairs." << std::endl;
 
    if(!MakeStairs(map, eTile::TT_TILES_OBJECTS_STAIRS_DOWN))
       std::cout << "Unable to place down stairs." << std::endl;
+   */
 
    return true;
 }

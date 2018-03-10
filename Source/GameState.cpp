@@ -17,22 +17,48 @@ GameState::GameState(int seed) :
 
    _view.reset(sf::FloatRect(0.0f, 0.0f, 1280, 720));
 
-   DugneonGenerator gen(23123);
+   _random.seed(_seed);
+
+   SpawnDungeon();
+}
+
+void GameState::SpawnWorld()
+{
+   WorldGenerator gen(&_random);
+
+   gen.InitLayouts(*_map);
+   gen.MakeWorld(*_map);
+
+   SpawnPlayer();
+}
+
+void GameState::SpawnDungeon()
+{
+   DugneonGenerator gen(&_random);
 
    gen.InitLayouts(*_map);
    gen.MakeDungeon(*_map);
 
-   _player = _map->SpawnPlayer(sf::Vector2i(10, 10), eTile::TT_CHAR_CHAR);
+   SpawnPlayer();
 }
 
-void GameState::SpawnWorld(int seed)
+void GameState::SpawnPlayer()
 {
+   if(!_player) {
+      auto size = _map->GetMapSize();
 
-}
+      auto sX = std::uniform_int_distribution<int>(0, size.x)(_random);
+      auto sY = std::uniform_int_distribution<int>(0, size.y)(_random);
 
-void GameState::SpawnDungeon(int seed)
-{
-
+      for(auto x = sX; x < size.x; x++) {
+         for(auto y = sY; y < size.y; y++) {
+            if(_map->CanPlaced(x, y)) {
+               _player = _map->SpawnPlayer(sf::Vector2i(x, y), eTile::TT_CHAR_CHAR);
+               return;
+            }
+         }
+      }
+   }
 }
 
 bool GameState::PlayerAction(int x, int y)
@@ -52,11 +78,10 @@ bool GameState::PlayerAction(int x, int y)
    // Check pass
    if(_map->IsPassable(x, y)) {
       _player->SetPos(sf::Vector2i(x, y));
-
       return true;
    } else {
       // Player action (move, attack)
-
+            
       // Mobs action
    }
 
@@ -78,14 +103,3 @@ void GameState::Update()
 {
    _map->Update();
 }
-
-/*
-void GameState::ProcessEvent(const sf::Event& event)
-{
-
-}
-void GameState::Draw(sf::RenderWindow& window)
-{
-
-}
-*/

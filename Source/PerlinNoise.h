@@ -73,7 +73,7 @@ namespace siv
             p[i] = i;
          }
 
-         std::shuffle(std::begin(p), std::begin(p) + 256, _random);
+         std::shuffle(std::begin(p), std::begin(p) + 256, *_random);
 
          for(size_t i = 0; i < 256; ++i)
          {

@@ -19,12 +19,15 @@ class GameState
    BattleManager* _bm;
    TileMap* _map;
    Player* _player;
+
+   std::mt19937 _random;
    int _seed;
 public:
    GameState(int seed);
 
-   void SpawnWorld(int seed);
-   void SpawnDungeon(int seed);
+   void SpawnWorld();
+   void SpawnDungeon();
+   void SpawnPlayer();
 
    bool PlayerAction(int x, int y);
    void Draw(sf::RenderWindow& window);

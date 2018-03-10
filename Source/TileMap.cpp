@@ -185,6 +185,11 @@ void TileMap::DrawLayout(sf::RenderTarget& target, sf::RenderStates states, eLay
    }
 }
 
+const sf::Vector2i& TileMap::GetMapSize() const
+{
+   return _layouts[eLayouts::TL_STATIC].GetMapSize();
+}
+
 void TileMap::Update()
 {
    _layouts[eLayouts::TL_OBJECTS].Clear();
