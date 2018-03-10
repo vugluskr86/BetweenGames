@@ -348,24 +348,35 @@ bool WorldGenerator::MakeWorld(TileMap& map)
 	   eTile::TT_TILES_BIOM_DOTA_TREE_3 };
    
    
-   for(int x = 0; x < _size; x++) {
-      for(int y = 0; y < _size; y++) {
-         auto val = _noise.octaveNoise0_1(x / fx, y / fy, _octaves);
+   for (int x = 0; x < _size; x++) {
+	   for (int y = 0; y < _size; y++) {
+		   auto val = _noise.octaveNoise0_1(x / fx, y / fy, _octaves);
 
 		   // biom dota
-         if(val <= 0.35) {
-		      eTile waterTile = *select_randomly(waterTileInterval.begin(), waterTileInterval.end(), random);
-           staticLayout.SetCell(x, y, waterTile);
-		   } else {
-            eTile dirtTile = *select_randomly(dirtTileInterval.begin(), dirtTileInterval.end(), random);
-            staticLayout.SetCell(x, y, dirtTile);
-            auto isTree = std::uniform_real_distribution<>(0.0, 1.0)(random);
-            if(isTree > 0.7) {
-               eTile treeTile = *select_randomly(treeTileInterval.begin(), treeTileInterval.end(), random);
-               decorLayout.SetCell(x, y, treeTile);
-            }
+		   if (val <= 0.3) {
+			   eTile waterTile = *select_randomly(waterTileInterval.begin(), waterTileInterval.end(), random);
+			   staticLayout.SetCell(x, y, waterTile);
+			   if (val > 0.25)
+				   decorLayout.SetCell(x, y, eTile::TT_TILES_KUSTI);
 		   }
-      }
+		   else if (val >= 0.7) {
+			   staticLayout.SetCell(x, y, eTile::TT_TILES_STONE);
+		   }
+		   else {
+			   eTile dirtTile = *select_randomly(dirtTileInterval.begin(), dirtTileInterval.end(), random);
+			   staticLayout.SetCell(x, y, dirtTile);
+			   auto isTree = std::uniform_real_distribution<>(0.0, 1.0)(random);
+			   if (isTree > 0.8) {
+				   eTile treeTile = *select_randomly(treeTileInterval.begin(), treeTileInterval.end(), random);
+				   decorLayout.SetCell(x, y, treeTile);
+			   }
+			   else {
+				   //auto isKust = std::uniform_real_distribution<>(0.0, 1.0)(random);
+				   //if (isKust > 0.95)
+					  // decorLayout.SetCell(x, y, eTile::TT_TILES_KUSTI);
+			   }
+		   }
+	   }
    }
 
    return false;
