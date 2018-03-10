@@ -1,0 +1,40 @@
+#pragma once
+
+#include "Types.h"
+
+#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/System/Clock.hpp>
+#include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/CircleShape.hpp>
+
+#include "imgui.h"
+#include "imgui-SFML.h"
+
+class AppLog
+{
+private:
+   ImGuiTextBuffer     Buf;
+   ImGuiTextFilter     Filter;
+   ImVector<int>       LineOffsets;
+   bool                ScrollToBottom;
+   static AppLog* _instance;
+public:
+   static AppLog& Instance();
+public:
+   void Clear();
+   void AddLog(const char* fmt, ...) IM_FMTARGS(2);
+   void Draw(const char* title, bool* p_open = NULL);
+};
+
+#define GAME_LOG(...)  (AppLog::Instance().AddLog(__VA_ARGS__))
+
+class Mob;
+class Item;
+class Player;
+
+class WindowSelectedInfo
+{
+public:
+   void Draw(const Item& mob);
+};

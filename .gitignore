@@ -1,0 +1,7 @@
+.vs/
+*.ilk
+*.pdb
+*.exe
+*.dll
+Project/Debug/
+Project/x64/
