@@ -37,12 +37,14 @@ void DugneonGenerator::InitLayouts(TileMap& map)
    
    TileMapLayout& staticLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC);
    TileMapLayout& objectsLayout = map.GetLayout(TileMap::eLayouts::TL_OBJECTS);
-
+   TileMapLayout& decorLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC_DECOR);
   
+
    map.Load("assets/tileset.png");
 
    staticLayout.Init(sf::Vector2u(32, 32), sf::Vector2i(_xSize, _yYSize));
    objectsLayout.Init(sf::Vector2u(32, 32), sf::Vector2i(_xSize, _yYSize));
+   decorLayout.Init(sf::Vector2u(32, 32), sf::Vector2i(_xSize, _yYSize));
 }
 
 
@@ -315,11 +317,13 @@ void WorldGenerator::InitLayouts(TileMap& map)
 {
    TileMapLayout& staticLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC);
    TileMapLayout& objectsLayout = map.GetLayout(TileMap::eLayouts::TL_OBJECTS);
-   
+   TileMapLayout& decorLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC_DECOR);
+
    map.Load("assets/tileset.png");
 
    staticLayout.Init(sf::Vector2u(32, 32), sf::Vector2i(_size, _size));
    objectsLayout.Init(sf::Vector2u(32, 32), sf::Vector2i(_size, _size));
+   decorLayout.Init(sf::Vector2u(32, 32), sf::Vector2i(_size, _size));
 }
 
 bool WorldGenerator::MakeWorld(TileMap& map)
@@ -329,6 +333,7 @@ bool WorldGenerator::MakeWorld(TileMap& map)
    const double fy = _size / _frequency;
 
    TileMapLayout& staticLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC);
+   TileMapLayout& decorLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC_DECOR);
 
    //random
    std::vector<eTile> waterTileInterval = { eTile::TT_TILES_BIOM_DOTA_WATER_1, eTile::TT_TILES_BIOM_DOTA_WATER_2,
@@ -347,21 +352,19 @@ bool WorldGenerator::MakeWorld(TileMap& map)
       for(int y = 0; y < _size; y++) {
          auto val = _noise.octaveNoise0_1(x / fx, y / fy, _octaves);
 
-		 //biom dota
+		   // biom dota
          if(val <= 0.35) {
-		   eTile waterTile = *select_randomly(waterTileInterval.begin(), waterTileInterval.end(), random);
+		      eTile waterTile = *select_randomly(waterTileInterval.begin(), waterTileInterval.end(), random);
            staticLayout.SetCell(x, y, waterTile);
-		 }
-		 else
-		 {
-			 eTile dirtTile = *select_randomly(dirtTileInterval.begin(), dirtTileInterval.end(), random);
-			 staticLayout.SetCell(x, y, dirtTile);
-			 auto isTree = std::uniform_real_distribution<>(0.0, 1.0)(random);
-			 if (isTree > 0.7) {
-				 eTile treeTile = *select_randomly(treeTileInterval.begin(), treeTileInterval.end(), random);
-				 staticLayout.SetCell(x, y, treeTile);
-			 }
-		 }
+		   } else {
+            eTile dirtTile = *select_randomly(dirtTileInterval.begin(), dirtTileInterval.end(), random);
+            staticLayout.SetCell(x, y, dirtTile);
+            auto isTree = std::uniform_real_distribution<>(0.0, 1.0)(random);
+            if(isTree > 0.7) {
+               eTile treeTile = *select_randomly(treeTileInterval.begin(), treeTileInterval.end(), random);
+               decorLayout.SetCell(x, y, treeTile);
+            }
+		   }
       }
    }
 

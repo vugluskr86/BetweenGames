@@ -304,7 +304,6 @@ TileObject* TileMap::IsGameObject(int x, int y) const
 
 bool TileMap::IsPassable(int x, int y) const
 {
-	return true; //fix it
    if(IsMonster(x, y)) {
       return false;
    }
@@ -313,9 +312,10 @@ bool TileMap::IsPassable(int x, int y) const
       return false;
    }
 
-   eTile stile = _layouts[eLayouts::TL_STATIC].GetCell(x, y);
+   bool pass = true;
 
-   bool pass = false;
+   eTile stile = _layouts[eLayouts::TL_STATIC].GetCell(x, y);
+     
 
    switch(stile) {
    case TT_TILES_DIRT:
@@ -325,7 +325,36 @@ bool TileMap::IsPassable(int x, int y) const
    case TT_TILES_STONESAND:
    case TT_TILES_WATER:
    case TT_TILES_STONE:
+   case TT_TILES_BIOM_DOTA_WATER_1:
+   case TT_TILES_BIOM_DOTA_WATER_2:
+   case TT_TILES_BIOM_DOTA_WATER_3:
+   case TT_TILES_BIOM_DOTA_WATER_4:
+   case TT_TILES_BIOM_DOTA_WATER_5:
+   case TT_TILES_BIOM_DOTA_WATER_6:
+   case TT_TILES_BIOM_DOTA_WATER_7:
+   case TT_TILES_BIOM_DOTA_WATER_8:
+   case TT_TILES_BIOM_DOTA_WATER_9:
+   case TT_TILES_BIOM_DOTA_WATER_10:
+   case TT_TILES_BIOM_DOTA_WATER_11:
+   case TT_TILES_BIOM_DOTA_WATER_12:
+   case TT_TILES_BIOM_DOTA_DIRT_1:
+   case TT_TILES_BIOM_DOTA_DIRT_2:
+   case TT_TILES_BIOM_DOTA_DIRT_3:
       pass = true;
+      break;
+   default:
+      pass = false;
+      break;
+   }
+
+   eTile dtile = _layouts[eLayouts::TL_STATIC_DECOR].GetCell(x, y);
+
+   switch(dtile) {
+   case TT_TILES_BIOM_DOTA_TREE_1:
+   case TT_TILES_BIOM_DOTA_TREE_2:
+   case TT_TILES_BIOM_DOTA_TREE_3:
+      pass = false;
+      break;
    }
 
    return pass;

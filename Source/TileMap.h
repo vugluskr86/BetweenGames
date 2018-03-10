@@ -56,6 +56,7 @@ class TileMap : public sf::Drawable, public sf::Transformable
 public:
    enum eLayouts {
       TL_STATIC = 0,
+      TL_STATIC_DECOR,
       TL_OBJECTS,
       TL_MAX
    };
@@ -87,7 +88,6 @@ public:
    const sf::Vector2i& GetMapSize() const;
 
    TileObject* GetObject(int x, int y);
-
 private:
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
    void DrawLayout(sf::RenderTarget& target, sf::RenderStates states, eLayouts type) const;
