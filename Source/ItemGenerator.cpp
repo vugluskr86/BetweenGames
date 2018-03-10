@@ -193,7 +193,7 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
 
    item.type = GetSample(types, _type);
 
-   // Generate random color
+   // Generate random color TODO: weight
    int color_interval[] = { 0, 1, 2, 3, 4, 5, 6 };
    double color_weights[] = { 7, 6, 5, 4, 3, 2, 1 };
    std::piecewise_constant_distribution<> dist_color(std::begin(color_interval),
