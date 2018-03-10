@@ -9,7 +9,7 @@ struct ItemProtValue
    eSlotType slot;
    eBalancePropery prop;
    uint32_t tier;
-   float value;
+   double value;
 };
 
 class ItemGenerator
