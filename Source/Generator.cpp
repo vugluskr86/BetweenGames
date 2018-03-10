@@ -353,11 +353,14 @@ bool WorldGenerator::MakeWorld(TileMap& map)
 		   auto val = _noise.octaveNoise0_1(x / fx, y / fy, _octaves);
 
 		   // biom dota
-		   if (val <= 0.3) {
+		   if (val <= 0.32) {
 			   eTile waterTile = *select_randomly(waterTileInterval.begin(), waterTileInterval.end(), random);
 			   staticLayout.SetCell(x, y, waterTile);
-			   if (val > 0.25)
+			   if (val > 0.28)
 				   decorLayout.SetCell(x, y, eTile::TT_TILES_KUSTI);
+		   }
+		   else if (val >= 0.55 && val <= 0.6) {
+			   staticLayout.SetCell(x, y, eTile::TT_TILES_DESERTROAD);
 		   }
 		   else if (val >= 0.7) {
 			   staticLayout.SetCell(x, y, eTile::TT_TILES_STONE);
@@ -379,5 +382,28 @@ bool WorldGenerator::MakeWorld(TileMap& map)
 	   }
    }
 
+   MakeStaticRoom(map, 10, 10, 5, 6);
    return false;
+}
+bool WorldGenerator::MakeStaticRoom(TileMap& map, int x, int y, int xLength, int yLength)
+{
+	TileMapLayout& staticLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC);
+
+	auto xStart = x;
+	auto yStart = y;
+
+	auto xEnd = xStart + xLength;
+	auto yEnd = yStart + yLength;
+
+
+	/*if (!staticLayout.IsXInBounds(xStart) || !staticLayout.IsXInBounds(xEnd) || !staticLayout.IsYInBounds(yStart) || !staticLayout.IsYInBounds(yEnd))
+		return false;
+
+	if (!staticLayout.IsAreaUnused(xStart, yStart, xEnd, yEnd))
+		return false;
+*/
+	staticLayout.SetCells(xStart, yStart, xEnd, yEnd, eTile::TT_TILES_BRICKS);
+	staticLayout.SetCells(xStart + 1, yStart + 1, xEnd - 1, yEnd - 1, eTile::TT_TILES_DIRT);
+
+	return true;
 }

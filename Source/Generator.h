@@ -44,6 +44,7 @@ public:
 
    void InitLayouts(TileMap& map) override;
    bool MakeWorld(TileMap& map);
+   bool MakeStaticRoom(TileMap& map, int x, int y, int xLength, int yLength);
 
    int _size;
    double _frequency;
