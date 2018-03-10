@@ -313,3 +313,8 @@ bool TileMap::IsPassable(int x, int y) const
 
    return pass;
 }
+
+bool TileMap::CanPlaced(int x, int y) const
+{
+   return IsPassable(x, y);
+}

@@ -6,10 +6,9 @@ class TileMap;
 class MapGenerator 
 {
 protected:
-   int _seed;
-   std::mt19937 _random;
+   std::mt19937* _random;
 public:
-   MapGenerator(int seed);
+   MapGenerator(std::mt19937* random);
 
    int GetRandomInt(int min, int max);
    Direction GetRandomDirection();
@@ -20,7 +19,7 @@ public:
 class DugneonGenerator : public MapGenerator
 {
 public:
-   DugneonGenerator(int seed);
+   DugneonGenerator(std::mt19937* random);
    void InitLayouts(TileMap& map) override;
 
    bool MakeDungeon(TileMap& map);
@@ -42,7 +41,7 @@ class WorldGenerator : public MapGenerator
 {
    siv::PerlinNoise _noise;
 public:
-   WorldGenerator(int seed);
+   WorldGenerator(std::mt19937* random);
 
    void InitLayouts(TileMap& map) override;
    bool MakeWorld(TileMap& map);

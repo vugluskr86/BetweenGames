@@ -55,7 +55,6 @@ public:
    enum eLayouts {
       TL_STATIC = 0,
       TL_OBJECTS,
-
       TL_MAX
    };
    
@@ -78,6 +77,9 @@ public:
    bool IsGameObject(int x, int y) const;
 
    void Update();
+
+   bool CanPlaced(int x, int y) const;
+
 private:
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
    void DrawLayout(sf::RenderTarget& target, sf::RenderStates states, eLayouts type) const;

@@ -3,12 +3,9 @@
 #include "Generator.h"
 #include "TileMap.h"
 
-MapGenerator::MapGenerator(int seed) :
-   _seed(seed)
-{
-   _random();
-   _random.seed(_seed);
-}
+MapGenerator::MapGenerator(std::mt19937* random) :
+   _random(random)
+{ }
 
 int MapGenerator::GetRandomInt(int min, int max)
 {
@@ -21,8 +18,8 @@ Direction MapGenerator::GetRandomDirection()
 }
 
 
-DugneonGenerator::DugneonGenerator(int seed) :
-   MapGenerator(seed)
+DugneonGenerator::DugneonGenerator(std::mt19937* random) :
+   MapGenerator(random)
 {
    _xSize = 80;
    _yYSize = 25;
@@ -40,8 +37,7 @@ void DugneonGenerator::InitLayouts(TileMap& map)
    TileMapLayout& staticLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC);
    TileMapLayout& objectsLayout = map.GetLayout(TileMap::eLayouts::TL_OBJECTS);
 
-   _random.seed(_seed);
-   
+  
    map.Load("assets/tileset.png");
 
    staticLayout.Init(sf::Vector2u(32, 32), sf::Vector2i(_xSize, _yYSize));
@@ -295,8 +291,10 @@ bool DugneonGenerator::MakeDungeon(TileMap& map)
    return true;
 }
 
-WorldGenerator::WorldGenerator(int seed) : MapGenerator(seed)
+WorldGenerator::WorldGenerator(std::mt19937* random) : 
+   MapGenerator(random)
 {
+   _noise.reseed(random);
    _size = 100;
    _frequency = 5.0;
    _octaves = 8;
@@ -306,10 +304,7 @@ void WorldGenerator::InitLayouts(TileMap& map)
 {
    TileMapLayout& staticLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC);
    TileMapLayout& objectsLayout = map.GetLayout(TileMap::eLayouts::TL_OBJECTS);
-
-  
-   _noise.reseed(_seed);
-
+   
    map.Load("assets/tileset.png");
 
    staticLayout.Init(sf::Vector2u(32, 32), sf::Vector2i(_size, _size));
@@ -326,8 +321,7 @@ bool WorldGenerator::MakeWorld(TileMap& map)
    for(int x = 0; x < _size; x++) {
       for(int y = 0; y < _size; y++) {
          auto val = _noise.octaveNoise0_1(x / fx, y / fy, _octaves);
-
-
+         
          if(val > 0.5) {
             staticLayout.SetCell(x, y, eTile::TT_TILES_STONE);
          } else {

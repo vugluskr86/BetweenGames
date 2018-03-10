@@ -38,6 +38,7 @@ namespace siv
    private:
 
       std::int32_t p[512];
+      std::mt19937* _random;
 
       static double Fade(double t) noexcept
       {
@@ -59,19 +60,20 @@ namespace siv
 
    public:
 
-      explicit PerlinNoise(std::uint32_t seed = std::default_random_engine::default_seed)
+      explicit PerlinNoise(std::mt19937* random)
       {
-         reseed(seed);
+         _random = random;
+         reseed(_random);
       }
 
-      void reseed(std::uint32_t seed)
+      void reseed(std::mt19937* random)
       {
          for(size_t i = 0; i < 256; ++i)
          {
             p[i] = i;
          }
 
-         std::shuffle(std::begin(p), std::begin(p) + 256, std::default_random_engine(seed));
+         std::shuffle(std::begin(p), std::begin(p) + 256, _random);
 
          for(size_t i = 0; i < 256; ++i)
          {
