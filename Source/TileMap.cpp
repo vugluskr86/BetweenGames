@@ -304,6 +304,7 @@ TileObject* TileMap::IsGameObject(int x, int y) const
 
 bool TileMap::IsPassable(int x, int y) const
 {
+	return true; //fix it
    if(IsMonster(x, y)) {
       return false;
    }
@@ -323,6 +324,7 @@ bool TileMap::IsPassable(int x, int y) const
    case TT_TILES_SAND:
    case TT_TILES_STONESAND:
    case TT_TILES_WATER:
+   case TT_TILES_STONE:
       pass = true;
    }
 

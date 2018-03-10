@@ -22,7 +22,8 @@ GameState::GameState(int seed) :
 
    _random.seed(_seed);
 
-   SpawnDungeon();
+   //SpawnDungeon();
+   SpawnWorld();
 }
 
 void GameState::SpawnWorld()
