@@ -24,7 +24,6 @@ public:
 
    bool MakeDungeon(TileMap& map);
    bool MakeStaticRoom(TileMap& map, int x, int y, int xLength, int yLength, Direction direction);
-
 private:
    bool MakeCorridor(TileMap& map, int x, int y, int maxLength, Direction direction);
    bool MakeRoom(TileMap& map, int x, int y, int xMaxLength, int yMaxLength, Direction direction);

@@ -199,6 +199,11 @@ void TileMap::Update()
       _layouts[eLayouts::TL_OBJECTS].SetCell(pos.x, pos.y, monster->GetTile());
    }
 
+   for(auto object : _objects) {
+      auto pos = object->GetPos();
+      _layouts[eLayouts::TL_OBJECTS].SetCell(pos.x, pos.y, object->GetTile());
+   }
+   
    if(_player) {
       auto pPos = _player->GetPos();
       _layouts[eLayouts::TL_OBJECTS].SetCell(pPos.x, pPos.y, _player->GetTile());
@@ -272,22 +277,27 @@ Monster* TileMap::SpawnMonster(sf::Vector2i pos, eTile gfx)
    return monster;
 }
 
-bool TileMap::IsMonster(int x, int y) const
+Monster* TileMap::IsMonster(int x, int y) const
 {
-   bool monster = false;
+   Monster* monster = nullptr;
    for(auto mob : _monsters) {
       auto pos = mob->GetPos();
-      if(pos.x == x && pos.y == y) monster = true;
+      if(pos.x == x && pos.y == y) {
+         monster = mob;
+         break;
+      }
    }
    return monster;
 }
 
-bool TileMap::IsGameObject(int x, int y) const
+TileObject* TileMap::IsGameObject(int x, int y) const
 {
-   bool isObj = false;
+   TileObject* isObj = nullptr;
    for(auto obj : _objects) {
       auto pos = obj->GetPos();
-      if(pos.x == x && pos.y == y) isObj = true;
+      if(pos.x == x && pos.y == y) {
+         isObj = obj;
+      }
    }
    return isObj;
 }
@@ -322,4 +332,21 @@ bool TileMap::IsPassable(int x, int y) const
 bool TileMap::CanPlaced(int x, int y) const
 {
    return IsPassable(x, y);
+}
+
+void TileMap::AddObject(TileObject* object)
+{
+   _objects.push_back(object);
+}
+
+TileObject* TileMap::GetObject(int x, int y)
+{
+   for(auto obj : _objects) {
+      auto pos = obj->GetPos();
+      if(pos.x == x && pos.y == y) {
+         return obj;
+      }
+   }
+
+   return nullptr;
 }

@@ -159,7 +159,8 @@ enum eTileObjects
    TO_PLAYER,
    TO_TREASURE,
    TO_PORTAL,
-   TO_STAIRS
+   TO_STAIRS,
+   TO_DOOR
 };
 
 class TileObject 

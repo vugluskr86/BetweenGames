@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "Generator.h"
 #include "TileMap.h"
+#include "Door.h"
 
 MapGenerator::MapGenerator(std::mt19937* random) :
    _random(random)
@@ -153,14 +154,13 @@ bool DugneonGenerator::MakeRoom(TileMap& map, int x, int y, int xMaxLength, int 
    staticLayout.SetCells(xStart, yStart, xEnd, yEnd, eTile::TT_TILES_BRICKS);
    staticLayout.SetCells(xStart + 1, yStart + 1, xEnd - 1, yEnd - 1, eTile::TT_TILES_DIRT);
 
-   //std::cout << "Room: ( " << xStart << ", " << yStart << " ) to ( " << xEnd << ", " << yEnd << " )" << std::endl;
-
    return true;
 }
 
 bool DugneonGenerator::MakeFeature(TileMap& map, int x, int y, int xmod, int ymod, Direction direction)
 {
    TileMapLayout& staticLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC);
+   TileMapLayout& objectsLayout = map.GetLayout(TileMap::eLayouts::TL_OBJECTS);
 
    // Choose what to build
    auto chance = GetRandomInt(0, 100);
@@ -169,7 +169,11 @@ bool DugneonGenerator::MakeFeature(TileMap& map, int x, int y, int xmod, int ymo
    {
       if(MakeRoom(map, x + xmod, y + ymod, 8, 6, direction))
       {
-         staticLayout.SetCell(x, y, eTile::TT_TILES_OBJECTS_DOOR_1);
+         objectsLayout.SetCell(x, y, eTile::TT_TILES_OBJECTS_DOOR_1);
+         
+         auto doorObj = new Door(&map);
+         doorObj->SetPos(sf::Vector2i(x,y));
+         map.AddObject(doorObj);
 
          // Remove wall next to the door.
          staticLayout.SetCell(x + xmod, y + ymod, eTile::TT_TILES_DIRT);
@@ -182,7 +186,11 @@ bool DugneonGenerator::MakeFeature(TileMap& map, int x, int y, int xmod, int ymo
    {
       if(MakeCorridor(map, x + xmod, y + ymod, 6, direction))
       {
-         staticLayout.SetCell(x, y, eTile::TT_TILES_OBJECTS_DOOR_1);
+         objectsLayout.SetCell(x, y, eTile::TT_TILES_OBJECTS_DOOR_1);
+
+         auto doorObj = new Door(&map);
+         doorObj->SetPos(sf::Vector2i(x, y));
+         map.AddObject(doorObj);
 
          return true;
       }
@@ -194,6 +202,7 @@ bool DugneonGenerator::MakeFeature(TileMap& map, int x, int y, int xmod, int ymo
 bool DugneonGenerator::MakeFeature(TileMap& map)
 {
    TileMapLayout& staticLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC);
+   TileMapLayout& objectsLayout = map.GetLayout(TileMap::eLayouts::TL_OBJECTS);
 
    auto tries = 0;
    auto maxTries = 1000;
@@ -211,7 +220,7 @@ bool DugneonGenerator::MakeFeature(TileMap& map)
       if(staticLayout.GetCell(x, y) != eTile::TT_TILES_BRICKS && staticLayout.GetCell(x, y) != eTile::TT_TILES_DESERTROAD)
          continue;
 
-      if(staticLayout.IsAdjacent(x, y, eTile::TT_TILES_OBJECTS_DOOR_1))
+      if(objectsLayout.IsAdjacent(x, y, eTile::TT_TILES_OBJECTS_DOOR_1))
          continue;
 
       if(staticLayout.GetCell(x, y + 1) == eTile::TT_TILES_DIRT || staticLayout.GetCell(x, y + 1) == eTile::TT_TILES_DESERTROAD)

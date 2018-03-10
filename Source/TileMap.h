@@ -74,15 +74,20 @@ public:
    Player* SpawnPlayer(sf::Vector2i pos, eTile gfx);
    Monster* SpawnMonster(sf::Vector2i pos, eTile gfx);
 
+   void AddObject(TileObject* object);
+
    bool IsPassable(int x, int y) const;
-   bool IsMonster(int x, int y) const;
-   bool IsGameObject(int x, int y) const;
+   Monster* IsMonster(int x, int y) const;
+   TileObject* IsGameObject(int x, int y) const;
 
    void Update();
 
    bool CanPlaced(int x, int y) const;
    
    const sf::Vector2i& GetMapSize() const;
+
+   TileObject* GetObject(int x, int y);
+
 private:
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
    void DrawLayout(sf::RenderTarget& target, sf::RenderStates states, eLayouts type) const;

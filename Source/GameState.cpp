@@ -5,6 +5,9 @@
 #include "ItemGenerator.h"
 #include "Player.h"
 #include "BattleManager.h"
+#include "Door.h"
+#include "Portal.h"
+#include "Stairs.h"
 
 GameState::GameState(int seed) : 
    _seed(seed),
@@ -45,8 +48,10 @@ void GameState::SpawnDungeon()
 void GameState::SpawnPlayer()
 {
    if(!_player) {
-      auto size = _map->GetMapSize();
-
+      auto mapSize = _map->GetMapSize();
+      _player = _map->SpawnPlayer(sf::Vector2i(mapSize.x / 2.0, mapSize.y / 2.0), eTile::TT_CHAR_CHAR);
+  
+      /*
       auto sX = std::uniform_int_distribution<int>(0, size.x)(_random);
       auto sY = std::uniform_int_distribution<int>(0, size.y)(_random);
 
@@ -58,6 +63,7 @@ void GameState::SpawnPlayer()
             }
          }
       }
+      */
    }
 }
 
@@ -81,7 +87,31 @@ bool GameState::PlayerAction(int x, int y)
       return true;
    } else {
       // Player action (move, attack)
-            
+      auto obj = _map->IsGameObject(x, y);
+
+      bool passTo = false;
+
+      if(obj) {
+         auto objType = obj->GetType();
+         switch(objType) {
+         case TO_DOOR: {
+            Door* door = static_cast<Door*>(obj);
+            if(door->IsOpen()) {
+               passTo = true;
+            }
+            else {
+               door->Open(*_player);
+            }
+            break;
+         }
+         }
+      }
+
+      if(passTo) {
+         _player->SetPos(sf::Vector2i(x, y));
+      }
+
+
       // Mobs action
    }
 

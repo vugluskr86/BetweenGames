@@ -12,6 +12,6 @@ class Treasure : public TileObject
    bool _opened;
    TileMap* _map;
 public:
-   Treasure(TileMap& map);
+   Treasure(TileMap* map);
    void OpenTreasure(Player& player);
 };
