@@ -5,11 +5,11 @@
 
 const std::vector<AbilityProt> Ability::Prototypes = {
    { AT_TWO_HANDED_SKILL, AMT_ACTIVE, ACT_TWO_HAND, "Two-handed skill", "Two-handed skill description", {
-      { IP_ATTACKPWR, 10, 5 },
+      { IP_ATTACKPWR, 110, 5 },
       { IP_STUNCHANCE, 5, 1 }
    }},
    { AT_CRUSHING_BLOW, AMT_PASSIVE, ACT_TWO_HAND, "Crushing blow", "Crushing blow description",{
-      { IP_ATTACKPWR, 50, 5 },
+      { IP_ATTACKPWR, 150, 5 },
       { IP_STUNCHANCE, 20, 1 },
       { IP_COOLDOWN, 20, -1 },
       { IP_COOLDOWN_MIN, 10, 0 }
