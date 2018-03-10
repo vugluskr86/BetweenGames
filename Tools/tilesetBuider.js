@@ -31,7 +31,7 @@ const walkSync = function(dir, filelist, filter) {
   files.forEach((file)=>{
 	const fp = dir + "/" + file;
     if (fs.statSync(fp).isDirectory()) {
-      filelist = filelist.concat(walkSync(dir + "/" + file, filelist, filter));
+      filelist = walkSync(dir + "/" + file, filelist, filter);
     }
     else {
 	  if(filter){
@@ -45,11 +45,15 @@ const walkSync = function(dir, filelist, filter) {
 const getTiles = function(paths, filter) {
 	let tiles = [];
 	for(let i = 0; i < paths.length; i++) {
+
 		const list = walkSync(paths[i], [], filter).map((i)=>{
 			const fname = i[0].replace("./Bin/assets/", "").replace("/", "_") + "_" + i[1];
 			const name = fname.replace(path.extname(fname), "");
 			return [name, i[0] + "/" + i[1]];
 		});
+		
+		console.log(list)
+		
 		tiles = tiles.concat(list.map((t)=>{
 			return [ "TT_" + t[0].toUpperCase(), t[1] ];
 		}));
@@ -93,6 +97,8 @@ const putImage = function(dst, dx, dy, dw, dh, src, sw, sh) {
 async function RUN() {
 	const list = getTiles(inputPaths, EXT_FILTER);
 
+	
+	
 	const out = new PNG({width:MAP_RES, height:MAP_RES});
 
 	if(Math.sqrt(list.length) * 32 > MAP_RES) {
@@ -117,6 +123,7 @@ async function RUN() {
 	
 	out.pack().pipe(fs.createWriteStream('./Bin/assets/tileset.png'));
 	fs.writeFileSync("./Source/eTiles.h", enumText);
+	
 }
 
 RUN();
