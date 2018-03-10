@@ -292,9 +292,9 @@ bool DugneonGenerator::MakeDungeon(TileMap& map)
 }
 
 WorldGenerator::WorldGenerator(std::mt19937* random) : 
-   MapGenerator(random)
+   MapGenerator(random),
+   _noise(random)
 {
-   _noise.reseed(random);
    _size = 100;
    _frequency = 5.0;
    _octaves = 8;
