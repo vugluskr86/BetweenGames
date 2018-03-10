@@ -315,20 +315,44 @@ void WorldGenerator::InitLayouts(TileMap& map)
 
 bool WorldGenerator::MakeWorld(TileMap& map)
 {
+	std::mt19937 random;
    const double fx = _size / _frequency;
    const double fy = _size / _frequency;
 
    TileMapLayout& staticLayout = map.GetLayout(TileMap::eLayouts::TL_STATIC);
 
+   //random
+   std::vector<eTile> waterTileInterval = { eTile::TT_TILES_BIOM_DOTA_WATER_1, eTile::TT_TILES_BIOM_DOTA_WATER_2,
+	   eTile::TT_TILES_BIOM_DOTA_WATER_3, eTile::TT_TILES_BIOM_DOTA_WATER_4,
+	   eTile::TT_TILES_BIOM_DOTA_WATER_5, eTile::TT_TILES_BIOM_DOTA_WATER_6,
+	   eTile::TT_TILES_BIOM_DOTA_WATER_7, eTile::TT_TILES_BIOM_DOTA_WATER_8,
+	   eTile::TT_TILES_BIOM_DOTA_WATER_9, eTile::TT_TILES_BIOM_DOTA_WATER_10,
+	   eTile::TT_TILES_BIOM_DOTA_WATER_11, eTile::TT_TILES_BIOM_DOTA_WATER_12 };
+   std::vector<eTile> dirtTileInterval = { eTile::TT_TILES_BIOM_DOTA_DIRT_1, eTile::TT_TILES_BIOM_DOTA_DIRT_2,
+	   eTile::TT_TILES_BIOM_DOTA_DIRT_3 };
+   std::vector<eTile> treeTileInterval = { eTile::TT_TILES_BIOM_DOTA_TREE_1, eTile::TT_TILES_BIOM_DOTA_TREE_2,
+	   eTile::TT_TILES_BIOM_DOTA_TREE_3 };
+   
+   
    for(int x = 0; x < _size; x++) {
       for(int y = 0; y < _size; y++) {
          auto val = _noise.octaveNoise0_1(x / fx, y / fy, _octaves);
-         
-         if(val > 0.5) {
-            staticLayout.SetCell(x, y, eTile::TT_TILES_STONE);
-         } else {
-            staticLayout.SetCell(x, y, eTile::TT_TILES_WATER);
-         }
+
+		 //biom dota
+         if(val <= 0.35) {
+		   eTile waterTile = *select_randomly(waterTileInterval.begin(), waterTileInterval.end(), random);
+           staticLayout.SetCell(x, y, waterTile);
+		 }
+		 else
+		 {
+			 eTile dirtTile = *select_randomly(dirtTileInterval.begin(), dirtTileInterval.end(), random);
+			 staticLayout.SetCell(x, y, dirtTile);
+			 auto isTree = std::uniform_real_distribution<>(0.0, 1.0)(random);
+			 if (isTree > 0.7) {
+				 eTile treeTile = *select_randomly(treeTileInterval.begin(), treeTileInterval.end(), random);
+				 staticLayout.SetCell(x, y, treeTile);
+			 }
+		 }
       }
    }
 

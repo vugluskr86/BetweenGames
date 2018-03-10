@@ -19,7 +19,8 @@ GameState::GameState(int seed) :
 
    _random.seed(_seed);
 
-   SpawnDungeon();
+   //SpawnDungeon();
+   SpawnWorld();
 }
 
 void GameState::SpawnWorld()
@@ -46,8 +47,9 @@ void GameState::SpawnPlayer()
 {
    if(!_player) {
       auto size = _map->GetMapSize();
-
-      auto sX = std::uniform_int_distribution<int>(0, size.x)(_random);
+	  _player = _map->SpawnPlayer(sf::Vector2i(size.x/2, size.y/2), eTile::TT_CHAR_CHAR);
+      /*
+	  auto sX = std::uniform_int_distribution<int>(0, size.x)(_random);
       auto sY = std::uniform_int_distribution<int>(0, size.y)(_random);
 
       for(auto x = sX; x < size.x; x++) {
@@ -57,7 +59,7 @@ void GameState::SpawnPlayer()
                return;
             }
          }
-      }
+      }*/
    }
 }
 

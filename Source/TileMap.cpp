@@ -294,6 +294,7 @@ bool TileMap::IsGameObject(int x, int y) const
 
 bool TileMap::IsPassable(int x, int y) const
 {
+	return true; //fix it
    if(IsMonster(x, y)) {
       return false;
    }
