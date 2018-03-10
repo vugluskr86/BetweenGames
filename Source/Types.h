@@ -190,6 +190,8 @@ public:
 enum eAbilityType 
 {
    AT_TWO_HANDED_SKILL,
+   AT_ONE_HANDED_SKILL,
+   AT_SHIELD_SKILL,
    AT_CRUSHING_BLOW
 };
 
