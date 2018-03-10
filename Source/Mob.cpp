@@ -27,11 +27,11 @@ void Mob::CalcParams(uint32_t level)
 {
    _attackPerTurn = 1;
 
-   _CON = _class._CON * level;
+   _CON = _class._CON * level * _elite;
    _hpMax = (_class._HP * level) + (_CON * 8);
-   _STR = _class._STR * level;
-   _LUC = _class._LUC * level;
-   _DEX = _class._DEX * level;
+   _STR = _class._STR * level * _elite;
+   _LUC = _class._LUC * level * _elite;
+   _DEX = _class._DEX * level * _elite;
 
    _hpRegen = _CON * 1.2;
 
@@ -89,6 +89,11 @@ void Mob::AddSlotItem(eSlotType slot, Item item)
    assert(it != _slots.end());
    
    _slots[slot] = item;
+}
+
+void Mob::AddItemToInventory(const Item& item)
+{
+   _inventory.push_back(item);
 }
 
 double Mob::GetResist(eDamageType type) const

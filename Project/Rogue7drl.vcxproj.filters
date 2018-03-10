@@ -8,6 +8,9 @@
     <Filter Include="Source\imgui">
       <UniqueIdentifier>{834791ad-531a-403a-873f-0f898e48cde8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Objects">
+      <UniqueIdentifier>{23939000-7460-4351-9ba4-70915fc482bd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Source\Ability.cpp">
@@ -25,13 +28,7 @@
     <ClCompile Include="..\Source\ItemGenerator.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Mob.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\MobGenerator.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Player.cpp">
       <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\Rogue7drl.cpp">
@@ -61,11 +58,29 @@
     <ClCompile Include="..\Source\BattleManager.cpp">
       <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Monster.cpp">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\MonsterAI.cpp">
       <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Door.cpp">
+      <Filter>Source\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Portal.cpp">
+      <Filter>Source\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Stairs.cpp">
+      <Filter>Source\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Treasure.cpp">
+      <Filter>Source\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Player.cpp">
+      <Filter>Source\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Mob.cpp">
+      <Filter>Source\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Monster.cpp">
+      <Filter>Source\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,13 +99,7 @@
     <ClInclude Include="..\Source\ItemGenerator.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Mob.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\MobGenerator.h">
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Player.h">
       <Filter>Source</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\TileMap.h">
@@ -129,11 +138,35 @@
     <ClInclude Include="..\Source\BattleManager.h">
       <Filter>Source</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Monster.h">
-      <Filter>Source</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\MonsterAI.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\PerlinNoise.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\eTiles.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Door.h">
+      <Filter>Source\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Portal.h">
+      <Filter>Source\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Stairs.h">
+      <Filter>Source\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Treasure.h">
+      <Filter>Source\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player.h">
+      <Filter>Source\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Mob.h">
+      <Filter>Source\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Monster.h">
+      <Filter>Source\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

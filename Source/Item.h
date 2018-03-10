@@ -15,7 +15,7 @@ public:
 
    std::map<eBalancePropery, double> params;
 
-   void Print();
+   std::string Print();
 
    bool IsWeapon() const;
    bool IsShield() const;

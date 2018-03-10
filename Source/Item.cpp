@@ -1,22 +1,22 @@
 #include "Item.h"
 
-void Item::Print()
+std::string Item::Print()
 {
-   std::cout << "Item {" << std::endl;
-   
-   std::cout << "\t" << "eItemType:" << type << std::endl;
-   std::cout << "\t" << "eSlotType:" << slot << std::endl;
-   std::cout << "\t" << "tier:" << tier << std::endl;
-   std::cout << "\t" << "color:" << color << std::endl;
-   //std::cout << "\t" << "damageType:" << damageType << std::endl;
+   std::ostringstream os;
 
-   std::cout << "\t {" << std::endl;
+   os << "Item {" << std::endl;
+   os << "\t" << "eItemType:" << type << std::endl;
+   os << "\t" << "eSlotType:" << slot << std::endl;
+   os << "\t" << "tier:" << tier << std::endl;
+   os << "\t" << "color:" << color << std::endl;
+   os << "\t {" << std::endl;
    for(auto p : params) {
-      std::cout << "\t\t " << p.first << ":" << p.second << std::endl;
+      os << "\t\t " << p.first << ":" << p.second << std::endl;
    }
-   std::cout << "\t }" << std::endl;
+   os << "\t }" << std::endl;
+   os << "}" << std::endl;
 
-   std::cout << "}" << std::endl;
+   return os.str();
 }
 
 bool Item::IsWeapon() const

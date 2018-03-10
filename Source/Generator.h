@@ -5,34 +5,49 @@ class TileMap;
 
 class MapGenerator 
 {
+protected:
+   int _seed;
+   std::mt19937 _random;
 public:
+   MapGenerator(int seed);
+
+   int GetRandomInt(int min, int max);
+   Direction GetRandomDirection();
+
    virtual void InitLayouts(TileMap& map) = 0;
 };
 
 class DugneonGenerator : public MapGenerator
 {
 public:
-   DugneonGenerator();
+   DugneonGenerator(int seed);
    void InitLayouts(TileMap& map) override;
 
    bool MakeDungeon(TileMap& map);
    bool MakeStaticRoom(TileMap& map, int x, int y, int xLength, int yLength, Direction direction);
 
 private:
-
-   int GetRandomInt(int min, int max);
-   Direction GetRandomDirection();
-      
    bool MakeCorridor(TileMap& map, int x, int y, int maxLength, Direction direction);
    bool MakeRoom(TileMap& map, int x, int y, int xMaxLength, int yMaxLength, Direction direction);
    bool MakeFeature(TileMap& map, int x, int y, int xmod, int ymod, Direction direction);
    bool MakeFeature(TileMap& map);
    bool MakeStairs(TileMap& map, eTile tile);
 
+   int _xSize, _yYSize;
+   int _maxFeatures;
+   int _chanceRoom, _chanceCorridor;
+};
 
-   int Seed;
-   int XSize, YSize;
-   int MaxFeatures;
-   int ChanceRoom, ChanceCorridor;
-   std::mt19937 random;
+class WorldGenerator : public MapGenerator
+{
+   siv::PerlinNoise _noise;
+public:
+   WorldGenerator(int seed);
+
+   void InitLayouts(TileMap& map) override;
+   bool MakeWorld(TileMap& map);
+
+   int _size;
+   double _frequency;
+   unsigned _octaves;
 };

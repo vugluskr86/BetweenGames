@@ -138,7 +138,7 @@ const std::vector<ItemProtValue> ItemGenerator::Prototypes = {
 	{ WT_SHIELD,ST_LEFT_HAND,IP_BLOCKCHANCE,4,70 }
 };
 
-static uint32_t GetPrototypeProperyValue(const std::vector<ItemProtValue>& list, eBalancePropery prop, uint32_t tier)
+static double GetPrototypeProperyValue(const std::vector<ItemProtValue>& list, eBalancePropery prop, uint32_t tier)
 {
    auto it = std::find_if(list.begin(), list.end(), [prop, tier](auto check) {
       return check.prop == prop && check.tier == tier;
@@ -149,6 +149,13 @@ static uint32_t GetPrototypeProperyValue(const std::vector<ItemProtValue>& list,
    return it->value;
 }
 
+template<typename ST>
+ST GetSample(const std::unordered_set<ST>& s, int index) {
+   double r = index % s.size();
+   auto it = s.begin();
+   for(; r != 0; r--) it++;
+   return *it;
+}
 
 ItemGenerator::ItemGenerator(uint32_t seed) :
    _seed(seed)
@@ -170,21 +177,25 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
 
    item.tier = std::uniform_int_distribution<int>(left, right)(random);
 
+   assert(item.tier != 0);
+
    // Generate item type
    std::unordered_set<eItemType> types;
    std::vector<ItemProtValue> slotPrototypes;
    for(auto prot : ItemGenerator::Prototypes) {
       if(prot.slot == slot && prot.tier == item.tier) {
          slotPrototypes.push_back(prot);
+         types.insert(prot.type);
       }
-      types.insert(prot.type);
    }
-   auto type_it = types.find(eItemType(std::uniform_int_distribution<int>(0, types.size() - 1)(random)));
-   item.type = *type_it;
+
+   auto _type = std::uniform_int_distribution<int>(0, types.size() - 1)(random);
+
+   item.type = GetSample(types, _type);
 
    // Generate random color
    int color_interval[] = { 0, 1, 2, 3, 4, 5, 6 };
-   double color_weights[] = { 1, 2, 3, 4, 5, 6, 7 };
+   double color_weights[] = { 7, 6, 5, 4, 3, 2, 1 };
    std::piecewise_constant_distribution<> dist_color(std::begin(color_interval),
       std::end(color_interval),
       std::begin(color_weights));
@@ -194,19 +205,18 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
    item.color = prefix_count;
 
    if(item.IsWeapon()) {
-      item.params[eBalancePropery::IP_ATTACKPWMULTMAX] = std::uniform_int_distribution<int>(1, GetPrototypeProperyValue(slotPrototypes, eBalancePropery::IP_ATTACKPWMULTMAX, item.tier))(random);
+      item.params[eBalancePropery::IP_ATTACKPWMULTMAX] = std::uniform_real_distribution<>(1, GetPrototypeProperyValue(slotPrototypes, eBalancePropery::IP_ATTACKPWMULTMAX, item.tier))(random);
    }
 
    if(item.IsShield()) {
-      item.params[eBalancePropery::IP_BLOCKVAL] = std::uniform_int_distribution<int>(1, GetPrototypeProperyValue(slotPrototypes, eBalancePropery::IP_BLOCKVAL, item.tier))(random);
+      item.params[eBalancePropery::IP_BLOCKVAL] = std::uniform_real_distribution<>(1, GetPrototypeProperyValue(slotPrototypes, eBalancePropery::IP_BLOCKVAL, item.tier))(random);
    }
 
    std::vector<eBalancePropery> addProperties;
 
    if(prefix_count > 0) {
       switch(item.type) {
-/*
-      case WT_WEAPON_RIFLE: {
+      /*case WT_WEAPON_RIFLE: {
          addProperties = { IP_ELEMDAMAGE, IP_ATTACKPWR, IP_RANGE, IP_CRIT, IP_DODGE };
          if(prefix_count > 6) addProperties.push_back(IP_DAZECHANCE);
          break;
@@ -219,34 +229,38 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
 			  IP_ELEMDAMAGE_ACID,
 			  IP_ELEMDAMAGE_LIGHT,
 			  IP_ELEMDAMAGE_DARKNESS, IP_ATTACKPWR, IP_HP, IP_CRIT, IP_ABSORB };
-         if(prefix_count > 6) addProperties.push_back(IP_STUNCHANCE);
+         if(prefix_count == 6) addProperties.push_back(IP_STUNCHANCE);
          break;
       }
-/*
       case WT_WEAPON_1H: {
-         addProperties = { IP_ELEMDAMAGE_PYRE,
-            IP_ELEMDAMAGE_FIRE,
-            IP_ELEMDAMAGE_COLD,
-            IP_ELEMDAMAGE_LIGHTNING,
-            IP_ELEMDAMAGE_ACID,
-            IP_ELEMDAMAGE_LIGHT,
-            IP_ELEMDAMAGE_DARKNESS, IP_ATTACKPWR, IP_ATTACKPERTURN, IP_CRIT, IP_ABSORB };
-         if(prefix_count > 6) addProperties.push_back(IP_BLEEDCHANCE);
-         break;
-      }*/
-/*
-      case WT_SHIELD: {
-         addProperties = { ... };
-         if(prefix_count > 6) addProperties.push_back(IP_BLOCKCHANCE);
+		  addProperties = { IP_ELEMDAMAGE_PYRE,
+			  IP_ELEMDAMAGE_FIRE,
+			  IP_ELEMDAMAGE_COLD,
+			  IP_ELEMDAMAGE_LIGHTNING,
+			  IP_ELEMDAMAGE_ACID,
+			  IP_ELEMDAMAGE_LIGHT,
+			  IP_ELEMDAMAGE_DARKNESS, IP_ATTACKPWR, IP_ATTACKPERTURN, IP_CRIT, IP_ABSORB };
+         if(prefix_count == 6) addProperties.push_back(IP_BLEEDCHANCE);
          break;
       }
- */
+      case WT_SHIELD: {
+         addProperties = { 
+            IP_BLOCKVAL,
+            IP_PHYSRES,
+            IP_FIRERES,
+            IP_COLDRES,
+            IP_LIGHTRES,
+            IP_ACIDRES
+         };
+         if(prefix_count == 6) addProperties.push_back(IP_BLOCKCHANCE);
+         break;
+      }
       }
    }
 
    for(int i = 0; i < prefix_count; i++) {
       eBalancePropery add_property = *select_randomly(addProperties.begin(), addProperties.end(), random);
-      auto val = std::uniform_int_distribution<int>(1, GetPrototypeProperyValue(slotPrototypes, add_property, item.tier))(random);
+      auto val = std::uniform_real_distribution<>(1, GetPrototypeProperyValue(slotPrototypes, add_property, item.tier))(random);
       auto exists = item.params.find(add_property);
       if(exists == item.params.end()) {
          item.params[add_property] = val;

@@ -16,7 +16,7 @@ class TileMapLayout
 public:
    TileMapLayout();
 
-   void Init(sf::Vector2u tileSize, sf::Vector2i mapSize, eTile value = eTile::Unused);
+   void Init(sf::Vector2u tileSize, sf::Vector2i mapSize, eTile value = eTile::TT_UNUSED);
    
    void Clear();
 
@@ -73,6 +73,10 @@ public:
    Player* SpawnPlayer(sf::Vector2i pos, eTile gfx);
    Monster* SpawnMonster(sf::Vector2i pos, eTile gfx);
 
+   bool IsPassable(int x, int y) const;
+   bool IsMonster(int x, int y) const;
+   bool IsGameObject(int x, int y) const;
+
    void Update();
 private:
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -86,4 +90,5 @@ private:
       
    Player* _player;
    std::vector<Monster*> _monsters;
+   std::vector<TileObject*> _objects;
 };

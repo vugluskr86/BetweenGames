@@ -97,8 +97,6 @@ const putImage = function(dst, dx, dy, dw, dh, src, sw, sh) {
 async function RUN() {
 	const list = getTiles(inputPaths, EXT_FILTER);
 
-	
-	
 	const out = new PNG({width:MAP_RES, height:MAP_RES});
 
 	if(Math.sqrt(list.length) * 32 > MAP_RES) {
@@ -107,14 +105,18 @@ async function RUN() {
 	
 	let enumText = "/* DONT EDIT THIS : Auto generating */\n";
 	enumText += "#pragma once \n";
-	enumText += "enum eTiles { \n";
+	enumText += "enum eTile { \n";
 	
-	for(let tI = 0; tI < list.length; tI++) {
-		const data = await readPNG(list[tI][1]);
+	enumText += "TT_UNUSED = 0,\n";
+	
+	for(let tI = 1; tI <= list.length; tI++) {
+		const data = await readPNG(list[tI - 1][1]);
+			
+		
 		const x = Math.floor((32 * tI) % 1024);		
 		const y = Math.floor((32 * tI) / 1024);
 		
-		enumText += list[tI][0] + ",\n";
+		enumText += list[tI - 1][0] + ",\n";
 		
 		putImage(out.data,x,y*32,MAP_RES,MAP_RES, data, 32, 32);
 	}

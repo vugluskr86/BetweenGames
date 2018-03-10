@@ -38,7 +38,7 @@ void TileMapLayout::Clear()
    _tiles.clear();
    _tiles.resize(_mapSize.x * _mapSize.y);
 
-   std::fill(_tiles.begin(), _tiles.end(), eTile::Unused);
+   std::fill(_tiles.begin(), _tiles.end(), eTile::TT_UNUSED);
 
    _init = true;
    _dirty = true;
@@ -95,7 +95,7 @@ bool TileMapLayout::IsAreaUnused(int xStart, int yStart, int xEnd, int yEnd)
 
    for(auto y = yStart; y != yEnd + 1; ++y)
       for(auto x = xStart; x != xEnd + 1; ++x)
-         if(GetCell(x, y) != eTile::Unused)
+         if(GetCell(x, y) != eTile::TT_UNUSED)
             return false;
 
    return true;
@@ -232,8 +232,8 @@ bool TileMap::Load(const std::string& tileset)
    if(res) {
       _spriteSeletor.setTexture(_texture);
 
-      int tu = (int)eTile::Selector % (_texture.getSize().x / 32);
-      int tv = (int)eTile::Selector / (_texture.getSize().x / 32);
+      int tu = (int)eTile::TT_UNUSED % (_texture.getSize().x / 32);
+      int tv = (int)eTile::TT_UNUSED / (_texture.getSize().x / 32);
 
       _spriteSeletor.setTextureRect(sf::IntRect(tu * 32, tv * 32, 32, 32));
    }
@@ -265,4 +265,51 @@ Monster* TileMap::SpawnMonster(sf::Vector2i pos, eTile gfx)
    monster->SetPos(pos);
    _monsters.push_back(monster);
    return monster;
+}
+
+bool TileMap::IsMonster(int x, int y) const
+{
+   bool monster = false;
+   for(auto mob : _monsters) {
+      auto pos = mob->GetPos();
+      if(pos.x == x && pos.y == y) monster = true;
+   }
+   return monster;
+}
+
+bool TileMap::IsGameObject(int x, int y) const
+{
+   bool isObj = false;
+   for(auto obj : _objects) {
+      auto pos = obj->GetPos();
+      if(pos.x == x && pos.y == y) isObj = true;
+   }
+   return isObj;
+}
+
+bool TileMap::IsPassable(int x, int y) const
+{
+   if(IsMonster(x, y)) {
+      return false;
+   }
+
+   if(IsGameObject(x, y)) {
+      return false;
+   }
+
+   eTile stile = _layouts[eLayouts::TL_STATIC].GetCell(x, y);
+
+   bool pass = false;
+
+   switch(stile) {
+   case TT_TILES_DIRT:
+   case TT_TILES_DESERTROAD:
+   case TT_TILES_GRASS:
+   case TT_TILES_SAND:
+   case TT_TILES_STONESAND:
+   case TT_TILES_WATER:
+      pass = true;
+   }
+
+   return pass;
 }

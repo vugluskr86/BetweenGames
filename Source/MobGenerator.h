@@ -11,5 +11,5 @@ class MobGenerator
 public:
    MobGenerator(uint32_t seed);
 
-   Mob GenerateMob(uint32_t level, MobClassLeveling leveling, bool placeItems = false, bool placeInventory = false, uint8_t elite = 0);
+   Mob GenerateMob(uint32_t level, MobClassLeveling leveling, bool placeItems = false, bool placeInventory = false, uint8_t elite = 1);
 };

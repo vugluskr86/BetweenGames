@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\Source\Ability.cpp" />
     <ClCompile Include="..\Source\BattleManager.cpp" />
+    <ClCompile Include="..\Source\Door.cpp" />
     <ClCompile Include="..\Source\GameState.cpp" />
     <ClCompile Include="..\Source\Generator.cpp" />
     <ClCompile Include="..\Source\GUI.cpp" />
@@ -36,12 +37,17 @@
     <ClCompile Include="..\Source\Monster.cpp" />
     <ClCompile Include="..\Source\MonsterAI.cpp" />
     <ClCompile Include="..\Source\Player.cpp" />
+    <ClCompile Include="..\Source\Portal.cpp" />
     <ClCompile Include="..\Source\Rogue7drl.cpp" />
+    <ClCompile Include="..\Source\Stairs.cpp" />
     <ClCompile Include="..\Source\TileMap.cpp" />
+    <ClCompile Include="..\Source\Treasure.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Ability.h" />
     <ClInclude Include="..\Source\BattleManager.h" />
+    <ClInclude Include="..\Source\Door.h" />
+    <ClInclude Include="..\Source\eTiles.h" />
     <ClInclude Include="..\Source\GameState.h" />
     <ClInclude Include="..\Source\Generator.h" />
     <ClInclude Include="..\Source\GUI.h" />
@@ -59,8 +65,12 @@
     <ClInclude Include="..\Source\MobGenerator.h" />
     <ClInclude Include="..\Source\Monster.h" />
     <ClInclude Include="..\Source\MonsterAI.h" />
+    <ClInclude Include="..\Source\PerlinNoise.h" />
     <ClInclude Include="..\Source\Player.h" />
+    <ClInclude Include="..\Source\Portal.h" />
+    <ClInclude Include="..\Source\Stairs.h" />
     <ClInclude Include="..\Source\TileMap.h" />
+    <ClInclude Include="..\Source\Treasure.h" />
     <ClInclude Include="..\Source\Types.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

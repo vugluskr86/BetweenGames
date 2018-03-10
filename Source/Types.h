@@ -15,6 +15,8 @@
 #include <vector>
 #include <iostream>
 #include <utility>
+#include <algorithm>
+#include <sstream>
 
 #include "GUI.h"
 
@@ -26,6 +28,8 @@
 
 #include "imgui.h"
 #include "imgui-SFML.h"
+
+#include "PerlinNoise.h"
 
 template<typename Iter, typename RandomGenerator>
 Iter select_randomly(Iter start, Iter end, RandomGenerator& g) {
@@ -41,6 +45,7 @@ Iter select_randomly(Iter start, Iter end) {
    return select_randomly(start, end, gen);
 }
 
+/*
 enum class eTile
 {
    Unused = 0,
@@ -56,6 +61,10 @@ enum class eTile
    Mob2 = 53,
    Mob3 = 54
 };
+*/
+
+#include "eTiles.h"
+
 
 enum class Direction
 {

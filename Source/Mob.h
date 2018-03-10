@@ -63,11 +63,13 @@ public:
    std::vector<std::pair<Ability, uint32_t>> _abilities;
 
    // inventory
-   //std::vector<Item&> _inventory;
+   std::vector<Item> _inventory;
 public:
    Mob();
    void CalcParams(uint32_t level);
    void AddSlotItem(eSlotType slot, Item item);
+
+   void AddItemToInventory(const Item& item);
 
    //void AddAbility(AbilityProt);
 

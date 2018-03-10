@@ -22,7 +22,7 @@ Mob MobGenerator::GenerateMob(uint32_t level, MobClassLeveling leveling, bool pl
    }
 
    if(placeInventory) {
-      // TODO
+      // TODO : Create inventory
    }
       
    mob.CalcParams(mob._level);
