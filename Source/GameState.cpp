@@ -71,7 +71,7 @@ void GameState::SpawnPlayer()
       auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
       Mob mob = _mobGen.GenerateMob(10, mobClass, true);
 
-      _player = new Player(eTile::TT_CHAR_CHAR, "vugluskr", mob);
+      _player = new Player(eTile::TT_CHAR_CHAR, "Hero", mob, 4.0);
 
       auto mapSize = _map->GetMapSize();
       _player->SetPos(sf::Vector2i(mapSize.x / 2.0, mapSize.y / 2.0));
@@ -154,6 +154,8 @@ bool GameState::PlayerAction(int x, int y)
    auto pos = _player->GetPos();
    Mob& playerMob = _player->GetMobPtr();
 
+   playerMob.Regen();
+
    if(x < 0 || y < 0) {
       return false;
    }
@@ -180,10 +182,12 @@ bool GameState::PlayerAction(int x, int y)
       return false;
    }
 
+   bool _isAction = false;
+
    // Check pass
    if(_map->IsPassable(x, y)) {
       _player->SetPos(sf::Vector2i(x, y));
-      return true;
+      _isAction = true;
    } else {
       auto obj = _map->IsGameObject(x, y);
       
@@ -200,10 +204,13 @@ bool GameState::PlayerAction(int x, int y)
             else {
                door->Open(*_player);
             }
+
+            _isAction = true; 
             break;
          }
          case TO_PORTAL: {
             passTo = true;
+            _isAction = true;
             break;
          }
          }
@@ -216,14 +223,25 @@ bool GameState::PlayerAction(int x, int y)
             _bm->ToLog(res, _player->GetName(), monster->GetName());
             if(!monsterMob.IsDie()) {
                monster->OnPlayerAttack(_bm, _player);
-
+            }
+            else {
+               GAME_LOG("%s die\n", monster->GetName().c_str());
                // TODO : Remove mob from map
             }
+            _isAction = true;
          }
       }
       
-      if(passTo) {
-         _player->SetPos(sf::Vector2i(x, y));
+      if(playerMob.IsDie()) {
+         GAME_LOG("Player %s die\n", _player->GetName().c_str());
+      } else {
+         if(passTo) {
+            _player->SetPos(sf::Vector2i(x, y));
+         }
+
+         if(_isAction) {
+            _map->MonstersTurn();
+         }
       }
       // Mobs action
    }

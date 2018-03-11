@@ -92,6 +92,8 @@ public:
 
    bool DoFov(int x, int y) const;
 
+   void MonstersTurn();
+
    // std::vector<sf::Vector2i> Fov(int x, int y, int radius) const;
 private:
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

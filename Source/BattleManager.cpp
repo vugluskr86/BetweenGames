@@ -64,14 +64,15 @@ void BattleManager::Battle(Mob& attacker, Mob& defender, std::vector<BattleResul
                for(auto damage : itemDamages) {
                   eDamageType dtype = damage.first;
                   if(dtype != DT_PHYSICAL) {
-                     double dvalue = damage.second;
+                     double dvalue = power - (power / 100 * damage.second);
                      auto resist = defender.GetResist(dtype);
-                     auto resPower = power - (power / 100 * resist);
+
+                     auto resPower = dvalue - (dvalue / 100 * resist);
                      auto powerMin = resPower * 0.3;
                      auto powerMax = resPower * 1.2;
                      resPower = std::uniform_real_distribution<double>(powerMin, powerMax)(*_random);
                      // _resultDamages.emplace_back(damage.first, resPower);
-                     result._damages.emplace_back(dtype, resPower, damage.second);
+                     result._damages.emplace_back(dtype, resPower, dvalue);
                      allDamage += resPower;
                   }
                }

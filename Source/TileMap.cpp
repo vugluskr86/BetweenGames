@@ -238,7 +238,6 @@ void TileMap::Update()
       _spritePlayer.setPosition(pos.x * 32, pos.y * 32);
    }
    
-
    for(uint32_t i = 0; i < eLayouts::TL_MAX; i++) {
       if(_layouts[i].IsInit() && _layouts[i].IsDirty()) {
          _layouts[i].Build(_texture.getSize().x);
@@ -431,6 +430,13 @@ TileObject* TileMap::GetObject(int x, int y)
       }
    }
    return nullptr;
+}
+
+void TileMap::MonstersTurn()
+{
+   for(auto m : _monsters) {
+      m->Turn();
+   }
 }
 
 bool TileMap::DoFov(int x, int y) const

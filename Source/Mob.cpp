@@ -11,15 +11,19 @@ Mob::Mob()
    _hpRegen = 1;
    _hp = 1;
    _hpMax = 1;
+   _mulHp = 1.0;
 }
 
 void Mob::Regen()
 {
-   if(_hp < _hpMax) {
-      _hp += _hpRegen;
-   }
-   if(_hp > _hpMax) {
-      _hp = _hpMax;
+   if(_hp > 0) {
+      if(_hp <= _hpMax) {
+         _hp += _hpRegen;
+      }
+
+      if(_hp > _hpMax) {
+         _hp = _hpMax;
+      }
    }
 }
 
@@ -32,6 +36,8 @@ void Mob::CalcParams(uint32_t level)
    _STR = _class._STR * level * _elite;
    _LUC = _class._LUC * level * _elite;
    _DEX = _class._DEX * level * _elite;
+   
+   _hpMax *= _mulHp;
 
    _hp = _hpMax;
 
@@ -112,7 +118,7 @@ double Mob::GetResist(eDamageType type) const
       resist += item.GetResist(type);
    }
 
-   if(resist < 1) resist = 1;
+   if(resist < 0) resist = 0;
    if(resist > 99) resist = 99;
    return resist;
 }

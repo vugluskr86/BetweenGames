@@ -14,7 +14,9 @@ public:
    { return _mob; }
    std::string GetName() { return _name; }
 
-   void OnPlayerAttack(BattleManager* manager, Player* player);
+   bool OnPlayerAttack(BattleManager* manager, Player* player);
+
+   void Turn();
 
    Monster(eTile tile, const std::string& baseName, Mob mob);
 };

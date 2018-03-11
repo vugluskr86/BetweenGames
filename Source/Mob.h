@@ -34,13 +34,15 @@ public:
 
    uint8_t _elite;
 
+   double _mulHp;
+
    // Class + leveling params
    MobClassLeveling _class;
 
    // HP
-   uint32_t _hp;
+   int32_t _hp;
    uint32_t _hpRegen;
-   uint32_t _hpMax;
+   int32_t _hpMax;
       
    // At level
    uint32_t _STR; // Сила

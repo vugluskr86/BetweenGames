@@ -26,8 +26,6 @@ Mob MobGenerator::GenerateMob(uint32_t level, MobClassLeveling leveling, bool pl
    std::uniform_real_distribution<> rnd01(0, 1);
 
    if(placeItems) {
-      // TODO : Generate items all slot
-     
       bool _shieldGen = false;
       auto chanceShield = rnd01(*_random);
       if(chanceShield > 0.5) {
@@ -51,8 +49,6 @@ Mob MobGenerator::GenerateMob(uint32_t level, MobClassLeveling leveling, bool pl
             }
          }
       }
-
-      
    }
 
    if(placeInventory) {
