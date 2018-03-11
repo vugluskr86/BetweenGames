@@ -12,7 +12,7 @@ Monster::Monster(eTile tile, const std::string& baseName, Mob mob, TileMap* map)
    _tile = tile;
    _type = TO_MONSTER;
    _mob = mob;
-
+   _attackOnTurn = false;
    _state = AS_IDLE;
 
    _name = baseName;
@@ -26,6 +26,7 @@ bool Monster::OnPlayerAttack(BattleManager* manager, Player* player)
    std::vector<BattleManager::BattleResult> res;
    manager->Battle(_mob, playerMob, res);
    manager->ToLog(res, _name, player->GetName());
+   _attackOnTurn = true;
    return playerMob.IsDie();
 }
 
@@ -46,7 +47,7 @@ void Monster::Turn(BattleManager* manager)
    _mob.Regen();
 
    sf::IntRect attackRect(_pos.x - 1, _pos.y - 1, 3, 3);
-   
+
    bool isAttackNeed = false;
 
    for(auto aX = attackRect.left; aX < attackRect.left + attackRect.width; aX++) {
@@ -58,14 +59,13 @@ void Monster::Turn(BattleManager* manager)
       }
    }
 
-   if(isAttackNeed) {
-
+   if(isAttackNeed && !_attackOnTurn) {
       Mob& playerMob = player->GetMobPtr();
       std::vector<BattleManager::BattleResult> res;
       manager->Battle(_mob, playerMob, res);
       manager->ToLog(res, _name, player->GetName());
-
-   } else {
+   }
+   else {
       switch(_state) {
       case AS_IDLE:
          if(rnd01(random) > 0.3) {
@@ -91,4 +91,6 @@ void Monster::Turn(BattleManager* manager)
          break;
       }
    }
+
+   _attackOnTurn = false;
 }
