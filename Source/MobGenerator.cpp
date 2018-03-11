@@ -2,7 +2,7 @@
 #include "ItemGenerator.h"
 
 std::map<std::string, eTile> MobGenerator::NAME_2_TILE = {
-   { "Dragon Warrior", TT_TILES_MONSTERS_DRAGON_WARRIOR_3},
+   { "Dragon Warrior", TT_TILES_MONSTERS_DRAGON_WARRIOR_3 },
    { "Fairy", TT_TILES_MONSTERS_FAIRY_3 },
    { "Invoker", TT_TILES_MONSTERS_INVOKER_1 },
    { "Human", TT_TILES_MONSTERS_HUMAN_1 },

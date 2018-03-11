@@ -87,6 +87,9 @@ void ShowMonsterTooltip(Monster* monster, const ImVec2 pos)
 
    ImGui::Begin("Monster info", NULL, flags);
  
+   ImGui::Text("Name"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", monster->GetName().c_str());
+
    auto mob = monster->GetMobPtr();
    ShowMobParams(&mob);
 
@@ -164,6 +167,19 @@ void PlayerInfoWindow::Draw(Player* player)
 {
    auto mob = player->GetMobPtr();
    ImGui::Begin("Player info");
+
+   ImGui::Text("Name"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%s", player->GetName().c_str());
+
+   ImGui::Text("EXP"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", player->GetExp());
+
    ShowMobParams(&mob);
    ImGui::End();
+}
+
+
+bool ShowStartupWindow()
+{
+   return false;
 }

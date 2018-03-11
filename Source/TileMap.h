@@ -2,6 +2,7 @@
 
 class Player;
 class Monster;
+class BattleManager;
 
 class TileMapLayout
 {
@@ -92,8 +93,12 @@ public:
 
    bool DoFov(int x, int y) const;
 
-   void MonstersTurn();
+   void MonstersTurn(BattleManager* bm);
 
+   void RemoveMonster(Monster* monster);
+
+
+   Player* GetPlayer() { return _player; }
    // std::vector<sf::Vector2i> Fov(int x, int y, int radius) const;
 private:
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;

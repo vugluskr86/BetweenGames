@@ -3,6 +3,7 @@
 
 #include "Player.h"
 #include "Monster.h"
+#include "BattleManager.h"
 
 TileMapLayout::TileMapLayout() : 
    _init(false),
@@ -276,8 +277,8 @@ bool TileMap::Load(const std::string& tileset)
    if(res) {
       _spriteSeletor.setTexture(_texture);
 
-      int tu = (int)eTile::TT_UNUSED % (_texture.getSize().x / 32);
-      int tv = (int)eTile::TT_UNUSED / (_texture.getSize().x / 32);
+      int tu = (int)eTile::TT_TILES_SELECTOR % (_texture.getSize().x / 32);
+      int tv = (int)eTile::TT_TILES_SELECTOR / (_texture.getSize().x / 32);
 
       _spriteSeletor.setTextureRect(sf::IntRect(tu * 32, tv * 32, 32, 32));
 
@@ -432,10 +433,10 @@ TileObject* TileMap::GetObject(int x, int y)
    return nullptr;
 }
 
-void TileMap::MonstersTurn()
+void TileMap::MonstersTurn(BattleManager* bm)
 {
    for(auto m : _monsters) {
-      m->Turn();
+      m->Turn(bm);
    }
 }
 
@@ -459,6 +460,19 @@ bool TileMap::DoFov(int x, int y) const
       oy += vy;
    };
    return true;
+}
+
+void TileMap::RemoveMonster(Monster* monster)
+{
+   auto pos = monster->GetPos();
+
+   auto it = std::find_if(_monsters.begin(), _monsters.end(), [pos](Monster* monster) {
+      return monster->GetPos() == pos;
+   });
+
+   if(it != _monsters.end()) {
+      _monsters.erase(it);
+   }
 }
 
 /*
