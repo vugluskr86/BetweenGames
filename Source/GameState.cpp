@@ -19,6 +19,8 @@ GameState::GameState(int seed) :
    _map(nullptr),
    _monsterCrush(0)
 {
+   _name = "Hero";
+
    _random.seed(_seed);
 
    _bm = new BattleManager(&_random);
@@ -27,7 +29,12 @@ GameState::GameState(int seed) :
    _view.reset(sf::FloatRect(0.0f, 0.0f, 1280, 720));
 
    //SpawnDungeon();
-   SpawnWorld();
+//   SpawnWorld();
+}
+
+void GameState::SetPlayerName(const std::string& name)
+{
+   _name = name;
 }
 
 void GameState::SpawnWorld()
@@ -75,7 +82,7 @@ void GameState::SpawnPlayer()
       auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
       Mob mob = _mobGen.GenerateMob(1, mobClass, true);
 
-      _player = new Player(PLAYER_CLASS_2_TILE[mob._class._class], "Hero", mob, 1.0);
+      _player = new Player(PLAYER_CLASS_2_TILE[mob._class._class], _name, mob, 10.0);
 
       _player->SetPos(sf::Vector2i(mapSize.x / 2.0, mapSize.y / 2.0));
 
@@ -197,6 +204,10 @@ void GameState::Teleport(Player* player)
 
 bool GameState::PlayerAction(int x, int y)
 {
+   if(!_player) {
+      return false;
+   }
+
    _map->SetSelection(sf::Vector2i(x, y));
 
    auto pos = _player->GetPos();

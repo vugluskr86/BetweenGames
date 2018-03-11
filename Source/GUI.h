@@ -48,6 +48,5 @@ public:
 
 void ShowMobParams(Mob* mob);
 void ShowMonsterTooltip(Monster* monster, const ImVec2 pos);
-bool ShowStartupWindow();
 
 

@@ -25,8 +25,11 @@ class GameState
 
    std::mt19937 _random;
    int _seed;
+   std::string _name;
 public:
    GameState(int seed);
+
+   void SetPlayerName(const std::string& name);
 
    void Teleport(Player* player);
 
@@ -34,8 +37,6 @@ public:
    void SpawnDungeon();
    void SpawnPlayer();
    void SpawnMonsters();
-
-
    void PlacePortal();
 
    bool PlayerAction(int x, int y);
@@ -46,8 +47,4 @@ public:
    Player* GetPlayer() { return _player;  }
 
    Monster* GetMonster(int x, int y);
-
-   /*
-   void ProcessEvent(const sf::Event& event);
-   */
 };

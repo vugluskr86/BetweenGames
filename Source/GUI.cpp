@@ -144,9 +144,7 @@ void ShowMobParams(Mob* mob)
 
    ImGui::Text(I18n::PROPERTIES[eBalancePropery::IP_CRIT].c_str()); ImGui::SameLine();
    ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", mob->_crit);
-
-
-
+   
    ImGui::Separator();
 
    ImGui::Text("HP Regen"); ImGui::SameLine();
@@ -176,10 +174,4 @@ void PlayerInfoWindow::Draw(Player* player)
 
    ShowMobParams(&mob);
    ImGui::End();
-}
-
-
-bool ShowStartupWindow()
-{
-   return false;
 }
