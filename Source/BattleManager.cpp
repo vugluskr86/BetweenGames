@@ -57,7 +57,7 @@ void BattleManager::Battle(Mob& attacker, Mob& defender, std::vector<BattleResul
 
                // Calc phys resist
                auto resistPys = defender.GetResist(DT_PHYSICAL);
-               double allDamage = power - (power / 100 * resistPys);
+               double allDamage = power - (power * resistPys / 100);
 
                result._damages.emplace_back(DT_PHYSICAL, allDamage, power);
 
@@ -65,8 +65,8 @@ void BattleManager::Battle(Mob& attacker, Mob& defender, std::vector<BattleResul
                   eDamageType dtype = damage.first;
                   if(dtype != DT_PHYSICAL) {
 
-                     if(dtype == DT_DARKNESS) {
-                        double dvalue = power - (power / 100 * damage.second);
+                     if(dtype == DT_DARKNESS || dtype == DT_PYRE || dtype == DT_LIGHT) {
+                        double dvalue = power - (power  * damage.second / 100);
 
                         auto powerMin = dvalue * 0.3;
                         auto powerMax = dvalue * 1.0;
@@ -75,10 +75,10 @@ void BattleManager::Battle(Mob& attacker, Mob& defender, std::vector<BattleResul
                         result._damages.emplace_back(dtype, resPower, dvalue);
                         allDamage += resPower;
                      } else {
-                        double dvalue = power - (power / 100 * damage.second);
+                        double dvalue = power - (power * damage.second / 100);
                         auto resist = defender.GetResist(dtype);
 
-                        auto resPower = dvalue - (dvalue / 100 * resist);
+                        auto resPower = dvalue - (dvalue * resist / 100);
 
                         auto powerMin = resPower * 0.3;
                         auto powerMax = resPower * 1.0;
@@ -129,7 +129,7 @@ void BattleManager::Battle(Mob& attacker, Mob& defender, std::vector<BattleResul
 
       if(!result._dodge) {
          auto resistPys = defender.GetResist(DT_PHYSICAL);
-         double allDamage = power - (power / 100 * resistPys);
+         double allDamage = power - (power  * resistPys / 100);
          result._allDamage = allDamage;
          defender._hp -= allDamage;
 
