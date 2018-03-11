@@ -154,6 +154,8 @@ void GameState::PlacePortal()
    _map->AddObject(obj);
    */
 
+   // _monsterCrush / 10000
+
    auto mapSize = _map->GetMapSize();
    int trySpawn = mapSize.x * mapSize.y;
    while(trySpawn > 0) {
@@ -161,7 +163,12 @@ void GameState::PlacePortal()
       auto y = std::uniform_int_distribution<int>(0, mapSize.y - 1)(_random);
 
       if(_map->CanPlaced(x, y)) {
-         auto obj = new Portal(this);
+
+         auto endPortalChance = _monsterCrush / 10000;
+         auto ch = std::uniform_real_distribution<>(0, 1)(_random);
+         bool isEnd = ch < endPortalChance;
+       
+         auto obj = new Portal(this, isEnd);
          obj->SetPos(sf::Vector2i(x, y));
          _map->AddObject(obj);
 
