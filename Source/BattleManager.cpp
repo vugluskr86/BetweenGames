@@ -91,7 +91,6 @@ void BattleManager::Battle(Mob& attacker, Mob& defender, std::vector<BattleResul
                }
 
                result._allDamage = allDamage;
-
                defender._hp -= allDamage;
 
                if(defender._hp <= 0) {
