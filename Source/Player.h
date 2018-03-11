@@ -19,6 +19,14 @@ public:
       _exp = 0;
    }
 
+   void SetMob(const Mob& mob) {
+      _mob = mob;
+   }
+
+   void SetTile(eTile tile) {
+      _tile = tile;
+   }
+
    Mob& GetMobPtr()
    { return _mob; }
    std::string GetName() { return _name; }

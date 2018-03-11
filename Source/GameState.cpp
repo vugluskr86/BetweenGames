@@ -71,9 +71,10 @@ void GameState::SpawnPlayer()
 {
 
    auto mapSize = _map->GetMapSize();
+   MobGenerator _mobGen(&_random);
 
    if(!_player) {
-      MobGenerator _mobGen(&_random);
+   
 
       // Select mob type
       auto rMobIdx = std::uniform_real_distribution<>(0.0, 1.0)(_random);
@@ -82,7 +83,7 @@ void GameState::SpawnPlayer()
       auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
       Mob mob = _mobGen.GenerateMob(1, mobClass, true);
 
-      _player = new Player(PLAYER_CLASS_2_TILE[mob._class._class], _name, mob, 1.5);
+      _player = new Player(PLAYER_CLASS_2_TILE[mob._class._class], _name, mob, 2.5);
 
       _player->SetPos(sf::Vector2i(mapSize.x / 2.0, mapSize.y / 2.0));
 
@@ -100,6 +101,15 @@ void GameState::SpawnPlayer()
       _map->SetPlayer(_player);
    }
    else {
+      auto rMobIdx = std::uniform_real_distribution<>(0.0, 1.0)(_random);
+      auto it = MobGenerator::NAME_2_TILE.begin();
+      std::advance(it, rand() % MobGenerator::NAME_2_TILE.size());
+      auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
+      Mob mob = _mobGen.GenerateMob(1, mobClass, true);
+
+      _player->SetMob(mob);
+      _player->SetTile(PLAYER_CLASS_2_TILE[mob._class._class]);
+
       int trySpawn = mapSize.x * mapSize.y;
       while(trySpawn > 0) {
          auto x = std::uniform_int_distribution<int>(0, mapSize.x - 1)(_random);
@@ -155,16 +165,7 @@ void GameState::SpawnMonsters()
 }
 
 void GameState::PlacePortal()
-{
-   /*
-   auto pPos = _player->GetPos();
-   auto obj = new Portal(this, false);
-   obj->SetPos(sf::Vector2i(pPos.x + 1, pPos.y + 1));
-   _map->AddObject(obj);
-   */
-
-   // _monsterCrush / 10000
-   
+{  
    auto mapSize = _map->GetMapSize();
    int trySpawn = mapSize.x * mapSize.y;
    while(trySpawn > 0) {

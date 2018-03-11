@@ -32,7 +32,6 @@ Mob MobGenerator::GenerateMob(uint32_t level, MobClassLeveling leveling, bool pl
          mob.AddSlotItem(ST_LEFT_HAND, itemGen.GenerateMobItem(ST_LEFT_HAND, level, { eItemType::WT_SHIELD }));
          _shieldGen = true;
       }
-
       if(_shieldGen) {
          mob.AddSlotItem(ST_RIGHT_HAND, itemGen.GenerateMobItem(ST_RIGHT_HAND, level, { eItemType::WT_WEAPON_1H }));
       } else {
