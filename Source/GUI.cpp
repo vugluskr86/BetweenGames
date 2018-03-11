@@ -64,8 +64,9 @@ void AppLog::Draw(const char* title, bool* p_open)
 }
 
 
-void WindowSelectedInfo::Draw(const Item& mob)
+void PlayerInfoWindow::Draw(const Item& mob)
 {
-   ImGui::Begin("Current selected");
+   ImGui::Begin("Player info");
+
    ImGui::End();
 }

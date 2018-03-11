@@ -72,6 +72,9 @@ public:
    void SetSelection(sf::Vector2i pos);
    void ResetSelection();
 
+   void Clear();
+   void SetPlayer(Player* player);
+
    Player* SpawnPlayer(sf::Vector2i pos, eTile gfx);
    Monster* SpawnMonster(sf::Vector2i pos, eTile gfx);
 
@@ -98,6 +101,8 @@ private:
    sf::Sprite _spriteSeletor;
    bool _selection;
       
+   sf::Sprite _spritePlayer;
+
    Player* _player;
    std::vector<Monster*> _monsters;
    std::vector<TileObject*> _objects;

@@ -25,6 +25,8 @@ class GameState
 public:
    GameState(int seed);
 
+   void Teleport(Player* player);
+
    void SpawnWorld();
    void SpawnDungeon();
    void SpawnPlayer();

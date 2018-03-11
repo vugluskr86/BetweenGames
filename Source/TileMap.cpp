@@ -177,6 +177,35 @@ TileMap::~TileMap()
    }
 }
 
+void TileMap::Clear()
+{
+   _player = nullptr;
+   for(Monster* monster : _monsters) {
+      delete monster;
+   }
+   _monsters.clear();
+   for(TileObject* obj : _objects) {
+      delete obj;
+   }
+   _objects.clear();
+
+   for(uint32_t i = 0; i < eLayouts::TL_MAX; i++) {
+      _layouts[i].Clear();
+   }
+}
+
+void TileMap::SetPlayer(Player* player)
+{
+   _player = player;
+
+   auto tile = _player->GetTile();
+
+   int tu = tile % (_texture.getSize().x / 32);
+   int tv = tile / (_texture.getSize().x / 32);
+
+   _spriteSeletor.setTextureRect(sf::IntRect(tu * 32, tv * 32, 32, 32));
+}
+
 void TileMap::DrawLayout(sf::RenderTarget& target, sf::RenderStates states, eLayouts type) const
 {
    const TileMapLayout& layout = _layouts[type];
@@ -205,10 +234,11 @@ void TileMap::Update()
    }
    
    if(_player) {
-      auto pPos = _player->GetPos();
-      _layouts[eLayouts::TL_OBJECTS].SetCell(pPos.x, pPos.y, _player->GetTile());
+      auto pos = _player->GetPos();
+      _spritePlayer.setPosition(pos.x * 32, pos.y * 32);
    }
    
+
    for(uint32_t i = 0; i < eLayouts::TL_MAX; i++) {
       if(_layouts[i].IsInit() && _layouts[i].IsDirty()) {
          _layouts[i].Build(_texture.getSize().x);
@@ -230,6 +260,11 @@ void TileMap::draw(sf::RenderTarget& target, sf::RenderStates states) const
       }
    }
 
+   if(_player) {
+      target.draw(_spritePlayer, states);
+      // _layouts[eLayouts::TL_OBJECTS].SetCell(pPos.x, pPos.y, _player->GetTile());
+   }
+
    if(_selection) {
       target.draw(_spriteSeletor, states);
    }
@@ -246,6 +281,8 @@ bool TileMap::Load(const std::string& tileset)
       int tv = (int)eTile::TT_UNUSED / (_texture.getSize().x / 32);
 
       _spriteSeletor.setTextureRect(sf::IntRect(tu * 32, tv * 32, 32, 32));
+
+      _spritePlayer.setTexture(_texture);
    }
    
    return res;
@@ -266,6 +303,13 @@ Player* TileMap::SpawnPlayer(sf::Vector2i pos, eTile gfx)
 {
    _player = new Player(gfx);
    _player->SetPos(pos);
+   auto tile = _player->GetTile();
+
+   int tu = tile % (_texture.getSize().x / 32);
+   int tv = tile / (_texture.getSize().x / 32);
+
+   _spritePlayer.setTextureRect(sf::IntRect(tu * 32, tv * 32, 32, 32));
+
    return _player;
 }
 

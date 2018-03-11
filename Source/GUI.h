@@ -33,7 +33,7 @@ class Mob;
 class Item;
 class Player;
 
-class WindowSelectedInfo
+class PlayerInfoWindow
 {
 public:
    void Draw(const Item& mob);
