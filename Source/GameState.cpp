@@ -8,6 +8,8 @@
 #include "Door.h"
 #include "Portal.h"
 #include "Stairs.h"
+#include "Monster.h"
+#include "MobGenerator.h"
 
 GameState::GameState(int seed) : 
    _seed(seed),
@@ -15,12 +17,12 @@ GameState::GameState(int seed) :
    _player(nullptr),
    _map(nullptr)
 {
-   _bm = new BattleManager(_seed);
+   _random.seed(_seed);
+
+   _bm = new BattleManager(&_random);
    _map = new TileMap();
 
    _view.reset(sf::FloatRect(0.0f, 0.0f, 1280, 720));
-
-   _random.seed(_seed);
 
    //SpawnDungeon();
    SpawnWorld();
@@ -41,6 +43,9 @@ void GameState::SpawnWorld()
    auto obj = new Portal(this);
    obj->SetPos(sf::Vector2i(pPos.x + 1, pPos.y + 1));
    _map->AddObject(obj);
+
+
+   SpawnMonsters();
 }
 
 void GameState::SpawnDungeon()
@@ -56,25 +61,68 @@ void GameState::SpawnDungeon()
 void GameState::SpawnPlayer()
 {
    if(!_player) {
+      MobGenerator _mobGen(&_random);
+
+      // Select mob type
+      auto rMobIdx = std::uniform_real_distribution<>(0.0, 1.0)(_random);
+      auto it = MobGenerator::NAME_2_TILE.begin();
+      std::advance(it, rand() % MobGenerator::NAME_2_TILE.size());
+      auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
+      Mob mob = _mobGen.GenerateMob(1, mobClass, true);
+
+      _player = new Player(eTile::TT_CHAR_CHAR, "vugluskr", mob);
+
       auto mapSize = _map->GetMapSize();
+      _player->SetPos(sf::Vector2i(mapSize.x / 2.0, mapSize.y / 2.0));
 
       int trySpawn = mapSize.x * mapSize.y;
-
       while(trySpawn > 0) {
-         auto x = std::uniform_int_distribution<int>(0, mapSize.x)(_random);
-         auto y = std::uniform_int_distribution<int>(0, mapSize.y)(_random);
-
+         auto x = std::uniform_int_distribution<int>(0, mapSize.x - 1)(_random);
+         auto y = std::uniform_int_distribution<int>(0, mapSize.y - 1)(_random);
          if(_map->CanPlaced(x, y)) {
-            _player = _map->SpawnPlayer(sf::Vector2i(x, y), eTile::TT_CHAR_CHAR);
+            _player->SetPos(sf::Vector2i(x, y));
             break;
          }
-
          --trySpawn;
       }
 
-      if(!_player) {
-         _player = _map->SpawnPlayer(sf::Vector2i(mapSize.x / 2.0, mapSize.y / 2.0), eTile::TT_CHAR_CHAR);
+      _map->SetPlayer(_player);
+   }
+}
+
+void GameState::SpawnMonsters()
+{
+   auto mapSize = _map->GetMapSize();
+
+   Mob& playerMob = _player->GetMobPtr();
+
+   MobGenerator _mobGen(&_random);
+
+   int trySpawn = mapSize.x * mapSize.y;
+   int spawnNeed = 100;
+   int spawned = 0;
+   while(trySpawn > 0) {
+      auto x = std::uniform_int_distribution<int>(0, mapSize.x - 1)(_random);
+      auto y = std::uniform_int_distribution<int>(0, mapSize.y - 1)(_random);
+
+      if(_map->CanPlaced(x, y)) {
+         // Select mob type
+         auto rMobIdx = std::uniform_real_distribution<>(0.0, 1.0)(_random);
+         auto it = MobGenerator::NAME_2_TILE.begin();
+         std::advance(it, rand() % MobGenerator::NAME_2_TILE.size());
+         auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
+         Mob mob = _mobGen.GenerateMob(playerMob._level, mobClass, true);
+
+         Monster* monster = new Monster(it->second, it->first, mob);
+         monster->SetPos(sf::Vector2i(x, y));
+         _map->AddMonster(monster);
+
+         spawned++;
       }
+      if(spawned >= spawnNeed) {
+         break;
+      }
+      --trySpawn;
    }
 }
 
@@ -96,11 +144,14 @@ void GameState::Teleport(Player* player)
    auto obj = new Portal(this);
    obj->SetPos(sf::Vector2i(pPos.x + 1, pPos.y + 1));
    _map->AddObject(obj);
+
+   SpawnMonsters();
 }
 
 bool GameState::PlayerAction(int x, int y)
 {
    auto pos = _player->GetPos();
+   Mob& playerMob = _player->GetMobPtr();
 
    if(x < 0 || y < 0) {
       return false;
@@ -134,7 +185,9 @@ bool GameState::PlayerAction(int x, int y)
       return true;
    } else {
       auto obj = _map->IsGameObject(x, y);
+      
       bool passTo = false;
+
       if(obj) {
          auto objType = obj->GetType();
          switch(objType) {
@@ -153,7 +206,17 @@ bool GameState::PlayerAction(int x, int y)
             break;
          }
          }
+      } else {
+         Monster* monster = _map->IsMonster(x, y);
+         if(monster && _bm) {
+            Mob& monsterMob = monster->GetMobPtr();
+
+            GAME_LOG("Player attack monster: %s \n", monster->GetName().c_str());
+
+            _bm->Battle(playerMob, monsterMob);
+         }
       }
+      
       if(passTo) {
          _player->SetPos(sf::Vector2i(x, y));
       }

@@ -75,9 +75,11 @@ public:
    void Clear();
    void SetPlayer(Player* player);
 
-   Player* SpawnPlayer(sf::Vector2i pos, eTile gfx);
-   Monster* SpawnMonster(sf::Vector2i pos, eTile gfx);
+   // Player* SpawnPlayer(sf::Vector2i pos, eTile gfx);
+  // Monster* SpawnMonster(sf::Vector2i pos, eTile gfx);
 
+
+   void AddMonster(Monster* monster);
    void AddObject(TileObject* object);
 
    bool IsPassable(int x, int y) const;

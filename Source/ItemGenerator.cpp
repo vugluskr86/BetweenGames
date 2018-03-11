@@ -157,10 +157,9 @@ ST GetSample(const std::unordered_set<ST>& s, int index) {
    return *it;
 }
 
-ItemGenerator::ItemGenerator(uint32_t seed) :
-   _seed(seed)
+ItemGenerator::ItemGenerator(std::mt19937* random) 
 {
-   random.seed(seed);
+   _random = random;
 }
 
 Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
@@ -175,7 +174,7 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
    auto left = tier_range.first - tier_level_range.begin();
    auto right = tier_range.second - tier_level_range.begin();
 
-   item.tier = std::uniform_int_distribution<int>(left, right)(random);
+   item.tier = std::uniform_int_distribution<int>(left, right)(*_random) + 1;
 
    assert(item.tier != 0);
 
@@ -189,7 +188,7 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
       }
    }
 
-   auto _type = std::uniform_int_distribution<int>(0, types.size() - 1)(random);
+   auto _type = std::uniform_int_distribution<int>(0, types.size() - 1)(*_random);
 
    item.type = GetSample(types, _type);
 
@@ -200,16 +199,17 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
       std::end(color_interval),
       std::begin(color_weights));
 
-   auto prefix_count = (int)dist_color(random);
+   auto prefix_count = (int)dist_color(*_random);
 
    item.color = prefix_count;
 
    if(item.IsWeapon()) {
-      item.params[eBalancePropery::IP_ATTACKPWMULTMAX] = std::uniform_real_distribution<>(1, GetPrototypeProperyValue(slotPrototypes, eBalancePropery::IP_ATTACKPWMULTMAX, item.tier))(random);
+      item.params[eBalancePropery::IP_ATTACKPWMULTMAX] = std::uniform_real_distribution<>(1, GetPrototypeProperyValue(slotPrototypes, eBalancePropery::IP_ATTACKPWMULTMAX, item.tier))(*_random);
    }
 
    if(item.IsShield()) {
-      item.params[eBalancePropery::IP_BLOCKVAL] = std::uniform_real_distribution<>(1, GetPrototypeProperyValue(slotPrototypes, eBalancePropery::IP_BLOCKVAL, item.tier))(random);
+      item.params[eBalancePropery::IP_ATTACKPWMULTMAX] = 1.0;
+      item.params[eBalancePropery::IP_BLOCKVAL] = std::uniform_real_distribution<>(1, GetPrototypeProperyValue(slotPrototypes, eBalancePropery::IP_BLOCKVAL, item.tier))(*_random);
    }
 
    std::vector<eBalancePropery> addProperties;
@@ -259,8 +259,8 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
    }
 
    for(int i = 0; i < prefix_count; i++) {
-      eBalancePropery add_property = *select_randomly(addProperties.begin(), addProperties.end(), random);
-      auto val = std::uniform_real_distribution<>(1, GetPrototypeProperyValue(slotPrototypes, add_property, item.tier))(random);
+      eBalancePropery add_property = *select_randomly(addProperties.begin(), addProperties.end(), *_random);
+      auto val = std::uniform_real_distribution<>(1, GetPrototypeProperyValue(slotPrototypes, add_property, item.tier))(*_random);
       auto exists = item.params.find(add_property);
       if(exists == item.params.end()) {
          item.params[add_property] = val;
@@ -287,6 +287,5 @@ Item ItemGenerator::GenerateTreasueItemByPlayer(uint32_t level)
       std::end(interval),
       std::begin(weights));
 
-   return GenerateSlotType((eSlotType)(int)dist(random), level);
+   return GenerateSlotType((eSlotType)(int)dist(*_random), level);
 }
-

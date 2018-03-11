@@ -108,7 +108,7 @@ std::vector<Item::DamageValue> Item::GetDamages() const
          break;
       }
    }
-
+   
    return damages;
 }
 
@@ -146,7 +146,7 @@ double Item::GetResist(eDamageType damageType) const
 
 uint32_t Item::GetAttackPerTurn() const
 {
-   return static_cast<uint32_t>(GetProp(IP_ATTACKPERTURN));
+   return 1 + static_cast<uint32_t>(GetProp(IP_ATTACKPERTURN));
 }
 
 void Item::IncParam(eBalancePropery prop, double val)

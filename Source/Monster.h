@@ -6,6 +6,11 @@
 class Monster : public TileObject
 {
    Mob _mob;
+   std::string _name;
 public:
-   Monster(eTile tile);
+   Mob & GetMobPtr()
+   { return _mob; }
+   std::string GetName() { return _name; }
+
+   Monster(eTile tile, const std::string& baseName, Mob mob);
 };

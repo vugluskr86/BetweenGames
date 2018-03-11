@@ -1,15 +1,22 @@
 #include "MobGenerator.h"
 #include "ItemGenerator.h"
 
-MobGenerator::MobGenerator(uint32_t seed) :
-   _seed(seed)
+std::map<std::string, eTile> MobGenerator::NAME_2_TILE = {
+   { "Dragon Warrior", TT_TILES_MONSTERS_DRAGON_WARRIOR_3},
+   { "Fairy", TT_TILES_MONSTERS_FAIRY_3 },
+   { "Invoker", TT_TILES_MONSTERS_INVOKER_1 },
+   { "Human", TT_TILES_MONSTERS_HUMAN_1 },
+   { "Ogre", TT_TILES_MONSTERS_OGRE }
+};
+
+MobGenerator::MobGenerator(std::mt19937* random)
 {
-   random.seed(seed);
+   _random = random;
 }
 
 Mob MobGenerator::GenerateMob(uint32_t level, MobClassLeveling leveling, bool placeItems, bool placeInventory, uint8_t elite)
 {
-   ItemGenerator itemGen(_seed);
+   ItemGenerator itemGen(_random);
 
    Mob mob;
    mob._level = level;

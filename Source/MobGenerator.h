@@ -6,10 +6,11 @@
 
 class MobGenerator
 {
-   uint32_t _seed;
-   std::mt19937 random;
+   std::mt19937* _random;
 public:
-   MobGenerator(uint32_t seed);
+   MobGenerator(std::mt19937* random);
+
+   static std::map<std::string, eTile> NAME_2_TILE;
 
    Mob GenerateMob(uint32_t level, MobClassLeveling leveling, bool placeItems = false, bool placeInventory = false, uint8_t elite = 1);
 };

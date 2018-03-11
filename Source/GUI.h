@@ -36,5 +36,5 @@ class Player;
 class PlayerInfoWindow
 {
 public:
-   void Draw(const Item& mob);
+   void Draw(Player* mob);
 };

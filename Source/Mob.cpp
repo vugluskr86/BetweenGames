@@ -33,6 +33,8 @@ void Mob::CalcParams(uint32_t level)
    _LUC = _class._LUC * level * _elite;
    _DEX = _class._DEX * level * _elite;
 
+   _hp = _hpMax;
+
    _hpRegen = _CON * 1.2;
 
    _atackPWR = _STR * 4;
@@ -86,7 +88,7 @@ void Mob::AddSlotItem(eSlotType slot, Item item)
 {
    auto it = _slots.find(slot);
    
-   assert(it != _slots.end());
+   assert(it == _slots.end());
    
    _slots[slot] = item;
 }

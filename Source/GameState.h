@@ -30,11 +30,14 @@ public:
    void SpawnWorld();
    void SpawnDungeon();
    void SpawnPlayer();
+   void SpawnMonsters();
 
    bool PlayerAction(int x, int y);
    void Draw(sf::RenderWindow& window);
 
    void Update();
+
+   Player* GetPlayer() { return _player;  }
 
    /*
    void ProcessEvent(const sf::Event& event);

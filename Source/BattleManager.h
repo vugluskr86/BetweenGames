@@ -5,11 +5,9 @@
 
 class BattleManager
 {
-   uint32_t _seed;
-   std::mt19937 random;
-
+   std::mt19937* _random;
 public:
-   BattleManager(uint32_t seed);
+   BattleManager(std::mt19937* random);
 
    void Battle(Mob& attacker, Mob& defender);
 

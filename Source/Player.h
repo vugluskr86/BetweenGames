@@ -6,9 +6,11 @@
 class Player : public TileObject
 {
    Mob _mob;
+   std::string _name;
 public:
-   Player(eTile tile);
+   Player(eTile tile, const std::string& baseName, Mob mob);
 
    Mob& GetMobPtr()
    { return _mob; }
+   std::string GetName() { return _name; }
 };

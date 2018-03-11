@@ -14,12 +14,11 @@ struct ItemProtValue
 
 class ItemGenerator
 {
-   uint32_t _seed;
-   std::mt19937 random;
+   std::mt19937* _random;
    
    static const std::vector<ItemProtValue> Prototypes;
 public:
-   ItemGenerator(uint32_t seed);
+   ItemGenerator(std::mt19937* random);
 
    Item GenerateMobItem(eSlotType slot, uint32_t level);
    Item GenerateTreasueItemByPlayer(uint32_t level);

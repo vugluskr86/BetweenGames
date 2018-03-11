@@ -203,7 +203,7 @@ void TileMap::SetPlayer(Player* player)
    int tu = tile % (_texture.getSize().x / 32);
    int tv = tile / (_texture.getSize().x / 32);
 
-   _spriteSeletor.setTextureRect(sf::IntRect(tu * 32, tv * 32, 32, 32));
+   _spritePlayer.setTextureRect(sf::IntRect(tu * 32, tv * 32, 32, 32));
 }
 
 void TileMap::DrawLayout(sf::RenderTarget& target, sf::RenderStates states, eLayouts type) const
@@ -299,6 +299,7 @@ void TileMap::TileMap::ResetSelection()
    _selection = false;
 }
 
+/*
 Player* TileMap::SpawnPlayer(sf::Vector2i pos, eTile gfx)
 {
    _player = new Player(gfx);
@@ -312,7 +313,8 @@ Player* TileMap::SpawnPlayer(sf::Vector2i pos, eTile gfx)
 
    return _player;
 }
-
+*/
+/*
 Monster* TileMap::SpawnMonster(sf::Vector2i pos, eTile gfx)
 {
    Monster* monster = new Monster(gfx);
@@ -320,6 +322,7 @@ Monster* TileMap::SpawnMonster(sf::Vector2i pos, eTile gfx)
    _monsters.push_back(monster);
    return monster;
 }
+*/
 
 Monster* TileMap::IsMonster(int x, int y) const
 {
@@ -412,6 +415,11 @@ bool TileMap::CanPlaced(int x, int y) const
 void TileMap::AddObject(TileObject* object)
 {
    _objects.push_back(object);
+}
+
+void TileMap::AddMonster(Monster* monster)
+{
+   _monsters.push_back(monster);
 }
 
 TileObject* TileMap::GetObject(int x, int y)

@@ -1,5 +1,9 @@
 #include "GUI.h"
 
+#include "Player.h"
+#include "Mob.h"
+#include "Monster.h"
+
 AppLog* AppLog::_instance = nullptr;
 
 AppLog& AppLog::Instance()
@@ -64,9 +68,29 @@ void AppLog::Draw(const char* title, bool* p_open)
 }
 
 
-void PlayerInfoWindow::Draw(const Item& mob)
+void PlayerInfoWindow::Draw(Player* player)
 {
+   auto mob = player->GetMobPtr();
+
    ImGui::Begin("Player info");
+
+   ImGui::Text("STR"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob._STR);
+
+   ImGui::Text("DEX"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob._DEX);
+
+   ImGui::Text("CON"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob._CON);
+
+   ImGui::Text("LUC"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob._LUC);
+
+   ImGui::Text("HP"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d/%d", mob._hp, mob._hpMax);
+
+   ImGui::Text("HP Regen"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob._hpRegen);
 
    ImGui::End();
 }
