@@ -41,7 +41,7 @@ void Mob::CalcParams(uint32_t level)
 
    _hp = _hpMax;
 
-   _hpRegen = _CON * 1.2;
+   _hpRegen = _CON * 0.6;
 
    _atackPWR = _STR * 4;
    _dodge = _LUC * 0.4;
