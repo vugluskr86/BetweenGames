@@ -75,7 +75,7 @@ public:
 
    void AddItemToInventory(const Item& item);
 
-   //void AddAbility(AbilityProt);
+   uint32_t GetExpPerDie() const;
 
    void Regen();
    double GetResist(eDamageType type) const;

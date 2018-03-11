@@ -21,6 +21,8 @@ class GameState
    TileMap* _map;
    Player* _player;
 
+   uint32_t _monsterCrush;
+
    std::mt19937 _random;
    int _seed;
 public:
@@ -32,6 +34,9 @@ public:
    void SpawnDungeon();
    void SpawnPlayer();
    void SpawnMonsters();
+
+
+   void PlacePortal();
 
    bool PlayerAction(int x, int y);
    void Draw(sf::RenderWindow& window);

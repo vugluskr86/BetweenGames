@@ -122,3 +122,8 @@ double Mob::GetResist(eDamageType type) const
    if(resist > 99) resist = 99;
    return resist;
 }
+
+uint32_t Mob::GetExpPerDie() const
+{
+   return _level * 8;
+}

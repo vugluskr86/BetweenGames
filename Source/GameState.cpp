@@ -16,7 +16,8 @@ GameState::GameState(int seed) :
    _seed(seed),
    _bm(nullptr),
    _player(nullptr),
-   _map(nullptr)
+   _map(nullptr),
+   _monsterCrush(0)
 {
    _random.seed(_seed);
 
@@ -39,14 +40,8 @@ void GameState::SpawnWorld()
    auto mapSize = _map->GetMapSize();
 
    SpawnPlayer();
-
-   auto pPos = _player->GetPos();
-   auto obj = new Portal(this);
-   obj->SetPos(sf::Vector2i(pPos.x + 1, pPos.y + 1));
-   _map->AddObject(obj);
-
-
    SpawnMonsters();
+   PlacePortal();
 }
 
 void GameState::SpawnDungeon()
@@ -59,8 +54,17 @@ void GameState::SpawnDungeon()
    SpawnPlayer();
 }
 
+static std::map<eMobClassType, eTile> PLAYER_CLASS_2_TILE = {
+   { eMobClassType::EMC_ONE_HAND, eTile::TT_CHAR_CHAR2HANDAXE },
+   { eMobClassType::EMC_TWO_HAND, eTile::TT_CHAR_CHARAXESHIELD },
+   { eMobClassType::EMC_RIFLE, eTile::TT_CHAR_CHARRIFLE }
+};
+
 void GameState::SpawnPlayer()
 {
+
+   auto mapSize = _map->GetMapSize();
+
    if(!_player) {
       MobGenerator _mobGen(&_random);
 
@@ -69,11 +73,10 @@ void GameState::SpawnPlayer()
       auto it = MobGenerator::NAME_2_TILE.begin();
       std::advance(it, rand() % MobGenerator::NAME_2_TILE.size());
       auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
-      Mob mob = _mobGen.GenerateMob(10, mobClass, true);
+      Mob mob = _mobGen.GenerateMob(1, mobClass, true);
 
-      _player = new Player(eTile::TT_CHAR_CHAR, "Hero", mob, 4.0);
+      _player = new Player(PLAYER_CLASS_2_TILE[mob._class._class], "Hero", mob, 1.0);
 
-      auto mapSize = _map->GetMapSize();
       _player->SetPos(sf::Vector2i(mapSize.x / 2.0, mapSize.y / 2.0));
 
       int trySpawn = mapSize.x * mapSize.y;
@@ -89,6 +92,21 @@ void GameState::SpawnPlayer()
 
       _map->SetPlayer(_player);
    }
+   else {
+      int trySpawn = mapSize.x * mapSize.y;
+      while(trySpawn > 0) {
+         auto x = std::uniform_int_distribution<int>(0, mapSize.x - 1)(_random);
+         auto y = std::uniform_int_distribution<int>(0, mapSize.y - 1)(_random);
+         if(_map->CanPlaced(x, y)) {
+            _player->SetPos(sf::Vector2i(x, y));
+            break;
+         }
+         --trySpawn;
+      }
+   }
+
+   auto resPos = _player->GetPos();
+   _map->SetSelection(sf::Vector2i(resPos.x, resPos.y));
 }
 
 void GameState::SpawnMonsters()
@@ -114,13 +132,39 @@ void GameState::SpawnMonsters()
          auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
          Mob mob = _mobGen.GenerateMob(playerMob._level, mobClass, true);
 
-         Monster* monster = new Monster(it->second, it->first, mob);
+         Monster* monster = new Monster(it->second, it->first, mob, _map);
          monster->SetPos(sf::Vector2i(x, y));
          _map->AddMonster(monster);
 
          spawned++;
       }
       if(spawned >= spawnNeed) {
+         break;
+      }
+      --trySpawn;
+   }
+}
+
+void GameState::PlacePortal()
+{
+   /*
+   auto pPos = _player->GetPos();
+   auto obj = new Portal(this);
+   obj->SetPos(sf::Vector2i(pPos.x + 1, pPos.y + 1));
+   _map->AddObject(obj);
+   */
+
+   auto mapSize = _map->GetMapSize();
+   int trySpawn = mapSize.x * mapSize.y;
+   while(trySpawn > 0) {
+      auto x = std::uniform_int_distribution<int>(0, mapSize.x - 1)(_random);
+      auto y = std::uniform_int_distribution<int>(0, mapSize.y - 1)(_random);
+
+      if(_map->CanPlaced(x, y)) {
+         auto obj = new Portal(this);
+         obj->SetPos(sf::Vector2i(x, y));
+         _map->AddObject(obj);
+
          break;
       }
       --trySpawn;
@@ -139,113 +183,119 @@ void GameState::Teleport(Player* player)
    gen.InitLayouts(*_map);
    gen.MakeWorld(*_map);
 
-   auto mapSize = _map->GetMapSize();
-
-   auto pPos = player->GetPos();
-   auto obj = new Portal(this);
-   obj->SetPos(sf::Vector2i(pPos.x + 1, pPos.y + 1));
-   _map->AddObject(obj);
-
+   SpawnPlayer();
    SpawnMonsters();
+   PlacePortal();
 }
 
 bool GameState::PlayerAction(int x, int y)
 {
+   _map->SetSelection(sf::Vector2i(x, y));
+
    auto pos = _player->GetPos();
    Mob& playerMob = _player->GetMobPtr();
 
-   playerMob.Regen();
+   if(!playerMob.IsDie()) {
+      playerMob.Regen();
 
-   if(x < 0 || y < 0) {
-      return false;
-   }
-
-   // Check range
-   sf::IntRect moveRect(pos.x - 1, pos.y - 1, 3, 3);
-   if(!moveRect.contains(sf::Vector2i(x, y))) {
-      return false;
-   }
-
-   // self click
-   if(pos.x == x && pos.y == y) {
-      auto obj = _map->IsGameObject(x, y);
-      if(obj) {
-         auto objType = obj->GetType();
-         switch(objType) {
-         case TO_PORTAL: {
-            Portal* door = static_cast<Portal*>(obj);
-            door->Teleport(_player);
-            return true;
-         }
-         }
+      if(x < 0 || y < 0) {
+         return false;
       }
-      return false;
-   }
 
-   bool _isAction = false;
+      // Check range
+      sf::IntRect moveRect(pos.x - 1, pos.y - 1, 3, 3);
+      if(!moveRect.contains(sf::Vector2i(x, y))) {
+         return false;
+      }
 
-   // Check pass
-   if(_map->IsPassable(x, y)) {
-      _player->SetPos(sf::Vector2i(x, y));
-      _isAction = true;
-   } else {
-      auto obj = _map->IsGameObject(x, y);
-      
+      bool isAction = false;
       bool passTo = false;
 
-      if(obj) {
-         auto objType = obj->GetType();
-         switch(objType) {
-         case TO_DOOR: {
-            Door* door = static_cast<Door*>(obj);
-            if(door->IsOpen()) {
-               passTo = true;
+      // self click
+      if(pos.x == x && pos.y == y) {
+         auto obj = _map->IsGameObject(x, y);
+         if(obj) {
+            auto objType = obj->GetType();
+            switch(objType) {
+            case TO_PORTAL: {
+               Portal* door = static_cast<Portal*>(obj);
+               door->Teleport(_player);
+               return true;
             }
-            else {
-               door->Open(*_player);
             }
-
-            _isAction = true; 
-            break;
          }
-         case TO_PORTAL: {
-            passTo = true;
-            _isAction = true;
-            break;
-         }
-         }
-      } else {
-         Monster* monster = _map->IsMonster(x, y);
-         if(monster && _bm) {
-            Mob& monsterMob = monster->GetMobPtr();
-            std::vector<BattleManager::BattleResult> res;
-            _bm->Battle(playerMob, monsterMob, res);
-            _bm->ToLog(res, _player->GetName(), monster->GetName());
-            if(!monsterMob.IsDie()) {
-               monster->OnPlayerAttack(_bm, _player);
-            }
-            else {
-               GAME_LOG("%s die\n", monster->GetName().c_str());
-               // TODO : Remove mob from map
-            }
-            _isAction = true;
-         }
+         passTo = true;
       }
-      
+
+      // Check pass
+      if(_map->IsPassable(x, y)) {
+         passTo = true;
+         isAction = true;
+      }
+      else {
+         auto obj = _map->IsGameObject(x, y);
+
+         if(obj) {
+            auto objType = obj->GetType();
+            switch(objType) {
+            case TO_DOOR: {
+               Door* door = static_cast<Door*>(obj);
+               if(door->IsOpen()) {
+                  passTo = true;
+               }
+               else {
+                  door->Open(*_player);
+               }
+
+               isAction = true;
+               break;
+            }
+            case TO_PORTAL: {
+               passTo = true;
+               isAction = true;
+               break;
+            }
+            }
+         }
+         else {
+            Monster* monster = _map->IsMonster(x, y);
+            if(monster && _bm) {
+               Mob& monsterMob = monster->GetMobPtr();
+               std::vector<BattleManager::BattleResult> res;
+               _bm->Battle(playerMob, monsterMob, res);
+               _bm->ToLog(res, _player->GetName(), monster->GetName());
+               if(!monsterMob.IsDie()) {
+                  monster->OnPlayerAttack(_bm, _player);
+               }
+               else {
+                  GAME_LOG("%s die\n", monster->GetName().c_str());
+                  _map->RemoveMonster(monster);
+                  _monsterCrush++;
+                  auto exp = monsterMob.GetExpPerDie();
+                  _player->AddExp(exp);
+                  //  delete monster; // FIXME : Tooltip crash
+                  GAME_LOG("%s get %d exp\n", _player->GetName().c_str(), exp);
+               }
+               isAction = true;
+            }
+         }
+         // Mobs action
+      }
+
       if(playerMob.IsDie()) {
          GAME_LOG("Player %s die\n", _player->GetName().c_str());
-      } else {
+      }
+      else {
          if(passTo) {
             _player->SetPos(sf::Vector2i(x, y));
          }
 
-         if(_isAction) {
-            _map->MonstersTurn();
+         if(isAction) {
+            _map->MonstersTurn(_bm);
          }
       }
-      // Mobs action
    }
-
+   
    return false;
 }
 

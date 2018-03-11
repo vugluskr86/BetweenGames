@@ -39,6 +39,7 @@ class Item;
 class Player;
 class Monster;
 
+// FIXME : Remove class impl
 class PlayerInfoWindow
 {
 public:
@@ -46,5 +47,7 @@ public:
 };
 
 void ShowMobParams(Mob* mob);
-
 void ShowMonsterTooltip(Monster* monster, const ImVec2 pos);
+bool ShowStartupWindow();
+
+
