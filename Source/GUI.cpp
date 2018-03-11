@@ -3,6 +3,9 @@
 #include "Player.h"
 #include "Mob.h"
 #include "Monster.h"
+#include "BattleManager.h"
+
+#include "i18n.h"
 
 AppLog* AppLog::_instance = nullptr;
 
@@ -62,35 +65,119 @@ void AppLog::Draw(const char* title, bool* p_open)
 
    if(ScrollToBottom)
       ImGui::SetScrollHere(1.0f);
+
    ScrollToBottom = false;
    ImGui::EndChild();
    ImGui::End();
 }
 
 
+
+/*
+void AppLog::AddBattleResult(const std::vector<BattleManager::BattleResult>& res, const std::string& attakerName, const std::string& defenderName)
+{
+   for(auto action : res) {
+      // res
+      
+
+
+   }
+}
+*/
+
+void ShowMonsterTooltip(Monster* monster, const ImVec2 pos)
+{
+   ImGuiIO& io = ImGui::GetIO();
+   const ImVec2 mousepos_orig = io.MousePos;
+
+   ImGuiWindowFlags flags = ImGuiWindowFlags_Tooltip |
+      ImGuiWindowFlags_NoTitleBar |
+      ImGuiWindowFlags_NoMove |
+      ImGuiWindowFlags_NoResize |
+      ImGuiWindowFlags_NoSavedSettings |
+      ImGuiWindowFlags_AlwaysAutoResize;
+
+   io.MousePos = pos;
+
+   ImGui::Begin("Monster info", NULL, flags);
+ 
+   auto mob = monster->GetMobPtr();
+   ShowMobParams(&mob);
+
+   //  ImGui::Text("%s", str);
+
+   /*
+   if(rc)
+   {
+      ImVec2 wpos = ImGui::GetWindowPos();
+      ImVec2 size = ImGui::GetWindowSize();
+
+      // Return window dimensions so higher level can handle click / moving window
+      *rc = { wpos.x, wpos.y, size.x, size.y };
+   }
+   */
+
+   ImGui::End();
+
+   io.MousePos = mousepos_orig;
+}
+
+void ShowMobParams(Mob* mob)
+{
+   ImGui::Text("LVL"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob->_level);
+
+   ImGui::Text("STR"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob->_STR); ImGui::SameLine();
+
+   ImGui::Text("DEX"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob->_DEX);
+
+   ImGui::Text("CON"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob->_CON); ImGui::SameLine();
+
+   ImGui::Text("LUC"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob->_LUC);
+
+   ImGui::Text("HP"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d/%d", mob->_hp, mob->_hpMax);
+
+   ImGui::Separator();
+
+   ImGui::Text(I18n::PROPERTIES[eBalancePropery::IP_ATTACKPWR].c_str()); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", mob->_atackPWR);
+
+   ImGui::Text(I18n::PROPERTIES[eBalancePropery::IP_DODGE].c_str()); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", mob->_dodge);
+
+   ImGui::Text(I18n::PROPERTIES[eBalancePropery::IP_ABSORB].c_str()); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", mob->_absorb);
+
+   ImGui::Text(I18n::PROPERTIES[eBalancePropery::IP_CRIT].c_str()); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%.3f", mob->_crit);
+
+
+
+   ImGui::Separator();
+
+   ImGui::Text("HP Regen"); ImGui::SameLine();
+   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob->_hpRegen);
+
+   ImGui::Separator();
+
+   for(auto slot : mob->_slots) {
+      auto slotTyp = slot.first;
+      auto slotItem = slot.second;
+      ImGui::Text("%s:", I18n::SLOT_TYPES[slotTyp].c_str());
+      ImGui::SameLine();
+      ImGui::TextColored(slotItem.GetColor(), "%s", slotItem.GetName().c_str());
+   }
+}
+
 void PlayerInfoWindow::Draw(Player* player)
 {
    auto mob = player->GetMobPtr();
-
    ImGui::Begin("Player info");
-
-   ImGui::Text("STR"); ImGui::SameLine();
-   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob._STR);
-
-   ImGui::Text("DEX"); ImGui::SameLine();
-   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob._DEX);
-
-   ImGui::Text("CON"); ImGui::SameLine();
-   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob._CON);
-
-   ImGui::Text("LUC"); ImGui::SameLine();
-   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob._LUC);
-
-   ImGui::Text("HP"); ImGui::SameLine();
-   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d/%d", mob._hp, mob._hpMax);
-
-   ImGui::Text("HP Regen"); ImGui::SameLine();
-   ImGui::TextColored(ImVec4(1, 1, 0, 1), "%d", mob._hpRegen);
-
+   ShowMobParams(&mob);
    ImGui::End();
 }

@@ -64,6 +64,8 @@ public:
 
    // inventory
    std::vector<Item> _inventory;
+
+   bool IsDie() const { return _hp <= 0; }
 public:
    Mob();
    void CalcParams(uint32_t level);

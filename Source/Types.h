@@ -17,6 +17,7 @@
 #include <utility>
 #include <algorithm>
 #include <sstream>
+#include <tuple>
 
 #include "GUI.h"
 
@@ -66,7 +67,7 @@ enum class eTile
 #include "eTiles.h"
 
 
-enum class Direction
+enum Direction
 {
    North, South, East, West,
 };

@@ -25,7 +25,7 @@ void Mob::Regen()
 
 void Mob::CalcParams(uint32_t level)
 {
-   _attackPerTurn = 1;
+    _attackPerTurn = 1;
 
    _CON = _class._CON * level * _elite;
    _hpMax = (_class._HP * level) + (_CON * 8);

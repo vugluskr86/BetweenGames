@@ -47,13 +47,14 @@ std::map<eDamageType, std::string> I18n::DAMAGE_TYPES = {
 	{ DT_LIGHTNING,"Lightning damage" },
 	{ DT_ACID,"Acid damage" },
 	{ DT_LIGHT,"Light damage" },
-	{ DT_DARKNESS,"Darkness damage" }
+	{ DT_DARKNESS,"Darkness damage" },
+   { DT_PHYSICAL, "Physical damage" }
 };
 std::map<Direction, std::string> I18n::DIRECTIONS = {
-	/*{ North,"North" },
+	{ North,"North" },
 	{ South,"South" },
 	{ East,"East" },
-	{ West,"West" }*/
+	{ West,"West" }
 };
 std::map<eTileObjects, std::string> I18n::TILE_OBJECT_TYPES = {
 	{ TO_DOOR,"Door" },

@@ -1,23 +1,14 @@
 #include "Item.h"
 
-std::string Item::Print()
+#include "i18n.h"
+
+void Item::BuildName()
 {
    std::ostringstream os;
-
-   os << "Item {" << std::endl;
-   os << "\t" << "eItemType:" << type << std::endl;
-   os << "\t" << "eSlotType:" << slot << std::endl;
-   os << "\t" << "tier:" << tier << std::endl;
-   os << "\t" << "color:" << color << std::endl;
-   os << "\t {" << std::endl;
-   for(auto p : params) {
-      os << "\t\t " << p.first << ":" << p.second << std::endl;
-   }
-   os << "\t }" << std::endl;
-   os << "}" << std::endl;
-
-   return os.str();
+   os << I18n::ITEM_TYPES[type] << "(" << tier << ")";
+   _name = os.str();
 }
+
 
 bool Item::IsWeapon() const
 {
@@ -146,7 +137,7 @@ double Item::GetResist(eDamageType damageType) const
 
 uint32_t Item::GetAttackPerTurn() const
 {
-   return 1 + static_cast<uint32_t>(GetProp(IP_ATTACKPERTURN));
+   return static_cast<uint32_t>(GetProp(IP_ATTACKPERTURN));
 }
 
 void Item::IncParam(eBalancePropery prop, double val)
@@ -164,5 +155,39 @@ void Item::MulParam(eBalancePropery prop, double val)
 
    if(it != params.end()) {
       it->second = it->second * val;
+   }
+}
+
+void Item::BuildColor()
+{
+   switch(color) {
+   case 0: {
+      _colorVec = ImVec4(1, 1, 1, 1);
+      break;
+   }
+   case 1: {
+      _colorVec = ImVec4(0.498, 1, 0, 1);
+      break;
+   }
+   case 2: {
+      _colorVec = ImVec4(0.392, 0.584, 0.929, 1);
+      break;
+   }
+   case 3: {
+      _colorVec = ImVec4(0.58, 0, 0.827, 1);
+      break;
+   }
+   case 4: {
+      _colorVec = ImVec4(1, 0.078, 0.576, 1);
+      break;
+   }
+   case 5: {
+      _colorVec = ImVec4(1, 1, 0, 1);
+      break;
+   }
+   case 6: {
+      _colorVec = ImVec4(1, 0.549, 0, 1);
+      break;
+   }
    }
 }

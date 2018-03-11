@@ -430,6 +430,38 @@ TileObject* TileMap::GetObject(int x, int y)
          return obj;
       }
    }
-
    return nullptr;
 }
+
+bool TileMap::DoFov(int x, int y) const
+{
+   float vx, vy, ox, oy, l;
+   int i;
+   vx = x;
+   vy = y;
+   ox = (float)x + 0.5f;
+   oy = (float)y + 0.5f;
+   l = sqrt((vx * vx) + (vy * vy));
+   vx /= l;
+   vy /= l;
+   for(i = 0; i < (int)l; i++)
+   {
+      if(IsPassable((int)ox, (int)oy)) {
+         return false;
+      }
+      ox += vx;
+      oy += vy;
+   };
+   return true;
+}
+
+/*
+http://roguebasin.roguelikedevelopment.org/index.php?title=Eligloscode
+
+std::vector<sf::Vector2i> TileMap::Fov(int x, int y) const
+{
+   std::vector<sf::Vector2i> visibly;
+
+   return visibly;
+}
+*/

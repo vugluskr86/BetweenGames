@@ -4,6 +4,7 @@
 
 class Player;
 class TileMap;
+class Monster;
 class BattleManager;
 //class DugneonGenerator;
 //class WorldGenerator;
@@ -38,6 +39,8 @@ public:
    void Update();
 
    Player* GetPlayer() { return _player;  }
+
+   Monster* GetMonster(int x, int y);
 
    /*
    void ProcessEvent(const sf::Event& event);

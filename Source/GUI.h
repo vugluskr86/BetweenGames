@@ -11,6 +11,9 @@
 #include "imgui.h"
 #include "imgui-SFML.h"
 
+//class BattleManager;
+//struct BattleManager::BattleResult;
+
 class AppLog
 {
 private:
@@ -25,6 +28,8 @@ public:
    void Clear();
    void AddLog(const char* fmt, ...) IM_FMTARGS(2);
    void Draw(const char* title, bool* p_open = NULL);
+
+   // void AddBattleResult(const std::vector<BattleManager::BattleResult>& res, const std::string& attakerName, const std::string& defenderName);
 };
 
 #define GAME_LOG(...)  (AppLog::Instance().AddLog(__VA_ARGS__))
@@ -32,9 +37,14 @@ public:
 class Mob;
 class Item;
 class Player;
+class Monster;
 
 class PlayerInfoWindow
 {
 public:
-   void Draw(Player* mob);
+   void Draw(Player* player);
 };
+
+void ShowMobParams(Mob* mob);
+
+void ShowMonsterTooltip(Monster* monster, const ImVec2 pos);

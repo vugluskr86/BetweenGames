@@ -75,10 +75,6 @@ public:
    void Clear();
    void SetPlayer(Player* player);
 
-   // Player* SpawnPlayer(sf::Vector2i pos, eTile gfx);
-  // Monster* SpawnMonster(sf::Vector2i pos, eTile gfx);
-
-
    void AddMonster(Monster* monster);
    void AddObject(TileObject* object);
 
@@ -93,6 +89,10 @@ public:
    const sf::Vector2i& GetMapSize() const;
 
    TileObject* GetObject(int x, int y);
+
+   bool DoFov(int x, int y) const;
+
+   // std::vector<sf::Vector2i> Fov(int x, int y, int radius) const;
 private:
    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
    void DrawLayout(sf::RenderTarget& target, sf::RenderStates states, eLayouts type) const;

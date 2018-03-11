@@ -270,6 +270,9 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
       }
    }
 
+   item.BuildName();
+   item.BuildColor();
+
    return item;
 }
 

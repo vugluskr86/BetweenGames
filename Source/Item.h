@@ -8,6 +8,8 @@ public:
 
    using DamageValue = std::pair<eDamageType, double>;
 
+   std::string _name;
+   ImVec4 _colorVec;
    eItemType type;
    eSlotType slot;
    uint32_t tier;
@@ -15,7 +17,16 @@ public:
 
    std::map<eBalancePropery, double> params;
 
-   std::string Print();
+   void BuildName();
+   void BuildColor();
+
+   std::string GetName() const {
+      return _name; 
+   }
+
+   ImVec4 GetColor() const {
+      return _colorVec;
+   }
 
    bool IsWeapon() const;
    bool IsShield() const;

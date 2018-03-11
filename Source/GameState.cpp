@@ -11,6 +11,7 @@
 #include "Monster.h"
 #include "MobGenerator.h"
 
+
 GameState::GameState(int seed) : 
    _seed(seed),
    _bm(nullptr),
@@ -68,7 +69,7 @@ void GameState::SpawnPlayer()
       auto it = MobGenerator::NAME_2_TILE.begin();
       std::advance(it, rand() % MobGenerator::NAME_2_TILE.size());
       auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
-      Mob mob = _mobGen.GenerateMob(1, mobClass, true);
+      Mob mob = _mobGen.GenerateMob(10, mobClass, true);
 
       _player = new Player(eTile::TT_CHAR_CHAR, "vugluskr", mob);
 
@@ -210,10 +211,14 @@ bool GameState::PlayerAction(int x, int y)
          Monster* monster = _map->IsMonster(x, y);
          if(monster && _bm) {
             Mob& monsterMob = monster->GetMobPtr();
+            std::vector<BattleManager::BattleResult> res;
+            _bm->Battle(playerMob, monsterMob, res);
+            _bm->ToLog(res, _player->GetName(), monster->GetName());
+            if(!monsterMob.IsDie()) {
+               monster->OnPlayerAttack(_bm, _player);
 
-            GAME_LOG("Player attack monster: %s \n", monster->GetName().c_str());
-
-            _bm->Battle(playerMob, monsterMob);
+               // TODO : Remove mob from map
+            }
          }
       }
       
@@ -240,4 +245,9 @@ void GameState::Draw(sf::RenderWindow& window)
 void GameState::Update()
 {
    _map->Update();
+}
+
+Monster* GameState::GetMonster(int x, int y)
+{
+   return _map->IsMonster(x, y);
 }
