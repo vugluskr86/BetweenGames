@@ -82,7 +82,7 @@ void GameState::SpawnPlayer()
       auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
       Mob mob = _mobGen.GenerateMob(1, mobClass, true);
 
-      _player = new Player(PLAYER_CLASS_2_TILE[mob._class._class], _name, mob, 10.0);
+      _player = new Player(PLAYER_CLASS_2_TILE[mob._class._class], _name, mob, 4.0);
 
       _player->SetPos(sf::Vector2i(mapSize.x / 2.0, mapSize.y / 2.0));
 
