@@ -1,9 +1,9 @@
 #include "Mob.h"
 
 const std::vector<MobClassLeveling> Mob::ClassLeveling = {
-   { EMC_TWO_HAND, 12, 1, 2, 2, 3 },
-   { EMC_RIFLE, 8, 3, 3, 1, 1 },
-   { EMC_ONE_HAND, 16, 2, 1, 4, 1 }
+   { EMC_TWO_HAND, 12, 1, 2, 10, 3 },
+   { EMC_RIFLE, 8, 3, 3, 9, 1 },
+   { EMC_ONE_HAND, 16, 2, 1, 12, 1 }
 };
 
 Mob::Mob()
