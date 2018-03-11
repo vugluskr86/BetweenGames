@@ -20,7 +20,7 @@ class ItemGenerator
 public:
    ItemGenerator(std::mt19937* random);
 
-   Item GenerateMobItem(eSlotType slot, uint32_t level);
+   Item GenerateMobItem(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes);
    Item GenerateTreasueItemByPlayer(uint32_t level);
-   Item GenerateSlotType(eSlotType slot, uint32_t level);
+   Item GenerateSlotType(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes = {});
 };

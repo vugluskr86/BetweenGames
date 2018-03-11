@@ -71,20 +71,6 @@ void AppLog::Draw(const char* title, bool* p_open)
    ImGui::End();
 }
 
-
-
-/*
-void AppLog::AddBattleResult(const std::vector<BattleManager::BattleResult>& res, const std::string& attakerName, const std::string& defenderName)
-{
-   for(auto action : res) {
-      // res
-      
-
-
-   }
-}
-*/
-
 void ShowMonsterTooltip(Monster* monster, const ImVec2 pos)
 {
    ImGuiIO& io = ImGui::GetIO();

@@ -14,81 +14,121 @@ bool BattleManager::IsChance100(double chance)
 
 void BattleManager::Battle(Mob& attacker, Mob& defender, std::vector<BattleResult>& battleResult, bool noAnswer)
 {
-   //Process attacker weapons
-   for(auto slot : attacker._slots) {
-      Item item = slot.second;
-      
-      for(auto abil : attacker._abilities) {
-         abil.first.CalcParams(abil.second);
-         item = abil.first.ApplyItemParams(item);
-      }
-      
-      if(item.IsWeapon() || item.IsShield()) {
+   if(attacker._slots.size() > 0) {
+      //Process attacker weapons
+      for(auto slot : attacker._slots) {
+         Item item = slot.second;
 
-         auto attackCount = attacker._attackPerTurn + item.GetAttackPerTurn();
-         for(uint32_t attackIndex = 0; attackIndex < attackCount; attackIndex++) {
+         if(item.IsWeapon()) {
 
-            BattleResult result;
+            for(auto abil : attacker._abilities) {
+               abil.first.CalcParams(abil.second);
+               item = abil.first.ApplyItemParams(item);
+            }
 
-            auto power = attacker._atackPWR;
+            auto attackCount = attacker._attackPerTurn + item.GetAttackPerTurn();
+            for(uint32_t attackIndex = 0; attackIndex < attackCount; attackIndex++) {
 
-            if(item.IsWeapon()) {
+               BattleResult result;
+
+               auto power = attacker._atackPWR;
+
                auto attackPh = item.GetDamage(DT_PHYSICAL);
                if(attackPh > 0) power *= attackPh;
-            }
 
-
-            if(IsChance100(attacker._crit)) {
-               power *= 1.5;
-               result._crytical = true;
-            }
-            else {
-               if(IsChance100(defender._dodge)) {
-                  result._dodge = true;
-                  continue;
+               if(IsChance100(attacker._crit)) {
+                  power *= 1.5;
+                  result._crytical = true;
                }
                else {
-                  if(IsChance100(defender._absorb)) {
-                     power *= 0.5;
-                     result._absorbed = true;
+                  if(IsChance100(defender._dodge)) {
+                     result._dodge = true;
+                     continue;
+                  }
+                  else {
+                     if(IsChance100(defender._absorb)) {
+                        power *= 0.5;
+                        result._absorbed = true;
+                     }
                   }
                }
-            }
 
-            std::vector<Item::DamageValue> itemDamages = item.GetDamages();
+               std::vector<Item::DamageValue> itemDamages = item.GetDamages();
 
-            double allDamage = power;
+               // Calc phys resist
+               auto resistPys = defender.GetResist(DT_PHYSICAL);
+               double allDamage = power - (power / 100 * resistPys);
 
-            for(auto damage : itemDamages) {
-               eDamageType dtype = damage.first;
-               if(dtype != DT_PHYSICAL) {
-                  double dvalue = damage.second;
-                  auto resist = defender.GetResist(dtype);
-                  auto resPower = power - (power / 100 * resist);
-                  auto powerMin = resPower * 0.3;
-                  auto powerMax = resPower * 1.2;
-                  resPower = std::uniform_real_distribution<double>(powerMin, powerMax)(*_random);
-                  // _resultDamages.emplace_back(damage.first, resPower);
-                  result._damages.emplace_back(dtype, resPower, damage.second);
-                  allDamage += resPower;
+               result._damages.emplace_back(DT_PHYSICAL, allDamage, power);
+
+               for(auto damage : itemDamages) {
+                  eDamageType dtype = damage.first;
+                  if(dtype != DT_PHYSICAL) {
+                     double dvalue = damage.second;
+                     auto resist = defender.GetResist(dtype);
+                     auto resPower = power - (power / 100 * resist);
+                     auto powerMin = resPower * 0.3;
+                     auto powerMax = resPower * 1.2;
+                     resPower = std::uniform_real_distribution<double>(powerMin, powerMax)(*_random);
+                     // _resultDamages.emplace_back(damage.first, resPower);
+                     result._damages.emplace_back(dtype, resPower, damage.second);
+                     allDamage += resPower;
+                  }
+               }
+
+               result._allDamage = allDamage;
+
+               defender._hp -= allDamage;
+
+               if(defender._hp <= 0) {
+                  result._die = true;
+               }
+
+               battleResult.push_back(result);
+
+               if(result._die) {
+                  return;
                }
             }
-            
-            result._allDamage = allDamage;
+         }
+      }
+   } else {
+      auto power = attacker._atackPWR;
 
-            defender._hp -= allDamage;
+      BattleResult result;
 
-            if(defender._hp <= 0) {
-               result._die = true;
-            }
-            
-            battleResult.push_back(result);
-
-            if(result._die) {
-               return;
+      if(IsChance100(attacker._crit)) {
+         power *= 1.5;
+         result._crytical = true;
+      }
+      else {
+         if(IsChance100(defender._dodge)) {
+            result._dodge = true;
+         }
+         else {
+            if(IsChance100(defender._absorb)) {
+               power *= 0.5;
+               result._absorbed = true;
             }
          }
-      } 
+      }
+
+      if(!result._dodge) {
+         auto resistPys = defender.GetResist(DT_PHYSICAL);
+         double allDamage = power - (power / 100 * resistPys);
+         result._allDamage = allDamage;
+         defender._hp -= allDamage;
+
+         if(defender._hp <= 0) {
+            result._die = true;
+         }
+
+         battleResult.push_back(result);
+
+         if(result._die) {
+            return;
+         }
+      }
    }
 }
 

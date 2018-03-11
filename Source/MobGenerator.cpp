@@ -23,11 +23,36 @@ Mob MobGenerator::GenerateMob(uint32_t level, MobClassLeveling leveling, bool pl
    mob._class = leveling;
    mob._elite = elite;
 
+   std::uniform_real_distribution<> rnd01(0, 1);
+
    if(placeItems) {
       // TODO : Generate items all slot
      
-      mob.AddSlotItem(ST_RIGHT_HAND, itemGen.GenerateMobItem(ST_RIGHT_HAND, level));
-      mob.AddSlotItem(ST_LEFT_HAND, itemGen.GenerateMobItem(ST_LEFT_HAND, level));
+      bool _shieldGen = false;
+      auto chanceShield = rnd01(*_random);
+      if(chanceShield > 0.5) {
+         mob.AddSlotItem(ST_LEFT_HAND, itemGen.GenerateMobItem(ST_LEFT_HAND, level, { eItemType::WT_SHIELD }));
+         _shieldGen = true;
+      }
+
+      if(_shieldGen) {
+         mob.AddSlotItem(ST_RIGHT_HAND, itemGen.GenerateMobItem(ST_RIGHT_HAND, level, { eItemType::WT_WEAPON_1H }));
+      } else {
+         auto chance2h = rnd01(*_random);
+         if(chance2h > 0.5) {
+            mob.AddSlotItem(ST_RIGHT_HAND, itemGen.GenerateMobItem(ST_RIGHT_HAND, level, { eItemType::WT_WEAPON_2H }));
+         } else {
+            auto chance1hIn2 = rnd01(*_random);
+            if(chance1hIn2 > 0.5) {
+               mob.AddSlotItem(ST_RIGHT_HAND, itemGen.GenerateMobItem(ST_RIGHT_HAND, level, { eItemType::WT_WEAPON_1H }));
+               mob.AddSlotItem(ST_LEFT_HAND, itemGen.GenerateMobItem(ST_LEFT_HAND, level, { eItemType::WT_WEAPON_1H }));
+            } else {
+               mob.AddSlotItem(ST_RIGHT_HAND, itemGen.GenerateMobItem(ST_RIGHT_HAND, level, { eItemType::WT_WEAPON_1H }));
+            }
+         }
+      }
+
+      
    }
 
    if(placeInventory) {
