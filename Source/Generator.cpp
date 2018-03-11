@@ -346,7 +346,8 @@ bool WorldGenerator::MakeWorld(TileMap& map)
 	   eTile::TT_TILES_BIOM_DOTA_DIRT_3 };
    std::vector<eTile> treeTileInterval = { eTile::TT_TILES_BIOM_DOTA_TREE_1, eTile::TT_TILES_BIOM_DOTA_TREE_2,
 	   eTile::TT_TILES_BIOM_DOTA_TREE_3 };
-   
+   std::vector<eTile> flowerTileInterval = { eTile::TT_TILES_FLOWER_BLUE, eTile::TT_TILES_FLOWER_PURPLE,
+	   eTile::TT_TILES_FLOWER_RED };
    
    for (int x = 0; x < _size; x++) {
 	   for (int y = 0; y < _size; y++) {
@@ -364,11 +365,14 @@ bool WorldGenerator::MakeWorld(TileMap& map)
 		   }
 		   else if (val >= 0.7) {
 			   staticLayout.SetCell(x, y, eTile::TT_TILES_STONE);
+			   if (val >= 0.85) decorLayout.SetCell(x, y, eTile::TT_TILES_SNOW);
 		   }
 		   else {
+			   eTile flowerTile = *select_randomly(flowerTileInterval.begin(), flowerTileInterval.end(), random);
 			   eTile dirtTile = *select_randomly(dirtTileInterval.begin(), dirtTileInterval.end(), random);
 			   staticLayout.SetCell(x, y, dirtTile);
 			   auto isTree = std::uniform_real_distribution<>(0.0, 1.0)(random);
+			   if (isTree < 0.05) decorLayout.SetCell(x, y, flowerTile);
 			   if (isTree > 0.8) {
 				   eTile treeTile = *select_randomly(treeTileInterval.begin(), treeTileInterval.end(), random);
 				   decorLayout.SetCell(x, y, treeTile);
@@ -382,7 +386,7 @@ bool WorldGenerator::MakeWorld(TileMap& map)
 	   }
    }
 
-   MakeStaticRoom(map, 10, 10, 5, 6);
+   //MakeStaticRoom(map, 10, 10, 5, 6);
    return false;
 }
 bool WorldGenerator::MakeStaticRoom(TileMap& map, int x, int y, int xLength, int yLength)
