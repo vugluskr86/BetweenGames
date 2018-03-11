@@ -143,6 +143,8 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>..\..\..\Libs\SFML-2.4.2\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\Libs\SFML-2.4.2\lib;$(LibraryPath)</LibraryPath>
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\Bin</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

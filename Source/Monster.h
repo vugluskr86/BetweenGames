@@ -19,6 +19,7 @@ class Monster : public TileObject
    Mob _mob;
    std::string _name;
    eAIState _state;
+   bool _attackOnTurn;
 public:
    Mob & GetMobPtr()
    { return _mob; }
