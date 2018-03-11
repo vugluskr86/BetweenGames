@@ -8,3 +8,4 @@ Project/x64/
 node_modules/
 *.iobj
 *.ipdb
+*.metagen
