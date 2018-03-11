@@ -55,21 +55,23 @@ void BattleManager::Battle(Mob& attacker, Mob& defender, std::vector<BattleResul
                }
             }
 
-            //std::vector<Item::DamageValue> _resultDamages;
             std::vector<Item::DamageValue> itemDamages = item.GetDamages();
 
-            double allDamage = 0.0;
+            double allDamage = power;
 
             for(auto damage : itemDamages) {
-               auto resist = defender.GetResist(damage.first);
-               auto resPower = power - (power / 100 * resist);
-               auto powerMin = resPower * 0.3;
-               auto powerMax = resPower * 1.2;
-               resPower = std::uniform_real_distribution<double>(powerMin, powerMax)(*_random);
-              // _resultDamages.emplace_back(damage.first, resPower);
-               result._damages.emplace_back(damage.first, resPower, damage.first);
-
-               allDamage += resPower;
+               eDamageType dtype = damage.first;
+               if(dtype != DT_PHYSICAL) {
+                  double dvalue = damage.second;
+                  auto resist = defender.GetResist(dtype);
+                  auto resPower = power - (power / 100 * resist);
+                  auto powerMin = resPower * 0.3;
+                  auto powerMax = resPower * 1.2;
+                  resPower = std::uniform_real_distribution<double>(powerMin, powerMax)(*_random);
+                  // _resultDamages.emplace_back(damage.first, resPower);
+                  result._damages.emplace_back(dtype, resPower, damage.second);
+                  allDamage += resPower;
+               }
             }
             
             result._allDamage = allDamage;

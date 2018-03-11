@@ -1,11 +1,18 @@
 #include "Item.h"
 
 #include "i18n.h"
+#include <iomanip>
 
 void Item::BuildName()
 {
    std::ostringstream os;
-   os << I18n::ITEM_TYPES[type] << "(" << tier << ")";
+   os << I18n::ITEM_TYPES[type] << "(" << tier << ")" << "\n";
+  // os << "\t";
+
+   for(auto p : params) {
+      os << "\t" << I18n::PROPERTIES[p.first] << ":" << std::setprecision(3) << p.second << "\n";
+   }
+
    _name = os.str();
 }
 

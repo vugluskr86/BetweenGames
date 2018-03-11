@@ -25,6 +25,7 @@ Mob MobGenerator::GenerateMob(uint32_t level, MobClassLeveling leveling, bool pl
 
    if(placeItems) {
       // TODO : Generate items all slot
+     
       mob.AddSlotItem(ST_RIGHT_HAND, itemGen.GenerateMobItem(ST_RIGHT_HAND, level));
       mob.AddSlotItem(ST_LEFT_HAND, itemGen.GenerateMobItem(ST_LEFT_HAND, level));
    }

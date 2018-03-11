@@ -37,7 +37,7 @@ public:
       bool _crytical;
       bool _absorbed;
 
-      // TODO
+      // NOT IMPLEMENTED
       bool _bleed;
       bool _stun;
       bool _blocked;

@@ -192,7 +192,6 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
 
    item.type = GetSample(types, _type);
 
-   // Generate random color TODO: weight
    int color_interval[] = { 0, 1, 2, 3, 4, 5, 6 };
    double color_weights[] = { 7, 6, 5, 4, 3, 2, 1 };
    std::piecewise_constant_distribution<> dist_color(std::begin(color_interval),
@@ -208,7 +207,7 @@ Item ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level)
    }
 
    if(item.IsShield()) {
-      item.params[eBalancePropery::IP_ATTACKPWMULTMAX] = 1.0;
+     // item.params[eBalancePropery::IP_ATTACKPWMULTMAX] = 1.0;
       item.params[eBalancePropery::IP_BLOCKVAL] = std::uniform_real_distribution<>(1, GetPrototypeProperyValue(slotPrototypes, eBalancePropery::IP_BLOCKVAL, item.tier))(*_random);
    }
 
