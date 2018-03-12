@@ -1,6 +1,8 @@
 # BetweenGames
 Creating for 7drl-2018
 
+https://kiborgik.itch.io/between-games
+
 For compilation you need include SFML lib to project
 visual studio 2017
 
