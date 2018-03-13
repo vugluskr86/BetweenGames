@@ -33,9 +33,9 @@ public:
 
    void Teleport(Player* player);
 
-   void SpawnWorld();
+   void SpawnWorld(bool isResetState = false);
    void SpawnDungeon();
-   void SpawnPlayer();
+   void SpawnPlayer(bool isResetState = false);
    void SpawnMonsters();
    void PlacePortal();
 

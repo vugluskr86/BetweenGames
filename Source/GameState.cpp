@@ -37,7 +37,7 @@ void GameState::SetPlayerName(const std::string& name)
    _name = name;
 }
 
-void GameState::SpawnWorld()
+void GameState::SpawnWorld(bool isResetState)
 {
    WorldGenerator gen(&_random);
 
@@ -46,7 +46,7 @@ void GameState::SpawnWorld()
 
    auto mapSize = _map->GetMapSize();
 
-   SpawnPlayer();
+   SpawnPlayer(isResetState);
    SpawnMonsters();
    PlacePortal();
 }
@@ -67,9 +67,8 @@ static std::map<eMobClassType, eTile> PLAYER_CLASS_2_TILE = {
    { eMobClassType::EMC_RIFLE, eTile::TT_CHAR_CHARRIFLE }
 };
 
-void GameState::SpawnPlayer()
+void GameState::SpawnPlayer(bool isResetState)
 {
-
    auto mapSize = _map->GetMapSize();
    MobGenerator _mobGen(&_random);
 
@@ -101,15 +100,16 @@ void GameState::SpawnPlayer()
       _map->SetPlayer(_player);
    }
    else {
-      auto rMobIdx = std::uniform_real_distribution<>(0.0, 1.0)(_random);
-      auto it = MobGenerator::NAME_2_TILE.begin();
-      std::advance(it, rand() % MobGenerator::NAME_2_TILE.size());
-      auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
-      Mob mob = _mobGen.GenerateMob(1, mobClass, true);
+      if(isResetState) {
+         auto rMobIdx = std::uniform_real_distribution<>(0.0, 1.0)(_random);
+         auto it = MobGenerator::NAME_2_TILE.begin();
+         std::advance(it, rand() % MobGenerator::NAME_2_TILE.size());
+         auto mobClass = *select_randomly(Mob::ClassLeveling.begin(), Mob::ClassLeveling.end());
+         Mob mob = _mobGen.GenerateMob(1, mobClass, true);
 
-      _player->SetMob(mob);
-      _player->SetTile(PLAYER_CLASS_2_TILE[mob._class._class]);
-
+         _player->SetMob(mob);
+         _player->SetTile(PLAYER_CLASS_2_TILE[mob._class._class]);
+      }
       int trySpawn = mapSize.x * mapSize.y;
       while(trySpawn > 0) {
          auto x = std::uniform_int_distribution<int>(0, mapSize.x - 1)(_random);
@@ -165,7 +165,14 @@ void GameState::SpawnMonsters()
 }
 
 void GameState::PlacePortal()
-{  
+{
+   /*
+   auto pPos = _player->GetPos();
+   auto obj = new Portal(this, false);
+   obj->SetPos(sf::Vector2i(pPos.x + 1, pPos.y + 1));
+   _map->AddObject(obj);
+   */
+
    auto mapSize = _map->GetMapSize();
    int trySpawn = mapSize.x * mapSize.y;
    while(trySpawn > 0) {
