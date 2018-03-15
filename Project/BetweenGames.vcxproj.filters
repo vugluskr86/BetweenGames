@@ -24,6 +24,12 @@
     <Filter Include="Source\imgui">
       <UniqueIdentifier>{9a20b0ff-5678-4b01-b936-816405b538a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\GUI">
+      <UniqueIdentifier>{237186c2-737f-49ae-86c9-98ffbcc6fe05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\TileMap">
+      <UniqueIdentifier>{79b3af11-9038-4e29-a604-68569f035e4d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BetweenGames.rc">
@@ -33,9 +39,6 @@
   <ItemGroup>
     <ClCompile Include="..\Source\BetweenGames.cpp">
       <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\RenderImgui.cpp">
-      <Filter>Source\System</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\OpenGLWrap.cpp">
       <Filter>Source\System</Filter>
@@ -52,6 +55,12 @@
     <ClCompile Include="..\Source\Window.cpp">
       <Filter>Source\System</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\Atlas.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\RenderImgui.cpp">
+      <Filter>Source\GUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Common.h">
@@ -62,9 +71,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\nocopy.h">
       <Filter>Source\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\RenderImgui.h">
-      <Filter>Source\System</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\OpenGLWrap.h">
       <Filter>Source\System</Filter>
@@ -80,6 +86,12 @@
     </ClInclude>
     <ClInclude Include="..\Source\Window.h">
       <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Atlas.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\RenderImgui.h">
+      <Filter>Source\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
