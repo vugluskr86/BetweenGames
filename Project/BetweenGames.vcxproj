@@ -18,66 +18,11 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Source\Ability.cpp" />
-    <ClCompile Include="..\Source\BattleManager.cpp" />
-    <ClCompile Include="..\Source\Door.cpp" />
-    <ClCompile Include="..\Source\GameState.cpp" />
-    <ClCompile Include="..\Source\Generator.cpp" />
-    <ClCompile Include="..\Source\GUI.cpp" />
-    <ClCompile Include="..\Source\imgui\imgui-SFML.cpp" />
-    <ClCompile Include="..\Source\imgui\imgui.cpp" />
-    <ClCompile Include="..\Source\imgui\imgui_demo.cpp" />
-    <ClCompile Include="..\Source\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\Source\Item.cpp" />
-    <ClCompile Include="..\Source\ItemGenerator.cpp" />
-    <ClCompile Include="..\Source\i18n.cpp" />
-    <ClCompile Include="..\Source\Mob.cpp" />
-    <ClCompile Include="..\Source\MobGenerator.cpp" />
-    <ClCompile Include="..\Source\Monster.cpp" />
-    <ClCompile Include="..\Source\MonsterAI.cpp" />
-    <ClCompile Include="..\Source\Player.cpp" />
-    <ClCompile Include="..\Source\Portal.cpp" />
-    <ClCompile Include="..\Source\Rogue7drl.cpp" />
-    <ClCompile Include="..\Source\Stairs.cpp" />
-    <ClCompile Include="..\Source\TileMap.cpp" />
-    <ClCompile Include="..\Source\Treasure.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Source\Ability.h" />
-    <ClInclude Include="..\Source\BattleManager.h" />
-    <ClInclude Include="..\Source\Door.h" />
-    <ClInclude Include="..\Source\eTiles.h" />
-    <ClInclude Include="..\Source\GameState.h" />
-    <ClInclude Include="..\Source\Generator.h" />
-    <ClInclude Include="..\Source\GUI.h" />
-    <ClInclude Include="..\Source\imgui\imconfig.h" />
-    <ClInclude Include="..\Source\imgui\imgui-SFML.h" />
-    <ClInclude Include="..\Source\imgui\imgui.h" />
-    <ClInclude Include="..\Source\imgui\imgui_internal.h" />
-    <ClInclude Include="..\Source\imgui\stb_rect_pack.h" />
-    <ClInclude Include="..\Source\imgui\stb_textedit.h" />
-    <ClInclude Include="..\Source\imgui\stb_truetype.h" />
-    <ClInclude Include="..\Source\Item.h" />
-    <ClInclude Include="..\Source\ItemGenerator.h" />
-    <ClInclude Include="..\Source\i18n.h" />
-    <ClInclude Include="..\Source\Mob.h" />
-    <ClInclude Include="..\Source\MobGenerator.h" />
-    <ClInclude Include="..\Source\Monster.h" />
-    <ClInclude Include="..\Source\MonsterAI.h" />
-    <ClInclude Include="..\Source\PerlinNoise.h" />
-    <ClInclude Include="..\Source\Player.h" />
-    <ClInclude Include="..\Source\Portal.h" />
-    <ClInclude Include="..\Source\Stairs.h" />
-    <ClInclude Include="..\Source\TileMap.h" />
-    <ClInclude Include="..\Source\Treasure.h" />
-    <ClInclude Include="..\Source\Types.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{C03705B7-9164-4074-B9A0-1F4563DA0C97}</ProjectGuid>
+    <ProjectGuid>{5C4388AC-A7A5-42D4-B34C-42A63D1A7866}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Rogue7drl</RootNamespace>
+    <RootNamespace>BetweenGames</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -98,7 +43,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -127,24 +72,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\..\Libs\SFML-2.4.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\Libs\SFML-2.4.2\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\..\..\Libs\SFML-2.4.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\Libs\SFML-2.4.2\lib;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\Bin</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\..\..\Libs\SFML-2.4.2\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\Libs\SFML-2.4.2\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Source;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\Bin</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -152,31 +90,26 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-window-s-d.lib;sfml-system-s-d.lib;sfml-network-s-d.lib;sfml-graphics-s-d.lib;sfml-audio-s-d.lib;sfml-main.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;ogg.lib;openal32.lib;jpeg.lib;freetype.lib;flac.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\imgui</AdditionalIncludeDirectories>
-      <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
-      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-window-d.lib;sfml-system-d.lib;sfml-network-d.lib;sfml-graphics-d.lib;sfml-audio-d.lib;sfml-main.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;ogg.lib;openal32.lib;jpeg.lib;freetype.lib;flac.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -187,11 +120,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -205,19 +138,26 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\Source;..\Source\imgui</AdditionalIncludeDirectories>
-      <PrecompiledHeaderFile />
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>sfml-window.lib;sfml-system.lib;sfml-network.lib;sfml-graphics.lib;sfml-audio.lib;sfml-main.lib;vorbis.lib;vorbisenc.lib;vorbisfile.lib;ogg.lib;openal32.lib;jpeg.lib;freetype.lib;flac.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ResourceCompile Include="BetweenGames.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="BetweenGames.ico" />
+    <Image Include="small.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\BetweenGames.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

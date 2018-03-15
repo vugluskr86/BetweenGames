@@ -1,0 +1,3 @@
+[submodule "Source/stb"]
+	path = Source/stb
+	url = https://github.com/nothings/stb.git
