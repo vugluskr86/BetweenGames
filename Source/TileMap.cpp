@@ -1,6 +1,7 @@
+#include "Common.h"
 #include "TileMap.h"
-#include <assert.h>
 
+/*
 #include "Player.h"
 #include "Monster.h"
 #include "BattleManager.h"
@@ -299,30 +300,6 @@ void TileMap::TileMap::ResetSelection()
    _selection = false;
 }
 
-/*
-Player* TileMap::SpawnPlayer(sf::Vector2i pos, eTile gfx)
-{
-   _player = new Player(gfx);
-   _player->SetPos(pos);
-   auto tile = _player->GetTile();
-
-   int tu = tile % (_texture.getSize().x / 32);
-   int tv = tile / (_texture.getSize().x / 32);
-
-   _spritePlayer.setTextureRect(sf::IntRect(tu * 32, tv * 32, 32, 32));
-
-   return _player;
-}
-*/
-/*
-Monster* TileMap::SpawnMonster(sf::Vector2i pos, eTile gfx)
-{
-   Monster* monster = new Monster(gfx);
-   monster->SetPos(pos);
-   _monsters.push_back(monster);
-   return monster;
-}
-*/
 
 Monster* TileMap::IsMonster(int x, int y) const
 {
@@ -473,15 +450,5 @@ void TileMap::RemoveMonster(Monster* monster)
    if(it != _monsters.end()) {
       _monsters.erase(it);
    }
-}
-
-/*
-http://roguebasin.roguelikedevelopment.org/index.php?title=Eligloscode
-
-std::vector<sf::Vector2i> TileMap::Fov(int x, int y) const
-{
-   std::vector<sf::Vector2i> visibly;
-
-   return visibly;
 }
 */

@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\Source;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\Source;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;..\..\..\Libs\glm-0.9.9-a2;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\Libs\SDL2-2.0.8\lib\x64;..\..\..\Libs\angle\src\Debug_x64\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\Bin</OutDir>
   </PropertyGroup>
@@ -84,7 +84,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\Source;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\Source;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;..\..\..\Libs\glm-0.9.9-a2;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\Bin</OutDir>
     <LibraryPath>..\..\..\Libs\SDL2-2.0.8\lib\x64;..\..\..\Libs\angle\src\Release_x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -179,11 +179,14 @@
     </ClCompile>
     <ClCompile Include="..\Source\OpenGLWrap.cpp" />
     <ClCompile Include="..\Source\RenderImgui.cpp" />
+    <ClCompile Include="..\Source\TileMap.cpp" />
     <ClCompile Include="..\Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Source\Array2D.h" />
     <ClInclude Include="..\Source\Atlas.h" />
     <ClInclude Include="..\Source\Common.h" />
+    <ClInclude Include="..\Source\eTiles.h" />
     <ClInclude Include="..\Source\imgui\imconfig.h" />
     <ClInclude Include="..\Source\imgui\imgui.h" />
     <ClInclude Include="..\Source\imgui\imgui_internal.h" />
@@ -191,6 +194,7 @@
     <ClInclude Include="..\Source\OpenGLWrap.h" />
     <ClInclude Include="..\Source\RenderImgui.h" />
     <ClInclude Include="..\Source\RenderLayer.h" />
+    <ClInclude Include="..\Source\TileMap.h" />
     <ClInclude Include="..\Source\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

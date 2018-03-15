@@ -66,7 +66,6 @@ namespace BWG {
          io.GetClipboardTextFn = Wrap_SDL_GetClipboardText;
       }
 
-
       RenderImGui::~RenderImGui() {
          // FIXME
          // ImGui::Shutdown();

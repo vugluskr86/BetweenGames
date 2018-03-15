@@ -9,6 +9,7 @@
 #include <windows.h>
 
 // C RunTime Header Files
+#include <assert.h>
 #include <stdlib.h>
 #include <malloc.h>
 #include <memory.h>
@@ -17,5 +18,8 @@
 #include <memory>
 #include <vector>
 #include <fstream>
+#include <array>
+#include <cstdlib>
+#include <algorithm>
 
 #endif

@@ -61,6 +61,9 @@
     <ClCompile Include="..\Source\RenderImgui.cpp">
       <Filter>Source\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\TileMap.cpp">
+      <Filter>Source\TileMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Common.h">
@@ -92,6 +95,15 @@
     </ClInclude>
     <ClInclude Include="..\Source\RenderImgui.h">
       <Filter>Source\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TileMap.h">
+      <Filter>Source\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\eTiles.h">
+      <Filter>Source\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Array2D.h">
+      <Filter>Source\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

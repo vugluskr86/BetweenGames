@@ -1,16 +1,96 @@
-#include "Types.h"
+#pragma once
 
-class Player;
-class Monster;
-class BattleManager;
+#include "eTiles.h"
+#include "nocopy.h"
+#include "Array2D.h"
 
+namespace BWG {
+
+   namespace Game {
+   
+      struct Tile
+      {
+         Tile() : 
+            _ground(eTile::TT_UNUSED), 
+            _decale(eTile::TT_UNUSED),
+            _solid(false),
+            _transparency(true)
+         {}
+
+         eTile _ground;
+         eTile _decale;
+         bool _solid;
+         bool _transparency;
+      };
+
+      template <uint32_t SizeT>
+      class TileMapChunk : Utils::nocopy
+      {
+      public:
+         using TileArray = Utils::Array2D<Tile, SizeT>;
+      private:
+         const unsigned _size = SizeT;
+         const Utils::Array2D<Tile, SizeT> _map;
+      public:
+         const Tile& At(uint32_t x, uint32_t y) {
+            return _map.At(x, y); 
+         }
+         void Fill(const Tile& t) {
+            _map.reset(t);
+         }
+         void Set(uint32_t x, uint32_t y, const Tile& t) {
+            _map.Set(x, y, t);
+         }
+         auto GetTiles() {
+            return _map.getRaw();
+         };
+      };
+
+      template <uint32_t ChunkSize>
+      class TileMap 
+      {
+         using ChunkType = TileMapChunk<ChunkSize>;
+         const unsigned _chunkSize = ChunkSize;
+         std::vector<ChunkType> _chunks;
+      public:
+         unsigned GetChunkSize() const {
+            return _chunkSize;
+         }
+
+         Tile& Get(uint32_t x, uint32_t y) {
+
+         }
+
+         void Set(uint32_t x, uint32_t y, const Tile& t) {
+
+         }
+      };
+
+      class TileMapView
+      {
+      public:
+
+      };
+      
+   }
+
+}
+
+
+// #include "Types.h"
+
+//class Player;
+//class Monster;
+//class BattleManager;
+
+/*
 class TileMapLayout
 {
    sf::Vector2u _tileSize;
    sf::Vector2i _mapSize;
-   std::vector<eTile> _tiles;
    sf::VertexArray _vertices;
 
+   std::vector<eTile> _tiles;
    bool _init;
    bool _dirty;
 
@@ -40,16 +120,6 @@ public:
    { return _vertices; }
    const sf::Vector2i& GetMapSize() const
    { return _mapSize; }
-};
-
-class Selector 
-{
-   sf::Vector2i _pos;
-   TileObject* _obj;
-public:
-   Selector();
-
-   bool IsPassable() const;
 };
 
 class TileMap : public sf::Drawable, public sf::Transformable
@@ -116,3 +186,4 @@ private:
    std::vector<Monster*> _monsters;
    std::vector<TileObject*> _objects;
 };
+*/
