@@ -6,23 +6,14 @@ class Player;
 class TileMap;
 class Monster;
 class BattleManager;
-//class DugneonGenerator;
-//class WorldGenerator;
 
 class GameState
 {
    sf::View _view;
-
-  // DugneonGenerator* _dungeonGen;
-  // WorldGenerator* _worldGen;
-  // ItemGenerator* _itemGen;
-
    BattleManager* _bm;
    TileMap* _map;
    Player* _player;
-
    uint32_t _monsterCrush;
-
    std::mt19937 _random;
    int _seed;
    std::string _name;
