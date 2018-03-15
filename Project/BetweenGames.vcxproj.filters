@@ -15,6 +15,15 @@
     <Filter Include="Source">
       <UniqueIdentifier>{7c1df8b7-9578-4aa3-a983-5a60edf893f6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\System">
+      <UniqueIdentifier>{ac5d79b7-f00c-47e1-ac4e-5c719f698576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Utils">
+      <UniqueIdentifier>{a47c113b-6b7c-476f-a44d-e1a85a54944c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\imgui">
+      <UniqueIdentifier>{9a20b0ff-5678-4b01-b936-816405b538a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="BetweenGames.rc">
@@ -25,5 +34,52 @@
     <ClCompile Include="..\Source\BetweenGames.cpp">
       <Filter>Source</Filter>
     </ClCompile>
+    <ClCompile Include="..\Source\RenderImgui.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\OpenGLWrap.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\imgui\imgui.cpp">
+      <Filter>Source\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\imgui\imgui_demo.cpp">
+      <Filter>Source\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\imgui\imgui_draw.cpp">
+      <Filter>Source\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Window.cpp">
+      <Filter>Source\System</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\Common.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\RenderLayer.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\nocopy.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\RenderImgui.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\OpenGLWrap.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\imgui\imconfig.h">
+      <Filter>Source\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\imgui\imgui.h">
+      <Filter>Source\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\imgui\imgui_internal.h">
+      <Filter>Source\imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Window.h">
+      <Filter>Source\System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
