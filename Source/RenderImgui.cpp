@@ -2,7 +2,6 @@
 #include "RenderImgui.h"
 
 #include <SDL2/SDL.h>
-//#include <SDL2/SDL_image.h>
 #include "OpenGLWrap.h"
 
 #ifndef _WINDOWS
@@ -208,12 +207,10 @@ namespace BWG {
 
          ImGui::End();
          ImGui::PopStyleVar();
-
-
+         
          static bool g_show_test_window = true;
          if(g_show_test_window) { ImGui::ShowDemoWindow(&g_show_test_window); }
-
-
+         
          ImGui::Render();
          ImDrawData* draw_data = ImGui::GetDrawData();
          draw_data->ScaleClipRects(io.DisplayFramebufferScale);

@@ -4,6 +4,10 @@
 #include "nocopy.h"
 #include "Array2D.h"
 
+#include <glm/vec2.hpp>
+
+#include <vector>
+
 namespace BWG {
 
    namespace Game {
@@ -11,7 +15,7 @@ namespace BWG {
       struct Tile
       {
          Tile() : 
-            _ground(eTile::TT_UNUSED), 
+            _ground(eTile::TT_UNUSED),
             _decale(eTile::TT_UNUSED),
             _solid(false),
             _transparency(true)
@@ -64,7 +68,11 @@ namespace BWG {
          void Set(uint32_t x, uint32_t y, const Tile& t) {
 
          }
+
+         //glm::vec2 GetSize() const { return _ }
       };
+
+      using TileMapType = TileMap<32>;
 
       class TileMapView
       {

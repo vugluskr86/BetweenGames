@@ -1,14 +1,24 @@
 #pragma once
 
-#include "Types.h"
+#include "GameCommon.h"
+#include "GameObject.h"
+#include "TileMap.h"
 
-class GameState;
+namespace BWG {
+   namespace Game {
 
-class Portal : public TileObject
-{
-   GameState* _state;
-   bool _isEnd;
-public:
-   Portal(GameState* state, bool isEnd);
-   void Teleport(Player* player);
-};
+      class GameState;
+      class Player;
+
+      class Portal : public AbstractGameObject
+      {
+         bool _isEnd;
+      public:
+         Portal(bool isEnd);
+
+         void Teleport(Player& player, GameState& state);
+
+         bool IsEnd() const { return _isEnd; }
+      };
+   }
+}

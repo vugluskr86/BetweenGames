@@ -1,26 +1,25 @@
 #pragma once
 
-#include "Types.h"
-#include "Item.h"
+#include <memory>
 
-struct ItemProtValue
-{
-   eItemType type;
-   eSlotType slot;
-   eBalancePropery prop;
-   uint32_t tier;
-   double value;
-};
-
-class ItemGenerator
-{
-   std::mt19937* _random;
+namespace BWG {
+   namespace Game {
    
-   static const std::vector<ItemProtValue> Prototypes;
-public:
-   ItemGenerator(std::mt19937* random);
+      class Item;
+      struct ItemGeneratorImpl;
 
-   Item GenerateMobItem(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes);
-   Item GenerateTreasueItemByPlayer(uint32_t level);
-   Item GenerateSlotType(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes = {});
-};
+      class ItemGenerator
+      {
+         std::unique_ptr<ItemGeneratorImpl> self;
+      public:
+         ItemGenerator();
+
+         void Seed(int seed);
+
+         Item* GenerateMobItem(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes);
+         Item* GenerateTreasueItemByPlayer(uint32_t level);
+         Item* GenerateSlotType(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes = {});
+      };
+
+   }
+}

@@ -1,52 +1,23 @@
 #pragma once
 
-#include "Types.h"
+#include "GameCommon.h"
+#include <glm\vec2.hpp>
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Graphics/RenderWindow.hpp>
-#include <SFML/System/Clock.hpp>
-#include <SFML/Window/Event.hpp>
-#include <SFML/Graphics/CircleShape.hpp>
+namespace BWG {
+   namespace Game {
 
-#include "imgui.h"
-#include "imgui-SFML.h"
+      class Mob;
+      class Item;
+      class Player;
+      class Monster;
 
-//class BattleManager;
-//struct BattleManager::BattleResult;
+      static void AddLog(const char* fmt, ...);
 
-class AppLog
-{
-private:
-   ImGuiTextBuffer     Buf;
-   ImGuiTextFilter     Filter;
-   ImVector<int>       LineOffsets;
-   bool                ScrollToBottom;
-   static AppLog* _instance;
-public:
-   static AppLog& Instance();
-public:
-   void Clear();
-   void AddLog(const char* fmt, ...) IM_FMTARGS(2);
-   void Draw(const char* title, bool* p_open = NULL);
+      static void DrawPlayerInfoWindow(Player& player);
+      static void DrawMobParams(Mob& mob);
+      static void DrawMonsterTooltip(Monster& monster, const glm::vec2& pos);
 
-   // void AddBattleResult(const std::vector<BattleManager::BattleResult>& res, const std::string& attakerName, const std::string& defenderName);
-};
-
-#define GAME_LOG(...)  (AppLog::Instance().AddLog(__VA_ARGS__))
-
-class Mob;
-class Item;
-class Player;
-class Monster;
-
-// FIXME : Remove class impl
-class PlayerInfoWindow
-{
-public:
-   void Draw(Player* player);
-};
-
-void ShowMobParams(Mob* mob);
-void ShowMonsterTooltip(Monster* monster, const ImVec2 pos);
-
+      #define GAME_LOG(...)  (AddLog(__VA_ARGS__))
+   }
+}
 

@@ -1,33 +1,32 @@
 #pragma once
 
-#include "Types.h"
-#include "Mob.h"
+#include "GameCommon.h"
+#include "GameObject.h"
+#include "TileMap.h"
 
-class Player : public TileObject
-{
-   Mob _mob;
-   std::string _name;
-   uint32_t _exp;
-public:
-   Player(eTile tile, const std::string& baseName, Mob mob, double appendHp = 1.0);
+#include <memory>
 
-   uint32_t GetExp() const 
-   { return _exp; }
+namespace BWG {
+   namespace Game {
 
-   void AddExp(uint32_t exp);
-   void Reset() {
-      _exp = 0;
+      class Mob;
+
+      class Player : public AbstractGameObject
+      {
+         std::unique_ptr<Mob> _mob;
+         std::string _name;
+         uint32_t _exp;
+      public:
+         Player(const std::string& baseName, Mob* mob, double appendHp = 1.0);
+
+         void AddExp(uint32_t exp);
+         uint32_t GetExp() const { return _exp; }
+         void Reset() { _exp = 0; }
+        // void SetMob(const Mob& mob) { _mob = mob;  }
+         Mob& GetMobPtr() { return *_mob; }
+         std::string GetName() { return _name; }
+      };
+
    }
+}
 
-   void SetMob(const Mob& mob) {
-      _mob = mob;
-   }
-
-   void SetTile(eTile tile) {
-      _tile = tile;
-   }
-
-   Mob& GetMobPtr()
-   { return _mob; }
-   std::string GetName() { return _name; }
-};

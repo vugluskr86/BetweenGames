@@ -1,29 +1,32 @@
+#include "GameCommon.h"
 #include "Player.h"
+#include "Mob.h"
 
-Player::Player(eTile tile, const std::string& baseName, Mob mob, double appendHp) :
-   TileObject()
-{
-   _exp = 0;
+namespace BWG {
+   namespace Game {
 
-   _tile = tile;
-   _type = TO_PLAYER;
+      Player::Player(const std::string& baseName, Mob* mob, double appendHp) :
+         AbstractGameObject(GOT_PLAYER)
+      {
+         _exp = 0;
+         _name = baseName;
 
-   _name = baseName;
-   _mob = mob;
+         _mob = std::make_unique<Mob>(mob);
+         _mob->SetMulHp(appendHp);
+         _mob->CalcParams(_mob->GetLevel());
+      }
 
-   _mob._mulHp = appendHp;
+      void Player::AddExp(uint32_t exp)
+      {
+         _exp += exp;
 
-   _mob.CalcParams(_mob._level);
-}
+         uint32_t curLevel = _exp / 8;
 
-void Player::AddExp(uint32_t exp)
-{
-   _exp += exp;
-
-   uint32_t curLevel = _exp / 8;
-
-   if(curLevel > _mob._level) {
-      _mob._level = curLevel;
-      _mob.CalcParams(_mob._level);
+         if(curLevel > _mob->GetLevel()) {
+            _mob->SetLevel(curLevel);
+            _mob->CalcParams(_mob->GetLevel());
+         }
+      }
    }
 }
+

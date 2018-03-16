@@ -64,6 +64,8 @@ namespace BWG {
       int Atlas::LoadImage(const char* filename) {
          SDL_Surface* surface = IMG_Load(filename);
          if(surface == nullptr) { 
+            //auto err = IMG_GetError();
+            //printf("IMG_Load: %s\n", err);
             //FAIL("Unable to load image"); 
          }
          return AddSurface(surface);

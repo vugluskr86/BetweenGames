@@ -1,31 +1,39 @@
 #pragma once
 
-#include "Types.h"
-#include "Mob.h"
+#include "GameCommon.h"
+#include "GameObject.h"
+#include "TileMap.h"
 
-class BattleManager;
-class TileMap;
+#include <random>
+#include <memory>
 
-class Monster : public TileObject
-{
-   enum eAIState {
-    //  AS_TO_PLAYER = 0,
-    //  AS_FROM_PLAYER,
-      AS_WALK,
-      AS_IDLE
-   };
+namespace BWG {
+   namespace Game {
 
-   TileMap* _map;
-   Mob _mob;
-   std::string _name;
-   eAIState _state;
-   bool _attackOnTurn;
-public:
-   Mob & GetMobPtr()
-   { return _mob; }
-   std::string GetName() { return _name; }
-   bool OnPlayerAttack(BattleManager* manager, Player* player);
-   void Turn(BattleManager* manager);
+      class Mob;
+      class BattleManager;
+      class Player;
 
-   Monster(eTile tile, const std::string& baseName, Mob mob, TileMap* map);
-};
+      class Monster : public AbstractGameObject
+      {
+         enum eAIState {
+            AS_WALK,
+            AS_IDLE
+         };
+
+         std::unique_ptr<Mob> _mob;
+         std::string _name;
+         eAIState _state;
+         bool _attackOnTurn;
+      public:
+         Mob & GetMobPtr() { return *_mob; }
+         std::string GetName() { return _name; }
+         bool OnPlayerAttack(BattleManager& manager, Player& player);
+         void Turn(BattleManager& manager, TileMapType& map);
+
+         Monster(const std::string& baseName, Mob* mob);
+      };
+
+   }
+}
+

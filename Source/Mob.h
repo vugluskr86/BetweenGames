@@ -1,82 +1,129 @@
 #pragma once
 
-#include "Types.h"
-#include "Item.h"
+#include "GameCommon.h"
+
+#include <vector>
+#include <map>
+#include <utility>
+
 #include "Ability.h"
 
-enum eMobClassType
-{
-   EMC_ONE_HAND,
-   EMC_TWO_HAND,
-   EMC_RIFLE
-};
+namespace BWG {
+   namespace Game {
 
-struct MobClassLeveling 
-{
-   eMobClassType _class;
+      class Item;
 
-   uint32_t _HP;
-   uint32_t _STR;
-   uint32_t _DEX;
-   uint32_t _CON;
-   uint32_t _LUC;
-};
+      enum eMobClassType
+      {
+         EMC_ONE_HAND,
+         EMC_TWO_HAND,
+         EMC_RIFLE
+      };
 
-class Mob
-{
-public:
-   static const std::vector<MobClassLeveling> ClassLeveling;
+      struct MobClassLeveling
+      {
+         eMobClassType _class;
 
-   //std::string _name;
-   //uint32_t _exp;
-   
-   uint32_t _level;
+         uint32_t _HP;
+         uint32_t _STR;
+         uint32_t _DEX;
+         uint32_t _CON;
+         uint32_t _LUC;
+      };
 
-   uint8_t _elite;
+      class Mob
+      {
+         uint32_t _level;
+         uint8_t _elite;
+         double _mulHp;
 
-   double _mulHp;
+         // Class + leveling params
+         MobClassLeveling _class;
 
-   // Class + leveling params
-   MobClassLeveling _class;
+         // HP
+         int32_t _hp;
+         uint32_t _hpRegen;
+         int32_t _hpMax;
 
-   // HP
-   int32_t _hp;
-   uint32_t _hpRegen;
-   int32_t _hpMax;
-      
-   // At level
-   uint32_t _STR; // Сила
-   uint32_t _DEX; // Ловкость
-   uint32_t _CON; // Телосложение
-   uint32_t _LUC; // Удача
+         // At level
+         uint32_t _STR;
+         uint32_t _DEX;
+         uint32_t _CON;
+         uint32_t _LUC;
 
-   // Params
-   double _atackPWR;
-   double _dodge;
-   double _absorb;
-   double _crit;
-   double _range;
-   uint32_t _attackPerTurn;
+         // Params
+         double _atackPWR;
+         double _dodge;
+         double _absorb;
+         double _crit;
+         double _range;
+         uint32_t _attackPerTurn;
 
-   // slots
-   std::map<eSlotType, Item> _slots;
-   
-   // Ability
-   std::vector<std::pair<Ability, uint32_t>> _abilities;
+         // slots
+         std::map<eSlotType, Item*> _slots;
 
-   // inventory
-   std::vector<Item> _inventory;
+         // Ability
+         std::vector<std::pair<Ability, uint32_t>> _abilities;
 
-   bool IsDie() const { return _hp <= 0; }
-public:
-   Mob();
-   void CalcParams(uint32_t level);
-   void AddSlotItem(eSlotType slot, Item item);
+         // inventory
+         std::vector<Item*> _inventory;
+      public:
+         static const std::vector<MobClassLeveling> MOB_CLASS_LEVELING;
 
-   void AddItemToInventory(const Item& item);
+         Mob();
 
-   uint32_t GetExpPerDie() const;
+         uint8_t GetElite() const { return _elite; }
 
-   void Regen();
-   double GetResist(eDamageType type) const;
-};
+         uint32_t GetSTR() const { return _STR; }
+         uint32_t GetDEX() const { return _DEX; }
+         uint32_t GetCON() const { return _CON; }
+         uint32_t GetLUC() const { return _LUC; }
+
+         uint32_t GetRegen() const { return _hpRegen; }
+         int32_t GetMaxHP() const { return _hpMax; }
+         uint32_t GetAttackPerTurn() const { return _attackPerTurn; }
+         double GetAttackPower() const { return _atackPWR; }
+
+         double GetDodge() const { return _dodge; }
+         double GetAbsorb() const { return _absorb; }
+         double GetCrit() const { return _crit; }
+         double GetRange() const { return _range; }
+
+         double GetHP() const { return _hp; }
+         double AddWear(double wear) {
+            _hp -= static_cast<int32_t>(std::floor(wear));
+            if(_hp < 0) _hp = 0;
+            return _hp;
+         }
+
+         eMobClassType GetClassType() const;
+
+         void SetMulHp(double mhp) {
+            _mulHp = mhp;
+         }
+
+         void SetLevel(uint32_t level) {
+            _level = level;
+         }
+
+         uint32_t GetLevel() const { return _level; }
+
+         bool IsDie() const { return _hp <= 0; }
+
+         void CalcParams(uint32_t level);
+         void AddSlotItem(eSlotType slot, Item* item);
+         void AddItemToInventory(Item* item);
+
+         uint32_t GetExpPerDie() const;
+
+         const std::map<eSlotType, Item*>& GetSlots() const { return _slots; }
+         const std::vector<std::pair<Ability, uint32_t>>& GetAbilities() const { return _abilities; }
+         const std::vector<Item*>& GetInventory() const { return _inventory; }
+
+         void Regen();
+         double GetResist(eDamageType type) const;
+
+         Mob(uint32_t level, const MobClassLeveling lvlClass, uint8_t elite);
+      };
+   }
+}

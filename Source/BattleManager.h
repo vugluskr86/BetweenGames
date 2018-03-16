@@ -1,59 +1,68 @@
 #pragma once
 
-#include "Types.h"
-#include "Mob.h"
+#include <random>
+#include <vector>
+#include <tuple>
 
-class BattleManager
-{
-   std::mt19937* _random;
-public:
-   BattleManager(std::mt19937* random);
+namespace BWG {
+   namespace Game {
 
-   /*
-      resDT - значение на которое подействовали резисты
-      asbDT - абсолютное значение
+      class Mob;
 
-      %mobname_a% hit(?:crytical strike) %mobname_d% %allDamage% (resDT%type%(asbDT%type%), ...), (?:absorbed)
-      %mobname_d%(?:bleed,stun mobname_a) %s% for %i% turn (%bleed_damage%)
-      %mobname_a%(?:block chance for mobname_d) blocked %block_val%
+      class BattleManager
+      {
+         std::mt19937 _random;
+      public:
+         BattleManager();
 
-      //dodge
-      %mobname_d% dodged %mobname_a% hit
+         /*
+            resDT - значение на которое подействовали резисты
+            asbDT - абсолютное значение
 
-      // die
-   */
+            %mobname_a% hit(?:crytical strike) %mobname_d% %allDamage% (resDT%type%(asbDT%type%), ...), (?:absorbed)
+            %mobname_d%(?:bleed,stun mobname_a) %s% for %i% turn (%bleed_damage%)
+            %mobname_a%(?:block chance for mobname_d) blocked %block_val%
 
-   enum eResultDamageValue {
-      RDV_TYPE = 0,
-      RDV_VALUE,
-      RD_ABS_VALUE
-   };
+            //dodge
+            %mobname_d% dodged %mobname_a% hit
 
-   using ResultDamage = std::tuple<eDamageType, uint32_t, uint32_t>;
+            // die
+         */
 
-   struct BattleResult {
-      bool _die;
-      bool _dodge;
-      bool _crytical;
-      bool _absorbed;
+         enum eResultDamageValue {
+            RDV_TYPE = 0,
+            RDV_VALUE,
+            RD_ABS_VALUE
+         };
 
-      // NOT IMPLEMENTED
-      bool _bleed;
-      bool _stun;
-      bool _blocked;
+         using ResultDamage = std::tuple<eDamageType, uint32_t, uint32_t>;
 
-      uint32_t _bleedDamage;
-      uint32_t _allDamage; // - from hp
-      std::vector<ResultDamage> _damages;
+         struct BattleResult {
+            bool _die;
+            bool _dodge;
+            bool _crytical;
+            bool _absorbed;
 
-      BattleResult() : 
-         _die(false), _dodge(false), _crytical(false),
-         _absorbed(false), _bleed(false), _stun(false), _blocked(false),
-         _bleedDamage(0), _allDamage(0)
-      {}
-   };
+            // NOT IMPLEMENTED
+            bool _bleed;
+            bool _stun;
+            bool _blocked;
 
-   void Battle(Mob& attacker, Mob& defender, std::vector<BattleResult>& result, bool noAnswer = false);
-   void ToLog(const std::vector<BattleManager::BattleResult>& res, const std::string& attakerName, const std::string& defenderName);
-   bool IsChance100(double chance);
-};
+            uint32_t _bleedDamage;
+            uint32_t _allDamage; // - from hp
+            std::vector<ResultDamage> _damages;
+
+            BattleResult() :
+               _die(false), _dodge(false), _crytical(false),
+               _absorbed(false), _bleed(false), _stun(false), _blocked(false),
+               _bleedDamage(0), _allDamage(0)
+            {}
+         };
+
+         void Seed(int seed);
+         void Battle(Mob& attacker, Mob& defender, std::vector<BattleResult>& result, bool noAnswer = false);
+         void ToLog(const std::vector<BattleManager::BattleResult>& res, const std::string& attakerName, const std::string& defenderName);
+         bool IsChance100(double chance);
+      };
+   }
+}

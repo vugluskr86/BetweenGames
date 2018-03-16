@@ -1,5 +1,6 @@
 #pragma once
 
+/*
 #include "Types.h"
 #include "Player.h"
 
@@ -15,3 +16,4 @@ public:
    Treasure(TileMap* map);
    void OpenTreasure(Player& player);
 };
+*/

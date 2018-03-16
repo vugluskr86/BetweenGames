@@ -24,11 +24,17 @@
     <Filter Include="Source\imgui">
       <UniqueIdentifier>{9a20b0ff-5678-4b01-b936-816405b538a1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\GUI">
-      <UniqueIdentifier>{237186c2-737f-49ae-86c9-98ffbcc6fe05}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\TileMap">
       <UniqueIdentifier>{79b3af11-9038-4e29-a604-68569f035e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game">
+      <UniqueIdentifier>{1c8db9c6-32de-43b2-98e4-60f40ebde124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Objects">
+      <UniqueIdentifier>{d432e1a3-d81e-4359-b666-805e751b4fdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\UI">
+      <UniqueIdentifier>{237186c2-737f-49ae-86c9-98ffbcc6fe05}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,10 +65,64 @@
       <Filter>Source\System</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\RenderImgui.cpp">
-      <Filter>Source\GUI</Filter>
+      <Filter>Source\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\Source\TileMap.cpp">
       <Filter>Source\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\RenderTiles.cpp">
+      <Filter>Source\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\MonsterAI.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\MobGenerator.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\ItemGenerator.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\BattleManager.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Ability.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Door.cpp">
+      <Filter>Source\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Mob.cpp">
+      <Filter>Source\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Monster.cpp">
+      <Filter>Source\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Portal.cpp">
+      <Filter>Source\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Stairs.cpp">
+      <Filter>Source\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Treasure.cpp">
+      <Filter>Source\Game\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Item.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Generator.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\GameState.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\GUI.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\i18n.cpp">
+      <Filter>Source\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Player.cpp">
+      <Filter>Source\Game\Objects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -94,7 +154,7 @@
       <Filter>Source\System</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\RenderImgui.h">
-      <Filter>Source\GUI</Filter>
+      <Filter>Source\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\TileMap.h">
       <Filter>Source\TileMap</Filter>
@@ -104,6 +164,72 @@
     </ClInclude>
     <ClInclude Include="..\Source\Array2D.h">
       <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\RenderTiles.h">
+      <Filter>Source\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\MonsterAI.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\ItemGenerator.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\BattleManager.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Ability.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Door.h">
+      <Filter>Source\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Mob.h">
+      <Filter>Source\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\MobGenerator.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Monster.h">
+      <Filter>Source\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Portal.h">
+      <Filter>Source\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Stairs.h">
+      <Filter>Source\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Treasure.h">
+      <Filter>Source\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\GameCommon.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\PerlinNoise.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\RandomUtils.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\GameObject.h">
+      <Filter>Source\Game\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Item.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Generator.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\GameState.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\GUI.h">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\i18n.h">
+      <Filter>Source\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player.h">
+      <Filter>Source\Game\Objects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

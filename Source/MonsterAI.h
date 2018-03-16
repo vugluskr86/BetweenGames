@@ -1,5 +1,5 @@
 #pragma once
-
+/*
 #include "Types.h"
 
 enum eBehavioursType
@@ -12,3 +12,4 @@ class MonsterAI
 public:
    //MonsterAI()
 };
+*/

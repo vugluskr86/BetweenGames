@@ -1,52 +1,51 @@
 #pragma once
-#include "Types.h"
 
-class TileMap;
+#include <memory>
 
-class MapGenerator 
-{
-protected:
-   std::mt19937* _random;
-public:
-   MapGenerator(std::mt19937* random);
+#include "TileMap.h"
 
-   int GetRandomInt(int min, int max);
-   Direction GetRandomDirection();
+namespace BWG {
+   namespace Game {
+      
+      struct WorldGeneratorImpl;
+      struct DugneonGeneratorImpl;
 
-   virtual void InitLayouts(TileMap& map) = 0;
-};
+      class DugneonGenerator
+      {
+         std::unique_ptr<DugneonGeneratorImpl> self;
+      public:
+         DugneonGenerator();
 
-class DugneonGenerator : public MapGenerator
-{
-public:
-   DugneonGenerator(std::mt19937* random);
-   void InitLayouts(TileMap& map) override;
+         void Seed(int seed);
+         void InitLayouts(TileMapType& map);
+         bool MakeDungeon(TileMapType& map);
+         bool MakeStaticRoom(TileMapType& map, int x, int y, int xLength, int yLength, Direction direction);
+      private:
+         bool MakeCorridor(TileMapType& map, int x, int y, int maxLength, Direction direction);
+         bool MakeRoom(TileMapType& map, int x, int y, int xMaxLength, int yMaxLength, Direction direction);
+         bool MakeFeature(TileMapType& map, int x, int y, int xmod, int ymod, Direction direction);
+         bool MakeFeature(TileMapType& map);
+         //  bool MakeStairs(TileMap& map, eTile tile);
 
-   bool MakeDungeon(TileMap& map);
-   bool MakeStaticRoom(TileMap& map, int x, int y, int xLength, int yLength, Direction direction);
-private:
-   bool MakeCorridor(TileMap& map, int x, int y, int maxLength, Direction direction);
-   bool MakeRoom(TileMap& map, int x, int y, int xMaxLength, int yMaxLength, Direction direction);
-   bool MakeFeature(TileMap& map, int x, int y, int xmod, int ymod, Direction direction);
-   bool MakeFeature(TileMap& map);
- //  bool MakeStairs(TileMap& map, eTile tile);
+         //int _xSize, _yYSize;
+         //int _maxFeatures;
+         //int _chanceRoom, _chanceCorridor;
+      };
 
-   int _xSize, _yYSize;
-   int _maxFeatures;
-   int _chanceRoom, _chanceCorridor;
-};
+      class WorldGenerator
+      {
+         //int _size;
+         //double _frequency;
+         //unsigned _octaves;
+         //siv::PerlinNoise _noise;
+         std::unique_ptr<WorldGeneratorImpl> self;         
+      public:
+         WorldGenerator();
 
-class WorldGenerator : public MapGenerator
-{
-   siv::PerlinNoise _noise;
-public:
-   WorldGenerator(std::mt19937* random);
-
-   void InitLayouts(TileMap& map) override;
-   bool MakeWorld(TileMap& map);
-   bool MakeStaticRoom(TileMap& map, int x, int y, int xLength, int yLength);
-
-   int _size;
-   double _frequency;
-   unsigned _octaves;
-};
+         void Seed(int seed);
+         void InitLayouts(TileMapType& map);
+         bool MakeWorld(TileMapType& map);
+         bool MakeStaticRoom(TileMapType& map, int x, int y, int xLength, int yLength);
+      };
+   }
+}

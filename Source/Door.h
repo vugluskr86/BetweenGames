@@ -1,15 +1,22 @@
 #pragma once
 
-#include "Types.h"
+#include "GameCommon.h"
+#include "GameObject.h"
 
-class TileMap;
+namespace BWG {
+   namespace Game {
 
-class Door : public TileObject
-{
-   bool _opened;
-   TileMap* _map;
-public:
-   Door(TileMap* map);
-   void Open(Player& player);
-   bool IsOpen() const { return _opened;  }
-};
+      class Player;
+
+      class Door : public AbstractGameObject
+      {
+         bool _opened;
+      public:
+         Door();
+         void Open(Player& player);
+         bool IsOpen() const { return _opened; }
+      };
+
+   }
+}
+

@@ -1,5 +1,5 @@
 #include "Treasure.h"
-
+/*
 #include "TileMap.h"
 
 Treasure::Treasure(TileMap* map) :
@@ -29,3 +29,4 @@ void Treasure::OpenTreasure(Player& player)
  //  auto layout = _map->GetLayout(TileMap::eLayouts::TL_OBJECTS);
  //  layout.SetCell(_pos.x, _pos.y, eTile::TT_TILES_OBJECTS_TREASURE_OPEN);
 }
+*/
