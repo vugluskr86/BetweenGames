@@ -1,9 +1,9 @@
 #include "Mob.h"
 
 const std::vector<MobClassLeveling> Mob::ClassLeveling = {
-   { EMC_TWO_HAND, 12, 1, 2, 6, 3 },
-   { EMC_RIFLE, 8, 3, 3, 4, 1 },
-   { EMC_ONE_HAND, 16, 2, 1, 7, 1 }
+   { EMC_TWO_HAND, 12, 1, 2, 5, 3 },
+   { EMC_RIFLE, 8, 3, 3, 3, 1 },
+   { EMC_ONE_HAND, 16, 2, 1, 6, 1 }
 };
 
 Mob::Mob()
@@ -41,12 +41,12 @@ void Mob::CalcParams(uint32_t level)
 
    _hp = _hpMax;
 
-   _hpRegen = _CON * 0.6;
+   _hpRegen = _CON * 0.3;
 
    _atackPWR = _STR * 4;
    _dodge = _LUC * 0.4;
-   _absorb = _CON * 0.2;
-   _crit = _LUC * 0.1;
+   _absorb = _CON * 0.4;
+   _crit = _LUC * 0.2;
 
    _range = 0;
 
