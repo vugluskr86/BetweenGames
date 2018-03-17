@@ -103,6 +103,7 @@ namespace BWG {
          va_end(argptr);
       }
       
+      /*
       void DrawPlayerInfoWindow(Player& player)
       {
          auto mob = player.GetMobPtr();
@@ -202,5 +203,6 @@ namespace BWG {
 
          io.MousePos = mousepos_orig;
       }
+      */
    }
 }

@@ -13,9 +13,9 @@ namespace BWG {
 
       static void AddLog(const char* fmt, ...);
 
-      static void DrawPlayerInfoWindow(Player& player);
-      static void DrawMobParams(Mob& mob);
-      static void DrawMonsterTooltip(Monster& monster, const glm::vec2& pos);
+      //static void DrawPlayerInfoWindow(Player& player);
+      //static void DrawMobParams(Mob& mob);
+      //static void DrawMonsterTooltip(Monster& monster, const glm::vec2& pos);
 
       #define GAME_LOG(...)  (AddLog(__VA_ARGS__))
    }

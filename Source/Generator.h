@@ -15,6 +15,7 @@ namespace BWG {
          std::unique_ptr<DugneonGeneratorImpl> self;
       public:
          DugneonGenerator();
+         ~DugneonGenerator();
 
          void Seed(int seed);
          void InitLayouts(TileMapType& map);
@@ -41,6 +42,7 @@ namespace BWG {
          std::unique_ptr<WorldGeneratorImpl> self;         
       public:
          WorldGenerator();
+         ~WorldGenerator();
 
          void Seed(int seed);
          void InitLayouts(TileMapType& map);

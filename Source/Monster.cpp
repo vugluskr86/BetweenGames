@@ -9,14 +9,14 @@
 namespace BWG {
    namespace Game {
    
-      Monster::Monster(const std::string& baseName, Mob* mob) :
-         AbstractGameObject(GOT_MONSTER)
+      Monster::Monster(const std::string& baseName, std::unique_ptr<Mob> mob) :
+         AbstractGameObject(GOT_MONSTER),
+         _mob(std::move(mob))
       {
          _attackOnTurn = false;
          _state = AS_IDLE;
          _name = baseName;
 
-         _mob = std::make_unique<Mob>(mob);
          _mob->CalcParams(_mob->GetLevel());
       }
 

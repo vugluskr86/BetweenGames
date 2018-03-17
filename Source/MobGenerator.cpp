@@ -33,19 +33,21 @@ namespace BWG {
          self(new MobGeneratorImpl())
       {}
 
+      MobGenerator::~MobGenerator() {}
+
       void MobGenerator::Seed(int seed)
       {
          self->_seed = seed;
          self->_random.seed(seed);
       }
 
-      Mob* MobGenerator::GenerateMob(uint32_t level, const MobClassLeveling& leveling, bool placeItems, bool placeInventory, uint8_t elite)
+      std::unique_ptr<Mob> MobGenerator::GenerateMob(uint32_t level, const MobClassLeveling& leveling, bool placeItems, bool placeInventory, uint8_t elite)
       {
          ItemGenerator itemGen;
 
          itemGen.Seed(self->_seed);
 
-         auto mob = new Mob(level, leveling, elite);
+         std::unique_ptr<Mob> mob = std::make_unique<Mob>(level, leveling, elite);
 
          std::uniform_real_distribution<> rnd01(0, 1);
 
@@ -82,7 +84,7 @@ namespace BWG {
          }
 
 
-         return mob;
+         return std::move(mob);
       }
    }
 }

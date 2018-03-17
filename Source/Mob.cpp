@@ -62,6 +62,7 @@ namespace BWG {
 
          _range = 0;
 
+         /*
          for(auto slot : _slots) {
             auto item = slot.second;
             auto itemParams = item->GetParams();
@@ -96,6 +97,7 @@ namespace BWG {
                }
             }
          }
+         */
 
          for(auto abil : _abilities) {
             abil.first.CalcParams(abil.second);
@@ -103,18 +105,18 @@ namespace BWG {
          }
       }
 
-      void Mob::AddSlotItem(eSlotType slot, Item* item)
+      void Mob::AddSlotItem(eSlotType slot, std::unique_ptr<Item> item)
       {
          auto it = _slots.find(slot);
 
          assert(it == _slots.end());
 
-         _slots[slot] = item;
+         _slots[slot] = std::move(item);
       }
 
-      void Mob::AddItemToInventory(Item* item)
+      void Mob::AddItemToInventory(std::unique_ptr<Item> item)
       {
-         _inventory.push_back(item);
+         _inventory.push_back(std::move(item));
       }
 
       eMobClassType Mob::GetClassType() const
@@ -125,6 +127,7 @@ namespace BWG {
       double Mob::GetResist(eDamageType type) const
       {
          auto resist = 0.0;
+         /*
          for(auto slot : _slots) {
             // TODO : Clone method
             Item abilityItem(*slot.second);
@@ -139,7 +142,7 @@ namespace BWG {
 
             resist += abilityItem.GetResist(type);
          }
-
+         */
          if(resist < 0) resist = 0;
          if(resist > 99) resist = 99;
          return resist;

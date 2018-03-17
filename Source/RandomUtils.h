@@ -20,7 +20,7 @@ namespace BWG {
       }
 
       template<typename ST>
-      ST GetSample(const std::unordered_set<ST>& s, int index) {
+      ST GetSample(const std::unordered_set<ST>& s, size_t index) {
          double r = index % s.size();
          auto it = s.begin();
          for(; r != 0; r--) it++;

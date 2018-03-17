@@ -81,8 +81,8 @@ namespace BWG {
             std::advance(it, rand() % MobGenerator::NAME_2_TILE.size());
             auto mobClass = *Utils::select_randomly(Mob::MOB_CLASS_LEVELING.begin(), Mob::MOB_CLASS_LEVELING.end(), self->_random);
 
-            Mob* mob = _mobGen.GenerateMob(1, mobClass, true);
-            self->_player = new Player(_name, mob, 2.5);
+            auto mob = _mobGen.GenerateMob(1, mobClass, true);
+            self->_player = new Player(_name, std::move(mob), 2.5);
             self->_player->SetPos(glm::uvec2(0, 0));
 
             /*

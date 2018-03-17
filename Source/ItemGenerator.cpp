@@ -313,10 +313,11 @@ namespace BWG {
 
 
       ItemGenerator::ItemGenerator() : self(new ItemGeneratorImpl()) {}
+      ItemGenerator::~ItemGenerator() {}
 
       void ItemGenerator::Seed(int seed) { self->_random.seed(seed); }
 
-      Item* ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes)
+      std::unique_ptr<Item> ItemGenerator::GenerateSlotType(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes)
       {
          // Generate tier at level
          const std::vector<uint32_t> tier_level_range = { 0, 5, 10, 15 };
@@ -427,15 +428,15 @@ namespace BWG {
             }
          }
 
-         return new Item(type, slot, tier, color, params);
+         return std::make_unique<Item>(type, slot, tier, color, params);
       }
 
-      Item* ItemGenerator::GenerateMobItem(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes)
+      std::unique_ptr<Item> ItemGenerator::GenerateMobItem(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes)
       {
          return GenerateSlotType(slot, level, avaliableTypes);
       }
 
-      Item* ItemGenerator::GenerateTreasueItemByPlayer(uint32_t level)
+      std::unique_ptr<Item> ItemGenerator::GenerateTreasueItemByPlayer(uint32_t level)
       {
          // Generate random damage type
          int interval[] = { eSlotType::ST_RIGHT_HAND };

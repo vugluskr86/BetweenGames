@@ -5,13 +5,15 @@
 #include <vector>
 #include <map>
 #include <utility>
+#include <memory>
 
 #include "Ability.h"
+#include "Item.h"
 
 namespace BWG {
    namespace Game {
 
-      class Item;
+      // class Item;
 
       enum eMobClassType
       {
@@ -60,13 +62,13 @@ namespace BWG {
          uint32_t _attackPerTurn;
 
          // slots
-         std::map<eSlotType, Item*> _slots;
+         std::map<eSlotType, std::unique_ptr<Item> > _slots;
 
          // Ability
          std::vector<std::pair<Ability, uint32_t>> _abilities;
 
          // inventory
-         std::vector<Item*> _inventory;
+         std::vector<std::unique_ptr<Item> > _inventory;
       public:
          static const std::vector<MobClassLeveling> MOB_CLASS_LEVELING;
 
@@ -111,14 +113,14 @@ namespace BWG {
          bool IsDie() const { return _hp <= 0; }
 
          void CalcParams(uint32_t level);
-         void AddSlotItem(eSlotType slot, Item* item);
-         void AddItemToInventory(Item* item);
+         void AddSlotItem(eSlotType slot, std::unique_ptr<Item> item);
+         void AddItemToInventory(std::unique_ptr<Item> item);
 
          uint32_t GetExpPerDie() const;
 
-         const std::map<eSlotType, Item*>& GetSlots() const { return _slots; }
+         const std::map<eSlotType, std::unique_ptr<Item> >& GetSlots() const { return _slots; }
          const std::vector<std::pair<Ability, uint32_t>>& GetAbilities() const { return _abilities; }
-         const std::vector<Item*>& GetInventory() const { return _inventory; }
+         const std::vector<std::unique_ptr<Item> >& GetInventory() const { return _inventory; }
 
          void Regen();
          double GetResist(eDamageType type) const;

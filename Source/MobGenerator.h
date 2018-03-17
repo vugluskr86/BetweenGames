@@ -19,9 +19,10 @@ namespace BWG {
          static std::map<std::string, eTile> NAME_2_TILE;
          
          MobGenerator();
+         ~MobGenerator();
 
          void Seed(int seed);
-         Mob* GenerateMob(uint32_t level, const MobClassLeveling& leveling, bool placeItems = false, bool placeInventory = false, uint8_t elite = 1);
+         std::unique_ptr<Mob> GenerateMob(uint32_t level, const MobClassLeveling& leveling, bool placeItems = false, bool placeInventory = false, uint8_t elite = 1);
       };
    }
 }

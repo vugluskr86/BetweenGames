@@ -24,7 +24,7 @@ namespace BWG {
 
       void BattleManager::Battle(Mob& attacker, Mob& defender, std::vector<BattleResult>& battleResult, bool noAnswer)
       {
-         auto attackerSlots = attacker.GetSlots();
+//         auto attackerSlots = attacker.GetSlots();
 
          /*
          if(attackerSlots.size() > 0) {

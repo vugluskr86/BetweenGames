@@ -32,6 +32,8 @@ namespace BWG {
          self(new DugneonGeneratorImpl())
       {}
 
+      DugneonGenerator::~DugneonGenerator() {}
+
       void DugneonGenerator::Seed(int seed)
       {
          self->_random.seed(seed);
@@ -301,9 +303,9 @@ namespace BWG {
 
       WorldGenerator::WorldGenerator() : 
          self(new WorldGeneratorImpl())
-      {
+      { }
 
-      }
+      WorldGenerator::~WorldGenerator() {}
 
       void WorldGenerator::Seed(int seed)
       {

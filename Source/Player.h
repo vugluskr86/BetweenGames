@@ -17,7 +17,7 @@ namespace BWG {
          std::string _name;
          uint32_t _exp;
       public:
-         Player(const std::string& baseName, Mob* mob, double appendHp = 1.0);
+         Player(const std::string& baseName, std::unique_ptr<Mob> mob, double appendHp = 1.0);
 
          void AddExp(uint32_t exp);
          uint32_t GetExp() const { return _exp; }

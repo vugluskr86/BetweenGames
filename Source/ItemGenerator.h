@@ -10,15 +10,17 @@ namespace BWG {
 
       class ItemGenerator
       {
+      protected:
          std::unique_ptr<ItemGeneratorImpl> self;
       public:
          ItemGenerator();
+         ~ItemGenerator();
 
          void Seed(int seed);
 
-         Item* GenerateMobItem(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes);
-         Item* GenerateTreasueItemByPlayer(uint32_t level);
-         Item* GenerateSlotType(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes = {});
+         std::unique_ptr<Item> GenerateMobItem(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes);
+         std::unique_ptr<Item> GenerateTreasueItemByPlayer(uint32_t level);
+         std::unique_ptr<Item> GenerateSlotType(eSlotType slot, uint32_t level, std::vector<eItemType> avaliableTypes = {});
       };
 
    }

@@ -31,7 +31,7 @@ namespace BWG {
          bool OnPlayerAttack(BattleManager& manager, Player& player);
          void Turn(BattleManager& manager, TileMapType& map);
 
-         Monster(const std::string& baseName, Mob* mob);
+         Monster(const std::string& baseName, std::unique_ptr<Mob> mob);
       };
 
    }

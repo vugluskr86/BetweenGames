@@ -5,13 +5,13 @@
 namespace BWG {
    namespace Game {
 
-      Player::Player(const std::string& baseName, Mob* mob, double appendHp) :
-         AbstractGameObject(GOT_PLAYER)
+      Player::Player(const std::string& baseName, std::unique_ptr<Mob> mob, double appendHp) :
+         AbstractGameObject(GOT_PLAYER),
+         _mob(std::move(mob))
       {
          _exp = 0;
          _name = baseName;
 
-         _mob = std::make_unique<Mob>(mob);
          _mob->SetMulHp(appendHp);
          _mob->CalcParams(_mob->GetLevel());
       }
