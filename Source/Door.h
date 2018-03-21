@@ -1,20 +1,23 @@
 #pragma once
 
-#include "GameCommon.h"
-#include "GameObject.h"
+#include <memory>
 
 namespace BWG {
    namespace Game {
 
+      class AbstractGameObject;
+      struct DoorImpl;
       class Player;
-
+      
       class Door : public AbstractGameObject
       {
-         bool _opened;
+      protected:
+         std::unique_ptr<DoorImpl> self;
       public:
          Door();
+         ~Door();
          void Open(Player& player);
-         bool IsOpen() const { return _opened; }
+         bool IsOpen() const;
       };
 
    }
