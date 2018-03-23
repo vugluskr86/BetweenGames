@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GameCommon.h"
+
 #include <memory>
 
 namespace BWG {

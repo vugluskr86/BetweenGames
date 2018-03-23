@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GameCommon.h"
-#include "GameObject.h"
 #include "TileMap.h"
 
 #include <random>

@@ -1,10 +1,8 @@
 #pragma once
 
 /*
-#include "Types.h"
-#include "Player.h"
-
-class TileMap;
+#include "GameCommon.h"
+#include "TileMap.h"
 
 class Treasure : public TileObject
 {

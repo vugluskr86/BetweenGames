@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameCommon.h"
+#include <glm/vec2.hpp>
 
 namespace BWG {
    namespace Game {

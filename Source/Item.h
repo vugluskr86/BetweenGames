@@ -1,6 +1,8 @@
 #pragma once
 
-#include "GameObject.h"
+#include "GameCommon.h"
+
+#include <glm/vec4.hpp>
 #include <map>
 #include <vector>
 

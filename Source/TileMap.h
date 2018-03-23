@@ -79,9 +79,8 @@ namespace BWG {
       public:
 
       };
-      
-   }
 
+   }
 }
 
 

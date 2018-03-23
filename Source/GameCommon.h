@@ -1,5 +1,7 @@
 #pragma once
 
+#include "GameObject.h"
+
 namespace BWG {
    namespace Game {
       enum Direction
