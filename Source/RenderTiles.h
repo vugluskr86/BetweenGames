@@ -1,8 +1,8 @@
 #pragma once
 
+#include <memory>
 #include "nocopy.h"
 #include "RenderLayer.h"
-#include "eTiles.h"
 
 struct SDL_Window;
 

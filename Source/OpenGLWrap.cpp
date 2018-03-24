@@ -1,6 +1,8 @@
 #include "Common.h"
 #include "OpenGLWrap.h"
 
+#include <iostream>
+
 namespace BWG {
    namespace OpenGL {
    

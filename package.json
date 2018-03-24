@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "node-png": "^0.4.3"
+  },
+  "dependencies": {
+    "http-server": "^0.11.1"
   }
 }

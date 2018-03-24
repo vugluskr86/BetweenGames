@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 struct SDL_Surface;
 
 namespace BWG {

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "eTiles.h"
 #include "nocopy.h"
 #include "Array2D.h"
 
@@ -15,14 +14,14 @@ namespace BWG {
       struct Tile
       {
          Tile() : 
-            _ground(eTile::TT_UNUSED),
-            _decale(eTile::TT_UNUSED),
+            _ground(0),
+            _decale(0),
             _solid(false),
             _transparency(true)
          {}
 
-         eTile _ground;
-         eTile _decale;
+         unsigned _ground;
+         unsigned _decale;
          bool _solid;
          bool _transparency;
       };
