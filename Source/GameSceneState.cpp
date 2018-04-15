@@ -4,19 +4,29 @@
 #include "RenderImgui.h"
 #include "RenderSprites.h"
 
+#include "GameMapView.h"
+
 namespace BWG {
    namespace Game {
 
       struct GameSceneStateImpl
       {
+         BWG::Render::RenderSprites* tiles;
+         BWG::Render::RenderImGui* gui;
 
+         std::unique_ptr<GameMapView> mapView;
+
+         GameSceneStateImpl() {}
       };
       
       GameSceneState::GameSceneState() : self(new GameSceneStateImpl())
       {}
 
       GameSceneState::~GameSceneState()
-      {}
+      {
+         self->tiles = nullptr;
+         self->gui = nullptr;
+      }
 
       void GameSceneState::OnMount(GameStateManager* manager)
       {
@@ -31,13 +41,16 @@ namespace BWG {
          tile_layer->SetTiles(tiles);
          tile_layer->Enable();
 
+         self->tiles = tile_layer.get();
+
          window->AddLayer(std::move(tile_layer));
- 
-         
+          
          std::unique_ptr<BWG::Render::RenderImGui> ui_layer(new BWG::Render::RenderImGui());
          ui_layer->Enable();
-         window->AddLayer(std::move(ui_layer));
 
+         self->gui = ui_layer.get();
+
+         window->AddLayer(std::move(ui_layer));
       }
 
       void GameSceneState::OnDismount(GameStateManager* manager)

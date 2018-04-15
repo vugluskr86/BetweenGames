@@ -45,7 +45,10 @@
     <Filter Include="Source\Game\Components">
       <UniqueIdentifier>{d432e1a3-d81e-4359-b666-805e751b4fdf}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Game\PlayerActions">
+    <Filter Include="Source\Net">
+      <UniqueIdentifier>{34ae6ace-a736-4c21-947d-906bedfece09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Actions">
       <UniqueIdentifier>{317f6c0d-0011-442d-94e4-32408ff74b72}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -115,14 +118,11 @@
     <ClCompile Include="..\Source\Mob.cpp">
       <Filter>Source\Game\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\PlayerAction.cpp">
-      <Filter>Source\Game\PlayerActions</Filter>
+    <ClCompile Include="..\Source\Action.cpp">
+      <Filter>Source\Game\Actions</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\PlayerActionAttack.cpp">
-      <Filter>Source\Game\PlayerActions</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\PlayerActionMove.cpp">
-      <Filter>Source\Game\PlayerActions</Filter>
+    <ClCompile Include="..\Source\Server.cpp">
+      <Filter>Source\Net</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -210,14 +210,11 @@
     <ClInclude Include="..\Source\Mob.h">
       <Filter>Source\Game\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\PlayerAction.h">
-      <Filter>Source\Game\PlayerActions</Filter>
+    <ClInclude Include="..\Source\Action.h">
+      <Filter>Source\Game\Actions</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\PlayerActionAttack.h">
-      <Filter>Source\Game\PlayerActions</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\PlayerActionMove.h">
-      <Filter>Source\Game\PlayerActions</Filter>
+    <ClInclude Include="..\Source\Server.h">
+      <Filter>Source\Net</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

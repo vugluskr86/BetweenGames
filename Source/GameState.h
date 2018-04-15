@@ -56,7 +56,6 @@ namespace BWG {
          }
 
          BWG::System::Window* GetWindow() const;
-
       private:
          std::unique_ptr<GameStateManagerImpl> self;
       };

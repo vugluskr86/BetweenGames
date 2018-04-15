@@ -22,7 +22,5 @@ namespace BWG {
 
       GameMapView::GameMapView() : self(new GameMapViewImpl) {}
       GameMapView::~GameMapView() {}
-
-      
    }
 }

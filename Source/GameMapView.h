@@ -13,6 +13,9 @@ namespace BWG {
          GameMapView();
          ~GameMapView();
 
+         void SpawnPlayer();
+         void SpawnActor();
+        
          std::unique_ptr<GameMapViewImpl> self;
       };
    }

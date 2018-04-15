@@ -19,7 +19,7 @@ namespace BWG {
          Player();
          ~Player();
 
-         void Action(std::shared_ptr<PlayerAction> action, std::shared_ptr<GameMapView> map);
+         //void Action(Action* action, std::shared_ptr<GameMapView> map);
       };
 
    }
