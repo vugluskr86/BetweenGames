@@ -13,16 +13,14 @@ namespace BWG {
    }
    
    namespace System {
-       
       struct WindowImpl;
- 
-      class Window /*: Utils::nocopy*/ {
+      class Window {
       public:
          Window(int width, int height);
          ~Window();
          void Render();
          void HandleResize();
-         void AddLayer(Render::IRenderLayer* layer);
+         void AddLayer(std::unique_ptr<Render::IRenderLayer> layer);
          void ProcessEvent(SDL_Event* event);
 
          static int FRAME;
@@ -31,6 +29,5 @@ namespace BWG {
       private:
          std::unique_ptr<WindowImpl> self;
       };
-
    }
 }

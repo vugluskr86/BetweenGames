@@ -9,3 +9,4 @@ node_modules/
 *.iobj
 *.ipdb
 *.metagen
+test/x64/

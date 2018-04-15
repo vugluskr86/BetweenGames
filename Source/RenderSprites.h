@@ -11,18 +11,18 @@ namespace BWG {
 
       struct RenderTilesImpl;
 
-      struct Tile {
+      struct Sprite {
          int image_id;
          double x, y;
       };
 
-      class RenderTiles : public IRenderLayer {
+      class RenderSprites : public IRenderLayer {
       public:
-         RenderTiles();
-         ~RenderTiles();
+         RenderSprites();
+         ~RenderSprites();
          virtual void Render(SDL_Window* window, bool reset);
 
-         void SetTiles(const std::vector<Tile>& sprites);
+         void SetTiles(const std::vector<Sprite>& sprites);
 
       protected:
          std::unique_ptr<RenderTilesImpl> self;

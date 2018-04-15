@@ -5,12 +5,26 @@
 
 #include <glm/vec2.hpp>
 
+#include <memory>
 #include <vector>
+
+// https://bitbucket.org/volumesoffun/polyvox/src/c986c9f0b1189737a182fbc8d4f4696436f972c1/include/PolyVox/PagedVolume.inl?at=develop&fileviewer=file-view-default
 
 namespace BWG {
 
    namespace Game {
    
+      inline uint8_t logBase2(uint32_t uInput)
+      {
+         uint32_t uResult = 0;
+         while((uInput >> uResult) != 0)
+         {
+            ++uResult;
+         }
+         return static_cast<uint8_t>(uResult - 1);
+      }
+
+
       struct Tile
       {
          Tile() : 
@@ -26,58 +40,187 @@ namespace BWG {
          bool _transparency;
       };
 
-      template <uint32_t SizeT>
-      class TileMapChunk : Utils::nocopy
-      {
-      public:
-         using TileArray = Utils::Array2D<Tile, SizeT>;
-      private:
-         const unsigned _size = SizeT;
-         const Utils::Array2D<Tile, SizeT> _map;
-      public:
-         const Tile& At(uint32_t x, uint32_t y) {
-            return _map.At(x, y); 
-         }
-         void Fill(const Tile& t) {
-            _map.reset(t);
-         }
-         void Set(uint32_t x, uint32_t y, const Tile& t) {
-            _map.Set(x, y, t);
-         }
-         auto GetTiles() {
-            return _map.getRaw();
-         };
-      };
 
       template <uint32_t ChunkSize>
       class TileMap 
       {
+      public:
+         template <uint32_t SizeT>
+         class TileMapChunk : Utils::nocopy
+         {
+         public:
+            using TileArray = Utils::Array2D<Tile, SizeT>;
+         private:
+            const unsigned _size = SizeT;
+            Utils::Array2D<Tile, SizeT> _map;
+            glm::vec2 _spacePosition;
+            uint32_t _chunkLastAccessed;
+         public:
+
+            TileMapChunk() {
+               _chunkLastAccessed = 0;
+               _spacePosition = glm::vec2(0, 0);
+            }
+
+            auto At(uint32_t x, uint32_t y) const {
+               return _map.At(x, y);
+            }
+            void Fill(const Tile& t) {
+               _map.reset(t);
+            }
+            void Set(uint32_t x, uint32_t y, const Tile& t) {
+               _map.Set(x, y, t);
+            }
+            auto GetTiles() {
+               return _map.getRaw();
+            };
+
+            friend TileMap;
+         };
+
          using ChunkType = TileMapChunk<ChunkSize>;
          const unsigned _chunkSize = ChunkSize;
-         std::vector<ChunkType> _chunks;
-      public:
+
+         TileMap() {
+            _chunkSideLengthPower = logBase2(_chunkSize);
+            _chunkMask = _chunkSideLengthPower - 1;
+         }
+         
          unsigned GetChunkSize() const {
             return _chunkSize;
          }
 
-         Tile& Get(uint32_t x, uint32_t y) {
+         ChunkType* GetChunk(uint32_t uChunkX, uint32_t uChunkY) const {
+            ChunkType* pChunk = nullptr;
 
+            const uint32_t uChunkXLowerBits = static_cast<uint32_t>(uChunkX & 0x1F);
+            const uint32_t uChunkYLowerBits = static_cast<uint32_t>(uChunkY & 0x1F);
+
+            const uint32_t iPosisionHash = (((uChunkXLowerBits)) | ((uChunkYLowerBits) << 5) << 1);
+
+            uint32_t iIndex = iPosisionHash;
+            do
+            {
+               if(_arrayChunks[iIndex])
+               {
+                  glm::vec2& entryPos = _arrayChunks[iIndex]->_spacePosition;
+                  if(entryPos.x == uChunkX && entryPos.y == uChunkY)
+                  {
+                     pChunk = _arrayChunks[iIndex].get();
+                     pChunk->_chunkLastAccessed = ++_timestamper;
+                     break;
+                  }
+               }
+
+               iIndex++;
+               iIndex %= _chunkArraySize;
+            } while(iIndex != iPosisionHash);
+
+
+            if(!pChunk) {
+               pChunk = new ChunkType();
+               pChunk->_spacePosition = glm::vec2(uChunkX, uChunkY);
+               pChunk->_chunkLastAccessed = ++_timestamper;
+
+               uint32_t iIndex = iPosisionHash;
+               bool bInsertedSucessfully = false;
+               do
+               {
+                  if(_arrayChunks[iIndex] == nullptr)
+                  {
+                     _arrayChunks[iIndex] = std::move(std::unique_ptr<ChunkType>(pChunk));
+                     bInsertedSucessfully = true;
+                     break;
+                  }
+
+                  iIndex++;
+                  iIndex %= _chunkArraySize;
+               } while(iIndex != iPosisionHash); 
+
+               uint32_t uChunkCount = 0;
+               uint32_t uOldestChunkIndex = 0;
+               uint32_t uOldestChunkTimestamp = std::numeric_limits<uint32_t>::max();
+               for(uint32_t uIndex = 0; uIndex < _chunkArraySize; uIndex++)
+               {
+                  if(_arrayChunks[uIndex])
+                  {
+                     uChunkCount++;
+                     if(_arrayChunks[uIndex]->_chunkLastAccessed < uOldestChunkTimestamp)
+                     {
+                        uOldestChunkTimestamp = _arrayChunks[uIndex]->_chunkLastAccessed;
+                        uOldestChunkIndex = uIndex;
+                     }
+                  }
+               }
+
+               // Check if we have too many chunks, and delete the oldest if so.
+               if(uChunkCount > _chunkCountLimit)
+               {
+                  _arrayChunks[uOldestChunkIndex] = nullptr;
+               }
+            }
+
+            _lastAccessedChunk = pChunk;
+            _lastAccessedChunkX = uChunkX;
+            _lastAccessedChunkY = uChunkY;
+
+            return pChunk;
+         }
+
+         auto Get(uint32_t x, uint32_t y) const {
+            const int32_t chunkX = x >> _chunkSideLengthPower;
+            const int32_t chunkY = y >> _chunkSideLengthPower;
+
+            const uint16_t xOffset = static_cast<uint16_t>(x & _chunkMask);
+            const uint16_t yOffset = static_cast<uint16_t>(y & _chunkMask);
+
+            auto pChunk = canReuseLastAccessedChunk(chunkX, chunkY) ? _lastAccessedChunk : GetChunk(chunkX, chunkY);
+
+            return pChunk->At(xOffset, yOffset);
          }
 
          void Set(uint32_t x, uint32_t y, const Tile& t) {
+            const int32_t chunkX = x >> _chunkSideLengthPower;
+            const int32_t chunkY = y >> _chunkSideLengthPower;
 
+            const uint16_t xOffset = static_cast<uint16_t>(x & _chunkMask);
+            const uint16_t yOffset = static_cast<uint16_t>(y & _chunkMask);
+
+            auto pChunk = canReuseLastAccessedChunk(chunkX, chunkY) ? _lastAccessedChunk : GetChunk(chunkX, chunkY);
+
+            pChunk->Set(xOffset, yOffset, t);
          }
 
-         //glm::vec2 GetSize() const { return _ }
+         void Clear() {
+            _lastAccessedChunk = nullptr;
+            for(uint32_t uIndex = 0; uIndex < _chunkArraySize; uIndex++) {
+               _arrayChunks[uIndex] = nullptr;
+            }
+         }
+
+         bool canReuseLastAccessedChunk(int32_t iChunkX, int32_t iChunkY) const {
+            return ((iChunkX == _lastAccessedChunkX) &&
+               (iChunkY == _lastAccessedChunkY) &&
+               (_lastAccessedChunk));
+         }
+
+         private:
+            mutable int32_t _lastAccessedChunkX = 0;
+            mutable int32_t _lastAccessedChunkY = 0;
+            mutable ChunkType* _lastAccessedChunk = nullptr;
+
+            static const uint32_t _chunkCountLimit = 4096;
+            static const uint32_t _chunkArraySize = 4096;
+            mutable std::unique_ptr<ChunkType> _arrayChunks[_chunkArraySize];
+
+            mutable uint32_t _timestamper = 0;
+
+            uint8_t _chunkSideLengthPower;
+            int8_t _chunkMask;
       };
 
       using TileMapType = TileMap<32>;
 
-      class TileMapView
-      {
-      public:
-
-      };
 
    }
 }

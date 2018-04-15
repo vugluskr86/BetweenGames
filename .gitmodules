@@ -4,3 +4,6 @@
 [submodule "Source/imgui"]
 	path = Source/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "libtcod"]
+	path = libtcod
+	url = https://github.com/vugluskr86/libtcod.git

@@ -18,11 +18,20 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Source\TileMap.h" />
+    <ClInclude Include="..\test\catch.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Source\TileMap.cpp" />
+    <ClCompile Include="..\test\TileMapTest.cpp" />
+    <ClCompile Include="TestMain.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{5C4388AC-A7A5-42D4-B34C-42A63D1A7866}</ProjectGuid>
+    <ProjectGuid>{8B669BD2-FE5A-4D1A-9F98-C37AE2D0F6B2}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>BetweenGames</RootNamespace>
+    <RootNamespace>Test</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -70,54 +79,47 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\Source;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;..\Libs\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\..\Libs\SDL2-2.0.8\lib\x64;..\..\..\Libs\angle\src\Debug_x64\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\</OutDir>
+    <LibraryPath>..\..\..\Libs\SDL2-2.0.8\lib\x64;..\..\..\Libs\angle\src\Debug_x64\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\Source;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;..\Libs\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\Source;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;..\..\..\Libs\glm-0.9.9-a2;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\</OutDir>
-    <LibraryPath>..\..\..\Libs\SDL2-2.0.8\lib\x64;..\..\..\Libs\angle\src\Release_x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ConformanceMode>true</ConformanceMode>
-    </ClCompile>
-    <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)$(Platform)\$(Configuration)\$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2test.lib;libEGL.lib;libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -128,11 +130,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -140,96 +142,22 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <PrecompiledHeaderFile>Common.h</PrecompiledHeaderFile>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2test.lib;SDL2_image.lib;libEGL.lib;libGLESv2.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ResourceCompile Include="BetweenGames.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="BetweenGames.ico" />
-    <Image Include="small.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Source\Actor.cpp" />
-    <ClCompile Include="..\Source\Atlas.cpp" />
-    <ClCompile Include="..\Source\BetweenGames.cpp" />
-    <ClCompile Include="..\Source\GameMapView.cpp" />
-    <ClCompile Include="..\Source\GameSceneState.cpp" />
-    <ClCompile Include="..\Source\GameState.cpp" />
-    <ClCompile Include="..\Source\imgui\imgui.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Source\imgui\imgui_demo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Source\imgui\imgui_draw.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\Source\InputState.cpp" />
-    <ClCompile Include="..\Source\MainMenuState.cpp" />
-    <ClCompile Include="..\Source\Mob.cpp" />
-    <ClCompile Include="..\Source\OpenGLWrap.cpp" />
-    <ClCompile Include="..\Source\PauseMenuState.cpp" />
-    <ClCompile Include="..\Source\Player.cpp" />
-    <ClCompile Include="..\Source\PlayerAction.cpp" />
-    <ClCompile Include="..\Source\PlayerActionAttack.cpp" />
-    <ClCompile Include="..\Source\PlayerActionMove.cpp" />
-    <ClCompile Include="..\Source\RenderImgui.cpp" />
-    <ClCompile Include="..\Source\RenderSprites.cpp" />
-    <ClCompile Include="..\Source\TestRoomMapGenerator.cpp" />
-    <ClCompile Include="..\Source\TileMap.cpp" />
-    <ClCompile Include="..\Source\Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Source\Actor.h" />
-    <ClInclude Include="..\Source\Array2D.h" />
-    <ClInclude Include="..\Source\Atlas.h" />
-    <ClInclude Include="..\Source\Common.h" />
-    <ClInclude Include="..\Source\Direction.h" />
-    <ClInclude Include="..\Source\GameMapView.h" />
-    <ClInclude Include="..\Source\GameSceneState.h" />
-    <ClInclude Include="..\Source\GameState.h" />
-    <ClInclude Include="..\Source\imgui\imconfig.h" />
-    <ClInclude Include="..\Source\imgui\imgui.h" />
-    <ClInclude Include="..\Source\imgui\imgui_internal.h" />
-    <ClInclude Include="..\Source\InputState.h" />
-    <ClInclude Include="..\Source\MainMenuState.h" />
-    <ClInclude Include="..\Source\MapGenerator.h" />
-    <ClInclude Include="..\Source\Mob.h" />
-    <ClInclude Include="..\Source\nocopy.h" />
-    <ClInclude Include="..\Source\OpenGLWrap.h" />
-    <ClInclude Include="..\Source\PauseMenuState.h" />
-    <ClInclude Include="..\Source\PerlinNoise.h" />
-    <ClInclude Include="..\Source\Player.h" />
-    <ClInclude Include="..\Source\PlayerAction.h" />
-    <ClInclude Include="..\Source\PlayerActionAttack.h" />
-    <ClInclude Include="..\Source\PlayerActionMove.h" />
-    <ClInclude Include="..\Source\RandomUtils.h" />
-    <ClInclude Include="..\Source\RenderImgui.h" />
-    <ClInclude Include="..\Source\RenderLayer.h" />
-    <ClInclude Include="..\Source\RenderSprites.h" />
-    <ClInclude Include="..\Source\targetver.h" />
-    <ClInclude Include="..\Source\TestRoomMapGenerator.h" />
-    <ClInclude Include="..\Source\TileMap.h" />
-    <ClInclude Include="..\Source\Window.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

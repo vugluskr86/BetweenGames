@@ -19,7 +19,7 @@ namespace BWG {
          SDL_Window* window;
          bool context_initialized;
          OpenGL::GlContext context;
-         std::vector<Render::IRenderLayer*> layers;
+         std::vector<std::unique_ptr<Render::IRenderLayer>> layers;
 
          WindowImpl(SDL_Window* window_);
          ~WindowImpl();
@@ -29,7 +29,7 @@ namespace BWG {
    
 
       Window::Window(int width_, int height_)
-         :visible(true), width(width_), height(height_),
+         : visible(true), width(width_), height(height_),
          self(new WindowImpl(SDL_CreateWindow("Skeleton",
             SDL_WINDOWPOS_UNDEFINED,
             SDL_WINDOWPOS_UNDEFINED,
@@ -44,8 +44,8 @@ namespace BWG {
       Window::~Window() {}
 
 
-      void Window::AddLayer(Render::IRenderLayer* layer) {
-         self->layers.push_back(layer);
+      void Window::AddLayer(std::unique_ptr<Render::IRenderLayer> layer) {
+         self->layers.emplace_back(std::move(layer));
       }
 
 
@@ -59,8 +59,10 @@ namespace BWG {
       void Window::Render() {
          if(visible) {
             glClear(GL_COLOR_BUFFER_BIT);
-            for(auto layer : self->layers) {
-               layer->Render(self->window, !self->context_initialized);
+            for(auto &layer : self->layers) {
+               if(layer->IsEnabled()) {
+                  layer->Render(self->window, !self->context_initialized);
+               }
             }
             self->context_initialized = true;
             SDL_GL_SwapWindow(self->window);
@@ -68,18 +70,25 @@ namespace BWG {
          }
       }
 
-
       void Window::ProcessEvent(SDL_Event* event) {
          if(event->type == SDL_WINDOWEVENT) {
             switch(event->window.event) {
-            case SDL_WINDOWEVENT_SHOWN: { visible = true; break; }
-            case SDL_WINDOWEVENT_HIDDEN: { visible = false; break; }
+            case SDL_WINDOWEVENT_SHOWN: { 
+               visible = true;
+               break; 
+            }
+            case SDL_WINDOWEVENT_HIDDEN: {
+               visible = false;
+               break; 
+            }
             case SDL_WINDOWEVENT_SIZE_CHANGED: { HandleResize(); break; }
             }
          }
 
-         for(auto layer : self->layers) {
-            layer->ProcessEvent(event);
+         for(auto &layer : self->layers) {
+            if(layer->IsEnabled()) {
+               layer->ProcessEvent(event);
+            }
          }
       }
 

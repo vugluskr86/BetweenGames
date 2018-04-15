@@ -1,5 +1,5 @@
 #include "Common.h"
-#include "RenderTiles.h"
+#include "RenderSprites.h"
 
 #include <SDL2/SDL.h>
 #include "OpenGLWrap.h"
@@ -20,7 +20,7 @@ namespace BWG {
       struct RenderTilesImpl {
          System::Atlas atlas;
 
-         std::vector<Render::Tile> sprites;
+         std::vector<Render::Sprite> sprites;
          std::vector<Attributes> vertices;
          std::vector<GLushort> indices;
 
@@ -44,8 +44,8 @@ namespace BWG {
          RenderTilesImpl();
       };
 
-      RenderTiles::RenderTiles() : self(new RenderTilesImpl) {}
-      RenderTiles::~RenderTiles() {}
+      RenderSprites::RenderSprites() : self(new RenderTilesImpl) {}
+      RenderSprites::~RenderSprites() {}
 
       // Shader program for drawing sprites
       namespace {
@@ -99,14 +99,14 @@ namespace BWG {
          static const GLushort corner_index[6] = { 0, 1, 2, 2, 1, 3 };
       }
 
-      void RenderTiles::SetTiles(const std::vector<Tile>& sprites) {
+      void RenderSprites::SetTiles(const std::vector<Sprite>& sprites) {
          auto& vertices = self->vertices;
          auto& indices = self->indices;
 
          size_t N = sprites.size();
          vertices.resize(N * 4);
          for(int j = 0; j < N; j++) {
-            const Tile& S = sprites[j];
+            const Sprite& S = sprites[j];
             System::SpriteLocation loc = self->atlas.GetLocation(S.image_id);
             int i = j * 4;
             vertices[i].corner[0] = loc.x0;
@@ -144,7 +144,7 @@ namespace BWG {
          }
       }
 
-      void RenderTiles::Render(SDL_Window* window, bool reset) {
+      void RenderSprites::Render(SDL_Window* window, bool reset) {
          glUseProgram(self->shader.id);
          glEnable(GL_BLEND);
          glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

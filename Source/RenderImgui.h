@@ -17,7 +17,6 @@ namespace BWG {
          ~RenderImGui();
          virtual void Render(SDL_Window* window, bool reset);
          virtual void ProcessEvent(SDL_Event* event);
-
       protected:
          std::unique_ptr<RenderImGuiImpl> self;
       };

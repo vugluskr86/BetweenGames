@@ -30,11 +30,23 @@
     <Filter Include="Source\Game">
       <UniqueIdentifier>{1c8db9c6-32de-43b2-98e4-60f40ebde124}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Game\Objects">
-      <UniqueIdentifier>{d432e1a3-d81e-4359-b666-805e751b4fdf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\UI">
       <UniqueIdentifier>{237186c2-737f-49ae-86c9-98ffbcc6fe05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\States">
+      <UniqueIdentifier>{48af0065-2b24-42ca-8d2f-be86d2f4ff56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Generators">
+      <UniqueIdentifier>{6fe3d56f-7233-4bcb-b9a5-13b3a4c7ed31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Data">
+      <UniqueIdentifier>{2ba73f64-eec3-4d4e-b4bb-7e031a528c5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\Components">
+      <UniqueIdentifier>{d432e1a3-d81e-4359-b666-805e751b4fdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Game\PlayerActions">
+      <UniqueIdentifier>{317f6c0d-0011-442d-94e4-32408ff74b72}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -70,8 +82,47 @@
     <ClCompile Include="..\Source\TileMap.cpp">
       <Filter>Source\TileMap</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\RenderTiles.cpp">
+    <ClCompile Include="..\Source\RenderSprites.cpp">
       <Filter>Source\TileMap</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\GameState.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\PauseMenuState.cpp">
+      <Filter>Source\Game\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\MainMenuState.cpp">
+      <Filter>Source\Game\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\GameSceneState.cpp">
+      <Filter>Source\Game\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\InputState.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\GameMapView.cpp">
+      <Filter>Source\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\TestRoomMapGenerator.cpp">
+      <Filter>Source\Game\Generators</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actor.cpp">
+      <Filter>Source\Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Player.cpp">
+      <Filter>Source\Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Mob.cpp">
+      <Filter>Source\Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\PlayerAction.cpp">
+      <Filter>Source\Game\PlayerActions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\PlayerActionAttack.cpp">
+      <Filter>Source\Game\PlayerActions</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\PlayerActionMove.cpp">
+      <Filter>Source\Game\PlayerActions</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -111,9 +162,6 @@
     <ClInclude Include="..\Source\Array2D.h">
       <Filter>Source\Utils</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\RenderTiles.h">
-      <Filter>Source\TileMap</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\PerlinNoise.h">
       <Filter>Source\Utils</Filter>
     </ClInclude>
@@ -122,6 +170,54 @@
     </ClInclude>
     <ClInclude Include="..\Source\targetver.h">
       <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\RenderSprites.h">
+      <Filter>Source\TileMap</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\GameState.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\PauseMenuState.h">
+      <Filter>Source\Game\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\MainMenuState.h">
+      <Filter>Source\Game\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\GameSceneState.h">
+      <Filter>Source\Game\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\InputState.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\GameMapView.h">
+      <Filter>Source\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\MapGenerator.h">
+      <Filter>Source\Game\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\TestRoomMapGenerator.h">
+      <Filter>Source\Game\Generators</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actor.h">
+      <Filter>Source\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Direction.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player.h">
+      <Filter>Source\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Mob.h">
+      <Filter>Source\Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\PlayerAction.h">
+      <Filter>Source\Game\PlayerActions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\PlayerActionAttack.h">
+      <Filter>Source\Game\PlayerActions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\PlayerActionMove.h">
+      <Filter>Source\Game\PlayerActions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
