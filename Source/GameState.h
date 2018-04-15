@@ -27,8 +27,8 @@ namespace BWG {
          virtual eGameStates GetType() const = 0;
          virtual ~BaseGameState() {};
 
-         virtual void OnMount(std::shared_ptr<GameStateManager> manager) = 0;
-         virtual void OnDismount(std::shared_ptr<GameStateManager> manager) = 0;
+         virtual void OnMount(GameStateManager* manager) = 0;
+         virtual void OnDismount(GameStateManager* manager) = 0;
 
          std::shared_ptr<BaseGameState> getptr() {
             return shared_from_this();
@@ -54,6 +54,8 @@ namespace BWG {
          std::shared_ptr<GameStateManager> getptr() {
             return shared_from_this();
          }
+
+         BWG::System::Window* GetWindow() const;
 
       private:
          std::unique_ptr<GameStateManagerImpl> self;

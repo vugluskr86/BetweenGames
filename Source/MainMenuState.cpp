@@ -6,7 +6,7 @@ namespace BWG {
       MainMenuState::MainMenuState() {}
       MainMenuState::~MainMenuState() {}
 
-      void MainMenuState::OnMount(std::shared_ptr<GameStateManager> manager) {}
-      void MainMenuState::OnDismount(std::shared_ptr<GameStateManager> manager) {}
+      void MainMenuState::OnMount(GameStateManager* manager) {}
+      void MainMenuState::OnDismount(GameStateManager* manager) {}
    }
 }

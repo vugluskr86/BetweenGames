@@ -15,8 +15,8 @@ namespace BWG {
          GameSceneState();
          ~GameSceneState();
 
-         void OnMount(std::shared_ptr<GameStateManager> manager) override;
-         void OnDismount(std::shared_ptr<GameStateManager> manager) override;
+         void OnMount(GameStateManager* manager) override;
+         void OnDismount(GameStateManager* manager) override;
 
          eGameStates GetType() const override { return eGameStates::STATE_GAME_SCENE; }
       };

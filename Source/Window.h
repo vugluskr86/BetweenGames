@@ -14,7 +14,7 @@ namespace BWG {
    
    namespace System {
       struct WindowImpl;
-      class Window {
+      class Window : Utils::nocopy {
       public:
          Window(int width, int height);
          ~Window();

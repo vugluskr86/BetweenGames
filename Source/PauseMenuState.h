@@ -11,8 +11,8 @@ namespace BWG {
          PauseMenuState();
          ~PauseMenuState();
 
-         void OnMount(std::shared_ptr<GameStateManager> manager) override;
-         void OnDismount(std::shared_ptr<GameStateManager> manager) override;
+         void OnMount(GameStateManager* manager) override;
+         void OnDismount(GameStateManager* manager) override;
 
        //  void OnEvents() override;
        //  void Update()  override;

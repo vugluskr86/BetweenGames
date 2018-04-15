@@ -11,8 +11,8 @@ namespace BWG {
          MainMenuState();
          ~MainMenuState();
 
-         void OnMount(std::shared_ptr<GameStateManager> manager) override;
-         void OnDismount(std::shared_ptr<GameStateManager> manager) override;
+         void OnMount(GameStateManager* manager) override;
+         void OnDismount(GameStateManager* manager) override;
 
          eGameStates GetType() const override
          {
