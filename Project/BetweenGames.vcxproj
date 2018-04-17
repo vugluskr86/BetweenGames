@@ -75,7 +75,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>..\Source;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;..\Libs\include;$(IncludePath)</IncludePath>
+    <IncludePath>..\Source;..\polyvox\include;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;..\Libs\include;$(IncludePath)</IncludePath>
     <LibraryPath>..\..\..\Libs\SDL2-2.0.8\lib\x64;..\..\..\Libs\angle\src\Debug_x64\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\</OutDir>
   </PropertyGroup>
@@ -84,7 +84,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>..\Source;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;..\..\..\Libs\glm-0.9.9-a2;$(IncludePath)</IncludePath>
+    <IncludePath>..\Source;..\polyvox\include;..\..\..\Libs\SDL2-2.0.8\include;..\..\..\Libs\angle\include;..\..\..\Libs\glm-0.9.9-a2;$(IncludePath)</IncludePath>
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\</OutDir>
     <LibraryPath>..\..\..\Libs\SDL2-2.0.8\lib\x64;..\..\..\Libs\angle\src\Release_x64\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -170,6 +170,8 @@
     <ClCompile Include="..\Source\Actor.cpp" />
     <ClCompile Include="..\Source\Atlas.cpp" />
     <ClCompile Include="..\Source\BetweenGames.cpp" />
+    <ClCompile Include="..\Source\Client.cpp" />
+    <ClCompile Include="..\Source\GameMap.cpp" />
     <ClCompile Include="..\Source\GameMapView.cpp" />
     <ClCompile Include="..\Source\GameSceneState.cpp" />
     <ClCompile Include="..\Source\GameState.cpp" />
@@ -189,19 +191,22 @@
     <ClCompile Include="..\Source\PauseMenuState.cpp" />
     <ClCompile Include="..\Source\Player.cpp" />
     <ClCompile Include="..\Source\Action.cpp" />
+    <ClCompile Include="..\Source\QuadTree.cpp" />
+    <ClCompile Include="..\Source\Rect.cpp" />
     <ClCompile Include="..\Source\RenderImgui.cpp" />
     <ClCompile Include="..\Source\RenderSprites.cpp" />
     <ClCompile Include="..\Source\Server.cpp" />
-    <ClCompile Include="..\Source\TestRoomMapGenerator.cpp" />
-    <ClCompile Include="..\Source\TileMap.cpp" />
+    <ClCompile Include="..\Source\Tile.cpp" />
     <ClCompile Include="..\Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Source\Actor.h" />
     <ClInclude Include="..\Source\Array2D.h" />
     <ClInclude Include="..\Source\Atlas.h" />
+    <ClInclude Include="..\Source\Client.h" />
     <ClInclude Include="..\Source\Common.h" />
     <ClInclude Include="..\Source\Direction.h" />
+    <ClInclude Include="..\Source\GameMap.h" />
     <ClInclude Include="..\Source\GameMapView.h" />
     <ClInclude Include="..\Source\GameSceneState.h" />
     <ClInclude Include="..\Source\GameState.h" />
@@ -210,22 +215,23 @@
     <ClInclude Include="..\Source\imgui\imgui_internal.h" />
     <ClInclude Include="..\Source\InputState.h" />
     <ClInclude Include="..\Source\MainMenuState.h" />
-    <ClInclude Include="..\Source\MapGenerator.h" />
     <ClInclude Include="..\Source\Mob.h" />
     <ClInclude Include="..\Source\nocopy.h" />
     <ClInclude Include="..\Source\OpenGLWrap.h" />
+    <ClInclude Include="..\Source\Orders.h" />
     <ClInclude Include="..\Source\PauseMenuState.h" />
     <ClInclude Include="..\Source\PerlinNoise.h" />
     <ClInclude Include="..\Source\Player.h" />
     <ClInclude Include="..\Source\Action.h" />
+    <ClInclude Include="..\Source\QuadTree.h" />
     <ClInclude Include="..\Source\RandomUtils.h" />
+    <ClInclude Include="..\Source\Rect.h" />
     <ClInclude Include="..\Source\RenderImgui.h" />
     <ClInclude Include="..\Source\RenderLayer.h" />
     <ClInclude Include="..\Source\RenderSprites.h" />
     <ClInclude Include="..\Source\Server.h" />
     <ClInclude Include="..\Source\targetver.h" />
-    <ClInclude Include="..\Source\TestRoomMapGenerator.h" />
-    <ClInclude Include="..\Source\TileMap.h" />
+    <ClInclude Include="..\Source\Tile.h" />
     <ClInclude Include="..\Source\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

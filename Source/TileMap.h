@@ -8,12 +8,23 @@
 #include <memory>
 #include <vector>
 
-// https://bitbucket.org/volumesoffun/polyvox/src/c986c9f0b1189737a182fbc8d4f4696436f972c1/include/PolyVox/PagedVolume.inl?at=develop&fileviewer=file-view-default
+#include <PolyVox/MaterialDensityPair.h>
+#include <PolyVox/CubicSurfaceExtractor.h>
+#include <PolyVox/MarchingCubesSurfaceExtractor.h>
+#include <PolyVox/Mesh.h>
+#include <PolyVox/PagedVolume.h>
+
+using namespace PolyVox;
+
 
 namespace BWG {
 
    namespace Game {
-   
+
+      
+
+
+   /*
       inline uint8_t logBase2(uint32_t uInput)
       {
          uint32_t uResult = 0;
@@ -24,22 +35,26 @@ namespace BWG {
          return static_cast<uint8_t>(uResult - 1);
       }
 
+      struct Tile;
 
+      
       struct Tile
       {
          Tile() : 
             _ground(0),
             _decale(0),
             _solid(false),
-            _transparency(true)
+            _transparency(true),
+            _height(0)
          {}
 
          unsigned _ground;
          unsigned _decale;
          bool _solid;
          bool _transparency;
+         unsigned _height;
       };
-
+      
 
       template <uint32_t ChunkSize>
       class TileMap 
@@ -220,7 +235,7 @@ namespace BWG {
       };
 
       using TileMapType = TileMap<32>;
-
+*/
 
    }
 }

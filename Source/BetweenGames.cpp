@@ -62,7 +62,6 @@ int start() {
    SDL_GL_SetSwapInterval(1);
    ImGui::CreateContext();
 
-
    gameApp = std::unique_ptr<BWG::Game::GameStateManager>(new BWG::Game::GameStateManager());
 
    gameApp->PushState(std::make_unique<BWG::Game::GameSceneState>());

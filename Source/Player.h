@@ -1,14 +1,15 @@
 #pragma once
 
 #include <memory>
+#include <string>
+#include <vector>
 
 #include "Direction.h"
 
 namespace BWG {
    namespace Game {
 
-      class GameMapView;
-      class PlayerAction;
+      class Action;
 
       struct PlayerImpl;
 
@@ -18,8 +19,6 @@ namespace BWG {
       public:
          Player();
          ~Player();
-
-         //void Action(Action* action, std::shared_ptr<GameMapView> map);
       };
 
    }

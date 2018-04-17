@@ -7,3 +7,6 @@
 [submodule "libtcod"]
 	path = libtcod
 	url = https://github.com/vugluskr86/libtcod.git
+[submodule "polyvox"]
+	path = polyvox
+	url = git@bitbucket.org:volumesoffun/polyvox.git

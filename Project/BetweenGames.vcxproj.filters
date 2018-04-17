@@ -48,7 +48,7 @@
     <Filter Include="Source\Net">
       <UniqueIdentifier>{34ae6ace-a736-4c21-947d-906bedfece09}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Game\Actions">
+    <Filter Include="Source\Game\Data\Actions">
       <UniqueIdentifier>{317f6c0d-0011-442d-94e4-32408ff74b72}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -82,9 +82,6 @@
     <ClCompile Include="..\Source\RenderImgui.cpp">
       <Filter>Source\UI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\TileMap.cpp">
-      <Filter>Source\TileMap</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\RenderSprites.cpp">
       <Filter>Source\TileMap</Filter>
     </ClCompile>
@@ -106,23 +103,35 @@
     <ClCompile Include="..\Source\GameMapView.cpp">
       <Filter>Source\Game</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\TestRoomMapGenerator.cpp">
-      <Filter>Source\Game\Generators</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Actor.cpp">
-      <Filter>Source\Game\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Source\Player.cpp">
-      <Filter>Source\Game\Components</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Mob.cpp">
       <Filter>Source\Game\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\Source\Action.cpp">
-      <Filter>Source\Game\Actions</Filter>
-    </ClCompile>
     <ClCompile Include="..\Source\Server.cpp">
       <Filter>Source\Net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Client.cpp">
+      <Filter>Source\Net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\GameMap.cpp">
+      <Filter>Source\Game\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Tile.cpp">
+      <Filter>Source\Game\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Actor.cpp">
+      <Filter>Source\Game\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Action.cpp">
+      <Filter>Source\Game\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Player.cpp">
+      <Filter>Source\Game\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\QuadTree.cpp">
+      <Filter>Source\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Source\Rect.cpp">
+      <Filter>Source\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +164,6 @@
     </ClInclude>
     <ClInclude Include="..\Source\RenderImgui.h">
       <Filter>Source\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\TileMap.h">
-      <Filter>Source\TileMap</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Array2D.h">
       <Filter>Source\Utils</Filter>
@@ -192,29 +198,41 @@
     <ClInclude Include="..\Source\GameMapView.h">
       <Filter>Source\Game</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\MapGenerator.h">
-      <Filter>Source\Game\Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\TestRoomMapGenerator.h">
-      <Filter>Source\Game\Generators</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Actor.h">
-      <Filter>Source\Game\Components</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Direction.h">
       <Filter>Source\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Source\Player.h">
-      <Filter>Source\Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\Source\Mob.h">
       <Filter>Source\Game\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\Source\Action.h">
-      <Filter>Source\Game\Actions</Filter>
-    </ClInclude>
     <ClInclude Include="..\Source\Server.h">
       <Filter>Source\Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Client.h">
+      <Filter>Source\Net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Orders.h">
+      <Filter>Source\Game\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\GameMap.h">
+      <Filter>Source\Game\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Tile.h">
+      <Filter>Source\Game\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Actor.h">
+      <Filter>Source\Game\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Action.h">
+      <Filter>Source\Game\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Player.h">
+      <Filter>Source\Game\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\QuadTree.h">
+      <Filter>Source\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Source\Rect.h">
+      <Filter>Source\Utils</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

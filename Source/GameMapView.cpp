@@ -1,6 +1,6 @@
 #include "GameMapView.h"
 
-#include "TileMap.h"
+//#include "TileMap.h"
 #include "Actor.h"
 
 #include <vector>
@@ -14,7 +14,7 @@ namespace BWG {
 
          }
          
-         std::unique_ptr<TileMapType> map;
+//         std::unique_ptr<TileMapType> map;
 
          //std::vector<Actor> actors;
       };

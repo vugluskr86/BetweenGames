@@ -8,17 +8,10 @@ namespace BWG {
 
       struct PlayerImpl
       {
-
-
          PlayerImpl() {}
       };
 
       Player::Player() : self(new PlayerImpl()){}
       Player::~Player() {}
-
-      //void Player::Action(std::shared_ptr<PlayerAction> action, std::shared_ptr<GameMapView> map)
-      //{
-         //action->Proceed()
-      //}
    }
 }
